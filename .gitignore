@@ -1,3 +1,17 @@
-/env/
+# Entorno virtual
+env/
+
+# Archivos Python temporales
 __pycache__/
 *.pyc
+
+# Archivos de instalación
+*.egg-info/
+build/
+dist/
+pip-wheel-metadata/
+*.egg
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
