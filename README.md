@@ -26,45 +26,56 @@ El proyecto busca:
 - Arquitectura **modular y ampliable**
 
 ## 📁 Estructura del repositorio
-
-/docs/                        → Documentación técnica general
-│   ├── Nora_Introduccion.docx     ← Documento principal (introducción, motivación, objetivos)
-│   ├── funcionalidades.md         ← Detalle de funcionalidades previstas
-│   ├── componentes_fisicos.md     ← Descripción completa de hardware
-│   ├── arquitectura_sistema.md    ← Diseño de arquitectura hardware/software
-│   └── anexos/                    ← Diagramas, tablas, referencias, etc.
-
-/src/                         → Código fuente del sistema (Python)
-│   ├── vision/                   ← Módulo de cámara y análisis de imagen
-│   ├── voz/                      ← Reconocimiento de voz y TTS
-│   ├── interfaz/                 ← Gestión de pantalla facial, LEDs y expresividad
-│   ├── control/                  ← Coordinación de servos, movimientos simbólicos
-│   ├── sistema/                  ← Activación NFC, lógica de estado, inicialización
-│   └── datos/                    ← Base de datos local, gestión de hábitos y rutinas
-
-/hardware/                   → Componentes físicos y diseño
-│   ├── esquemas/                ← Esquemas electrónicos y conexiones GPIO
-│   ├── modelos_3d/              ← Piezas en STL o CAD para impresión 3D
-│   ├── diseño_mecanico/         ← Bocetos, mediciones, planos estructurales
-│   └── proveedores/             ← Referencias de componentes y enlaces de compra
-
-/assets/                     → Recursos visuales y gráficos
-│   ├── imagenes/                ← Fotos del prototipo, renders, bocetos
-│   └── videos/                  ← Demos de funcionamiento o animaciones
-
-/tests/                      → Scripts de prueba y validación de módulos
+```bash
+NORA/
+├── docs/                          # Documentación técnica general
+│   ├── 00.index_documental.md
+│   ├── 01.plan_implementacion_software.md
+│   ├── 02.arquitectura_logica.md
+│   ├── 03.protocolo_interaccion.md
+│   ├── 04.estados_y_emociones.md
+│   ├── 05.simulacion_sin_hardware.md
+│   ├── 06.documento_eventos.md
+│   ├── 07.tests_modulares.md
+│   ├── 08.entorno_virtual.md
+│   ├── xx.ejecucion.md
+│   └── Nora_Introduccion.docx
+│
+├── src/                           # Código fuente principal (Python)
+│   ├── vision/
+│   ├── voz/
+│   ├── interfaz/
+│   ├── control/
+│   ├── sistema/
+│   └── datos/
+│
+├── utils/                         # Scripts de inicialización y herramientas
+│   └── estructura_src.py
+│
+├── tests/                         # Scripts de prueba y validación
 │   ├── test_vision.py
 │   ├── test_voz.py
 │   ├── test_leds.py
 │   └── test_nfc.py
-
-/config/                     → Archivos de configuración y calibración
-│   ├── perfiles_usuario/        ← Perfiles y rutinas personalizadas
-│   └── parametros_sistema.json  ← Configuraciones iniciales y ajustes de sistema
-
-README.md                   → Descripción general del proyecto (GitHub)
-requirements.txt            → Librerías Python necesarias
-.gitignore                  → Archivos y carpetas excluidos del control de versiones
+│
+├── config/                        # Archivos de configuración
+│   ├── perfiles_usuario/
+│   └── parametros_sistema.json
+│
+├── hardware/                      # Diseño físico y electrónico
+│   ├── esquemas/
+│   ├── modelos_3d/
+│   ├── diseño_mecanico/
+│   └── proveedores/
+│
+├── assets/                        # Recursos gráficos y multimedia
+│   ├── imagenes/
+│   └── videos/
+│
+├── README.md                      # Descripción general del proyecto
+├── requirements.txt              # Dependencias Python
+└── .gitignore                    # Exclusiones para Git
+```
 
 ## 🛠️ Tecnologías utilizadas
 
