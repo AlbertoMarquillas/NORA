@@ -41,13 +41,15 @@ NORA/
 │   ├── xx.ejecucion.md
 │   └── Nora_Introduccion.docx
 │
-├── src/                           # Código fuente principal (Python)
-│   ├── vision/
-│   ├── voz/
-│   ├── interfaz/
-│   ├── control/
-│   ├── sistema/
-│   └── datos/
+├── software/                      # Código fuente del sistema y archivo principal
+│   ├── main.py                   # Punto de entrada del sistema NORA
+│   └── src/                      # Módulos funcionales del asistente
+│       ├── vision/              # Percepción visual (detección facial, postural)
+│       ├── voz/                 # Reconocimiento y síntesis de voz (ASR + TTS)
+│       ├── interfaz/            # Control del rostro, LEDs RGB, expresividad
+│       ├── control/             # Coordinación de servos, gestos físicos
+│       ├── sistema/             # Lógica de estados, activación, FSM general
+│       └── datos/               # Base de datos, hábitos, rutinas y perfil
 │
 ├── utils/                         # Scripts de inicialización y herramientas
 │   └── estructura_src.py
