@@ -13,10 +13,13 @@ import os
 import sys
 import argparse
 import time
+from functools import partial
 
 from src.sistema.fsm import FSM
 from src.sistema.event_manager import EventManager, Evento
 from src.voz.reconocedor import ReconocedorVoz
+from src.voz.sintetizador import SintetizadorVoz
+from src.sistema.manejadores import manejar_evento_fsm
 
 # Simulación de eventos controlados
 EVENTOS_SIMULADOS = [
@@ -35,12 +38,11 @@ def iniciar_sistema(simulacion: bool):
     fsm = FSM()
     em = EventManager()
     voz = ReconocedorVoz(em)
+    tts = SintetizadorVoz(em)
 
-    def manejador_fsm(evento):
-        nuevo_estado = fsm.transicion(evento.tipo)
-        print(f"[FSM] ← Estado actualizado: {nuevo_estado.name}\n")
-
-    # Registrar FSM como receptora de eventos
+    # Registro de manejador FSM
+    manejador = partial(manejar_evento_fsm, fsm=fsm, em=em)
+    
     for tipo in [
         "EVT_NFC_ACTIVATE",
         "EVT_FACE_DETECTED",
@@ -49,7 +51,7 @@ def iniciar_sistema(simulacion: bool):
         "EVT_IDLE_TIMEOUT",
         "EVT_SHUTDOWN_REQUEST"
     ]:
-        em.suscribir(tipo, manejador_fsm)
+        em.suscribir(tipo, manejador)
 
     print(f"[main.py] Estado inicial: {fsm.estado_actual.name}\n")
 
@@ -60,7 +62,6 @@ def iniciar_sistema(simulacion: bool):
         em.emitir(Evento(tipo, origen="main"))
         em.procesar()
 
-        # Simular voz tras eventos de escucha o actividad
         if tipo in ["EVT_FACE_DETECTED", "EVT_COMMAND_RECOGNIZED"]:
             print("[main.py] → Activando simulación de voz")
             voz.escuchar_simulado()

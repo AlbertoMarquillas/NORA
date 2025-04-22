@@ -45,20 +45,22 @@ NORA/
 │   ├── main.py                   # Punto de entrada del sistema NORA
 │   └── src/                      # Módulos funcionales del asistente
 │       ├── vision/              # Percepción visual (detección facial, postural)
-│       ├── voz/                 # Reconocimiento y síntesis de voz (ASR + TTS)
+│       ├── voz/                 # Entrada y salida de voz
+│       │   ├── reconocedor.py   # Simulación de reconocimiento de voz (ASR)
+│       │   └── sintetizador.py  # Síntesis de texto a voz (TTS)
 │       ├── interfaz/            # Control del rostro, LEDs RGB, expresividad
 │       ├── control/             # Coordinación de servos, gestos físicos
-│       ├── sistema/             # Lógica de estados, activación, FSM general
+│       ├── sistema/             # FSM, EventManager y manejadores de eventos
+│       │   ├── fsm.py
+│       │   ├── event_manager.py
+│       │   └── manejadores.py
 │       └── datos/               # Base de datos, hábitos, rutinas y perfil
 │
 ├── utils/                         # Scripts de inicialización y herramientas
 │   └── estructura_src.py
 │
-├── tests/                         # Scripts de prueba y validación
-│   ├── test_vision.py
-│   ├── test_voz.py
-│   ├── test_leds.py
-│   └── test_nfc.py
+├── software_tests/                         # Scripts de prueba y validación
+│   ├── test_event_manager_fsm.py
 │
 ├── config/                        # Archivos de configuración
 │   ├── perfiles_usuario/

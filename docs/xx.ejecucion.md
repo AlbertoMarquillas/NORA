@@ -212,10 +212,82 @@ software/
 
 ---
 
+
+### 🟢 Paso 9: Diseño del módulo de síntesis de voz (TTS)
+
+**Fecha:** [22/04/2025]
+
+**Acción:** Se define la necesidad funcional y la estructura inicial del módulo `voz/sintetizador.py`, responsable de convertir texto en voz para emitir respuestas habladas por parte de NORA.
+
+**Planteamiento técnico:**
+- Se utilizará `pyttsx3` como motor TTS inicial por ser offline, multiplataforma y ligero.
+- El módulo se integrará con el `EventManager` mediante suscripción al evento `EVT_DECIR_TEXTO`.
+- Cada evento contendrá un campo `datos['texto']` con el contenido a sintetizar.
+
+**Motivación técnica:** Proveer a NORA de capacidad de respuesta verbal coordinada, manteniendo el enfoque desacoplado mediante eventos. Este módulo complementa el flujo iniciado por `ReconocedorVoz`, cerrando el ciclo de entrada-salida verbal.
+
+**Flujo previsto:**
+1. Usuario activa escucha → Reconocedor genera `EVT_COMMAND_RECOGNIZED`
+2. FSM u otro módulo decide respuesta → emite `EVT_DECIR_TEXTO`
+3. Sintetizador recibe evento → habla el texto proporcionado
+
+**Referencias:**
+- Futuro archivo: `software/src/voz/sintetizador.py`
+- Motor propuesto: `pyttsx3`
+- Formato de evento: `Evento(tipo="EVT_DECIR_TEXTO", datos={"texto": "Son las 4 en punto"})`
+
+---
+
+### 🟢 Paso 10: Integración del módulo de síntesis de voz (TTS) en `main.py`
+
+**Fecha:** [22/04/2025]
+
+**Acción:** Se ha integrado el módulo `SintetizadorVoz` al flujo principal del sistema, utilizando `pyttsx3` para emitir respuestas habladas al recibir eventos `EVT_DECIR_TEXTO`.
+
+**Cambios realizados:**
+- Creación del archivo `voz/sintetizador.py` con clase `SintetizadorVoz`
+- Registro en `main.py` para que escuche eventos `EVT_DECIR_TEXTO`
+- El `main.py` emite una respuesta simulada al detectar un comando de voz válido (`EVT_COMMAND_RECOGNIZED`)
+
+**Motivación técnica:** Completar el ciclo de interacción verbal: reconocimiento simulado + respuesta hablada. Este paso permite validar el subsistema de salida por voz y prepara el sistema para coordinación con expresiones faciales y emocionales en el futuro.
+
+**Resultado esperado:**
+- Evento de voz simulado → FSM responde → emite texto a decir → `SintetizadorVoz` habla la respuesta con `pyttsx3`
+
+**Referencias:**
+- Archivo: `software/src/voz/sintetizador.py`
+- Archivo: `software/main.py`
+- Evento gestionado: `EVT_DECIR_TEXTO`
+
+---
+
+### 🟢 Paso 11: Modularización de `main.py` con manejadores externos
+
+**Fecha:** [22/04/2025]
+
+**Acción:** Se ha refactorizado `main.py` para extraer la lógica de manejo de eventos FSM a un módulo externo, con el objetivo de mejorar la modularidad, limpieza y reutilización del código.
+
+**Cambios realizados:**
+- Creación del archivo `sistema/manejadores.py` con la función `manejar_evento_fsm()`
+- Uso de `functools.partial()` en `main.py` para registrar `manejar_evento_fsm()` como manejador de eventos, manteniendo acceso a `fsm` y `em`
+- Limpieza del cuerpo de `iniciar_sistema()` eliminando funciones internas
+
+**Motivación técnica:** Facilitar la escalabilidad y mantenimiento del sistema al separar responsabilidades y encapsular manejadores por módulo. Esta práctica permite centralizar todos los manejadores futuros en un único archivo.
+
+**Resultado esperado:**
+- Lógica de transición FSM + emisión de respuestas movida fuera del `main.py`
+- Suscripción clara y declarativa de eventos en el bloque de inicialización
+
+**Referencias:**
+- Archivo: `software/main.py`
+- Archivo: `software/src/sistema/manejadores.py`
+
+---
+
 ### 🔜 Próximos pasos previstos
 
-1. Implementar síntesis de voz (TTS) para responder con salida hablada
-2. Extender `FSM` para gestionar respuestas y reacciones adicionales
-3. Preparar pruebas específicas del flujo de voz completo
+1. Crear manejadores independientes para interacción visual o luminosa
+2. Activar escucha solo bajo estados específicos de FSM (no forzada)
+3. Separar flujo principal en clase `Sistema` o módulo `nora.py`
 
 Este archivo se actualizará de forma incremental conforme se ejecuten nuevas acciones en el entorno local del proyecto.
