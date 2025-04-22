@@ -2,7 +2,7 @@
 Módulo: sistema/manejadores.py
 
 Define funciones manejadoras externas para eventos del sistema, 
-como el controlador principal de eventos FSM, desacoplado de main.py.
+como el controlador principal de eventos FSM, desacoplado de main.py
 """
 
 from src.sistema.event_manager import Evento

@@ -335,7 +335,7 @@ software/
 
 ### 🟢 Paso 14: Visualización del estado FSM desde InterfazSimulada
 
-**Fecha:** [Especificar]
+**Fecha:** [22/04/2025]
 
 **Acción:** Se ha planificado y ejecutado la integración entre la FSM y el módulo visual `InterfazSimulada` mediante un nuevo evento `EVT_MOSTRAR_ESTADO`, emitido cada vez que cambia el estado funcional del sistema.
 
@@ -352,11 +352,37 @@ software/
 - Evento nuevo: `EVT_MOSTRAR_ESTADO`
 
 ---
+### 🟢 Paso 15: Modularización completa en clase `Sistema`
+
+**Fecha:** [22/04/2025]
+
+**Acción:** Se ha implementado una clase `Sistema` que encapsula todos los módulos funcionales del asistente NORA, extrayendo y reorganizando la lógica del antiguo `main.py`. La clase centraliza la FSM, EventManager, módulos de voz, interfaz visual, y ejecuta la simulación de eventos de forma autónoma.
+
+**Motivación técnica:**
+- Mejorar la mantenibilidad y escalabilidad del código.
+- Preparar la arquitectura para pruebas unitarias y futuros modos de ejecución (GUI o hardware real).
+- Encapsular la lógica de control en una entidad autocontenida y fácilmente instanciable.
+
+**Cambios realizados:**
+- Creación del archivo `sistema/sistema.py` con la clase `Sistema`.
+- `main.py` reducido a una llamada de instanciación y ejecución (`Sistema(...).ejecutar_simulacion()`)
+- Toda la lógica de orquestación de eventos, voz, FSM e interfaz queda aislada en un solo módulo.
+
+**Resultado esperado:**
+- `main.py` se convierte en lanzador puro.
+- `Sistema` puede ser reutilizada desde otros entornos (tests, GUI, hardware real).
+
+**Referencias:**
+- Archivo: `software/src/sistema/sistema.py`
+- Archivo reducido: `software/main.py`
+
+---
 
 ### 🔜 Próximos pasos previstos
 
 1. Añadir visualización basada en estado actual (FSM → interfaz)
 2. Emitir eventos emocionales simbólicos (`EVT_EMOCION_ALEGRE`, etc.)
-3. Desacoplar `main.py` en una clase `Sistema` para escalabilidad y pruebas unitarias
+3. Añadir pruebas automatizadas del comportamiento FSM y EventManager
+4. Preparar integración futura con GUI o hardware físico
 
 Este archivo se actualizará de forma incremental conforme se ejecuten nuevas acciones en el entorno local del proyecto.
