@@ -1,0 +1,1 @@
+# Módulo control - inicializado
