@@ -186,10 +186,36 @@ software/
 
 ---
 
+### 🟢 Paso 8: Integración del Reconocedor de Voz en `main.py`
+
+**Fecha:** [22/04/2025]
+
+**Acción:** Se ha integrado el módulo `ReconocedorVoz` dentro de `main.py`, permitiendo que el sistema simule el reconocimiento de voz como parte del flujo principal.
+
+**Cambios realizados:**
+- Se importa la clase `ReconocedorVoz` desde `src.voz.reconocedor`
+- Se instancia un objeto `voz = ReconocedorVoz(em)` conectado al `EventManager`
+- Tras eventos clave (`EVT_FACE_DETECTED` y `EVT_COMMAND_RECOGNIZED`), se activa `voz.escuchar_simulado()`
+- El resultado del reconocimiento simulado genera un evento `EVT_COMMAND_RECOGNIZED` o `EVT_COMMAND_UNKNOWN`
+
+**Motivación técnica:** Integrar de forma natural el módulo de voz como un productor activo de eventos dentro del sistema. Permite simular flujos completos de interacción sin hardware ni entrada real de voz, y probar la reacción de la FSM.
+
+**Resultado esperado:**
+- Transición FSM → ESCUCHA
+- Reconocimiento simulado (con 70% éxito)
+- Evento emitido por voz → FSM cambia estado según lógica definida
+
+**Referencias:**
+- Archivo: `software/main.py`
+- Archivo: `software/src/voz/reconocedor.py`
+- Documento: `01.plan_implementacion_software.md`
+
+---
+
 ### 🔜 Próximos pasos previstos
 
-1. Integración de `ReconocedorVoz` en `main.py` mediante ciclo activo o respuesta a evento
-2. Conexión con sistema de síntesis de voz (TTS)
-3. Registro de comandos en la base de datos `datos/`
+1. Implementar síntesis de voz (TTS) para responder con salida hablada
+2. Extender `FSM` para gestionar respuestas y reacciones adicionales
+3. Preparar pruebas específicas del flujo de voz completo
 
 Este archivo se actualizará de forma incremental conforme se ejecuten nuevas acciones en el entorno local del proyecto.
