@@ -103,4 +103,4 @@ Para usos comerciales o difusión externa, contactar previamente.
 
 ---
  
-**Repositorio activo:** [github.com/tuusuario/NORA]
+**Repositorio activo:** [github.com/AlbertoMarquillas/NORA]
