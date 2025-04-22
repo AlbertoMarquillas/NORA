@@ -118,10 +118,56 @@ software/
 
 ---
 
+### 🟢 Paso 5: Creación del `EventManager` para gestión de eventos internos
+
+**Fecha:** [22/04/2025]
+
+**Acción:** Se implementa el archivo `event_manager.py` en el módulo `sistema/`, con las clases `EventManager` y `Evento`.
+
+**Contenido principal:**
+- `Evento`: estructura de evento con tipo, origen, datos, timestamp y prioridad
+- `EventManager`: subscripción y distribución de eventos a módulos receptores
+
+**Características técnicas:**
+- Uso de `PriorityQueue` para orden por prioridad (1 a 5)
+- Distribución asincrónica y desacoplada vía callbacks
+- Registro de subscripciones por tipo de evento
+- Consola informativa de encolado y despacho de eventos
+
+**Motivación técnica:** Establecer el sistema de mensajería interna para garantizar modularidad y permitir que los distintos componentes interactúen sin acoplamiento directo.
+
+**Referencias:**
+- `06.documento_eventos.md`
+- Archivo: `software/src/sistema/event_manager.py`
+
+---
+
+### 🟢 Paso 6: Integración de FSM con EventManager en `main.py`
+
+**Fecha:** [Especificar]
+
+**Acción:** Se reemplaza la lógica de simulación directa en `main.py` por una arquitectura basada en `EventManager`, suscribiendo la FSM como receptora de eventos.
+
+**Cambios clave:**
+- Se instancia `EventManager` en `main.py`
+- Se registra `FSM.transicion()` como callback de múltiples eventos (`EVT_NFC_ACTIVATE`, `EVT_FACE_DETECTED`, etc.)
+- Los eventos simulados se emiten y se procesan con el EventManager en lugar de llamar directamente a la FSM
+
+**Resultado:**
+- El sistema responde a eventos mediante el canal de distribución previsto
+- La arquitectura se vuelve desacoplada y lista para integración progresiva de módulos
+
+**Referencias:**
+- `main.py` actualizado (software/)
+- `event_manager.py` limpio sin bloque de pruebas
+- `test_event_manager_fsm.py` en `software_tests/` para pruebas externas
+
+---
+
 ### 🔜 Próximos pasos previstos
 
-1. Desarrollo de un `EventManager` para distribuir eventos entre módulos.
-2. Registro y logging de eventos y estados.
-3. Incorporación de interacción real desde `voz/` y `vision/`.
+1. Inclusión progresiva de módulos emisores: voz y visión
+2. Implementación del sistema de logging y registro
+3. Control de eventos temporales, estado emocional y transiciones extendidas
 
 Este archivo se actualizará de forma incremental conforme se ejecuten nuevas acciones en el entorno local del proyecto.

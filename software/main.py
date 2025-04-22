@@ -15,6 +15,7 @@ import argparse
 import time
 
 from src.sistema.fsm import FSM
+from src.sistema.event_manager import EventManager, Evento
 
 # Simulación de eventos controlados
 EVENTOS_SIMULADOS = [
@@ -29,16 +30,32 @@ def iniciar_sistema(simulacion: bool):
     modo = "SIMULACIÓN" if simulacion else "PRODUCCIÓN"
     print(f"[main.py] Iniciando NORA en modo {modo}...\n")
 
-    # Inicialización de la FSM
+    # Inicialización de componentes
     fsm = FSM()
+    em = EventManager()
+
+    def manejador_fsm(evento):
+        nuevo_estado = fsm.transicion(evento.tipo)
+        print(f"[FSM] ← Estado actualizado: {nuevo_estado.name}\n")
+
+    # Registrar FSM como receptor de eventos relevantes
+    for tipo in [
+        "EVT_NFC_ACTIVATE",
+        "EVT_FACE_DETECTED",
+        "EVT_COMMAND_RECOGNIZED",
+        "EVT_IDLE_TIMEOUT",
+        "EVT_SHUTDOWN_REQUEST"
+    ]:
+        em.suscribir(tipo, manejador_fsm)
+
     print(f"[main.py] Estado inicial: {fsm.estado_actual.name}\n")
 
-    # Simulación de eventos en secuencia
-    for evento in EVENTOS_SIMULADOS:
+    # Emisión de eventos simulados
+    for tipo in EVENTOS_SIMULADOS:
         time.sleep(1.2)
-        print(f"[main.py] → Enviando evento: {evento}")
-        nuevo_estado = fsm.transicion(evento)
-        print(f"[main.py] ← Nuevo estado: {nuevo_estado.name}\n")
+        print(f"[main.py] → Emitiendo evento: {tipo}")
+        em.emitir(Evento(tipo, origen="main"))
+        em.procesar()
 
     print("[main.py] Secuencia de simulación finalizada.")
 
