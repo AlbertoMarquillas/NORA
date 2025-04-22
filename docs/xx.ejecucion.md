@@ -144,7 +144,7 @@ software/
 
 ### 🟢 Paso 6: Integración de FSM con EventManager en `main.py`
 
-**Fecha:** [Especificar]
+**Fecha:** [22/04/2025]
 
 **Acción:** Se reemplaza la lógica de simulación directa en `main.py` por una arquitectura basada en `EventManager`, suscribiendo la FSM como receptora de eventos.
 
@@ -164,10 +164,32 @@ software/
 
 ---
 
+### 🟢 Paso 7: Creación del módulo `voz/reconocedor.py` para simulación de voz
+
+**Fecha:** [22/04/2025]
+
+**Acción:** Se implementa el archivo `reconocedor.py` dentro del módulo `voz/`, con una clase `ReconocedorVoz` encargada de simular el reconocimiento de voz.
+
+**Funcionamiento:**
+- Simula un comando de voz con probabilidad de éxito (70%).
+- Emite evento `EVT_COMMAND_RECOGNIZED` con el texto si el reconocimiento tiene éxito.
+- Emite `EVT_COMMAND_UNKNOWN` en caso contrario.
+- Todos los eventos se emiten mediante el `EventManager`, integrándose con la FSM.
+
+**Motivación técnica:** Permite probar el sistema de interacción por voz de forma modular, controlada y sin requerir micrófono ni ASR real, en preparación para su sustitución futura por Vosk o Whisper.
+
+**Observación:** Este módulo ha sido diseñado para ser fácilmente reemplazado por reconocimiento real, y podrá escalar hacia IA conversacional conectando la transcripción a un modelo LLM externo o interno.
+
+**Referencias:**
+- Archivo: `software/src/voz/reconocedor.py`
+- Documento: `01.plan_implementacion_software.md`, sección "Observaciones técnicas futuras"
+
+---
+
 ### 🔜 Próximos pasos previstos
 
-1. Inclusión progresiva de módulos emisores: voz y visión
-2. Implementación del sistema de logging y registro
-3. Control de eventos temporales, estado emocional y transiciones extendidas
+1. Integración de `ReconocedorVoz` en `main.py` mediante ciclo activo o respuesta a evento
+2. Conexión con sistema de síntesis de voz (TTS)
+3. Registro de comandos en la base de datos `datos/`
 
 Este archivo se actualizará de forma incremental conforme se ejecuten nuevas acciones en el entorno local del proyecto.
