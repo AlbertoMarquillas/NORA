@@ -12,10 +12,13 @@ def manejar_evento_fsm(evento: Evento, fsm, em):
     """
     Maneja eventos relacionados con la lógica FSM.
     Emite respuestas habladas cuando el evento contiene texto reconocido
-    o no se ha entendido el comando.
+    o no se ha entendido el comando. Además, emite el estado actual tras cada transición.
     """
     nuevo_estado = fsm.transicion(evento.tipo)
     print(f"[FSM] ← Estado actualizado: {nuevo_estado.name}\n")
+
+    # Emitir visualización del nuevo estado
+    em.emitir(Evento("EVT_MOSTRAR_ESTADO", origen="fsm", datos={"estado": nuevo_estado.name}))
 
     if evento.tipo == "EVT_COMMAND_RECOGNIZED":
         texto = evento.datos.get("texto")

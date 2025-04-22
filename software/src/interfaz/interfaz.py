@@ -23,14 +23,14 @@ class InterfazSimulada:
             "UNKNOWN": "❓"
         }
 
-        # Subscribirse a eventos que afecten a la representación visual
         for tipo in [
             "EVT_COMMAND_RECOGNIZED",
             "EVT_COMMAND_UNKNOWN",
             "EVT_IDLE_TIMEOUT",
             "EVT_FACE_DETECTED",
             "EVT_NFC_ACTIVATE",
-            "EVT_SHUTDOWN_REQUEST"
+            "EVT_SHUTDOWN_REQUEST",
+            "EVT_MOSTRAR_ESTADO"
         ]:
             self.em.suscribir(tipo, self.mostrar_estado)
 
@@ -64,5 +64,10 @@ class InterfazSimulada:
         elif tipo == "EVT_SHUTDOWN_REQUEST":
             simbolo = self.iconos.get("REPOSO")
             mensaje = "Solicitud de apagado."
+
+        elif tipo == "EVT_MOSTRAR_ESTADO":
+            estado = evento.datos.get("estado", "")
+            simbolo = self.iconos.get(estado.upper(), "⬜")
+            mensaje = f"Estado actualizado → {estado}"
 
         print(f"[InterfazSimulada] {simbolo} {mensaje}")

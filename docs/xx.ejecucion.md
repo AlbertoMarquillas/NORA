@@ -333,6 +333,26 @@ software/
 
 ---
 
+### 🟢 Paso 14: Visualización del estado FSM desde InterfazSimulada
+
+**Fecha:** [Especificar]
+
+**Acción:** Se ha planificado y ejecutado la integración entre la FSM y el módulo visual `InterfazSimulada` mediante un nuevo evento `EVT_MOSTRAR_ESTADO`, emitido cada vez que cambia el estado funcional del sistema.
+
+**Objetivo:** Permitir que la interfaz refleje directamente el estado de la FSM con símbolos visuales y mensajes apropiados, fortaleciendo la coherencia entre percepción, lógica interna y retroalimentación simbólica.
+
+**Implementación prevista:**
+- El manejador FSM (`manejar_evento_fsm`) emitirá un evento `EVT_MOSTRAR_ESTADO` tras cada transición.
+- `InterfazSimulada` se suscribirá a dicho evento y mostrará el estado con su icono correspondiente.
+
+**Motivación técnica:** Establecer una representación explícita y continua del estado mental de NORA a través de la interfaz visual, permitiendo a futuro una transición fluida hacia una GUI real o simbología más rica.
+
+**Referencias:**
+- Archivos implicados: `manejadores.py`, `interfaz.py`, `fsm.py`
+- Evento nuevo: `EVT_MOSTRAR_ESTADO`
+
+---
+
 ### 🔜 Próximos pasos previstos
 
 1. Añadir visualización basada en estado actual (FSM → interfaz)
