@@ -11,7 +11,8 @@ from src.sistema.event_manager import Evento
 def manejar_evento_fsm(evento: Evento, fsm, em):
     """
     Maneja eventos relacionados con la lógica FSM.
-    Emite respuestas habladas cuando el evento contiene texto reconocido.
+    Emite respuestas habladas cuando el evento contiene texto reconocido
+    o no se ha entendido el comando.
     """
     nuevo_estado = fsm.transicion(evento.tipo)
     print(f"[FSM] ← Estado actualizado: {nuevo_estado.name}\n")

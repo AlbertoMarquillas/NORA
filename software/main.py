@@ -20,6 +20,7 @@ from src.sistema.event_manager import EventManager, Evento
 from src.voz.reconocedor import ReconocedorVoz
 from src.voz.sintetizador import SintetizadorVoz
 from src.sistema.manejadores import manejar_evento_fsm
+from src.interfaz.interfaz import InterfazSimulada
 
 # Simulación de eventos controlados
 EVENTOS_SIMULADOS = [
@@ -39,10 +40,10 @@ def iniciar_sistema(simulacion: bool):
     em = EventManager()
     voz = ReconocedorVoz(em)
     tts = SintetizadorVoz(em)
+    interfaz = InterfazSimulada(em)
 
-    # Registro de manejador FSM
+    # Registro de manejador FSM de forma modular
     manejador = partial(manejar_evento_fsm, fsm=fsm, em=em)
-    
     for tipo in [
         "EVT_NFC_ACTIVATE",
         "EVT_FACE_DETECTED",
@@ -66,7 +67,6 @@ def iniciar_sistema(simulacion: bool):
             print("[main.py] → FSM en estado ESCUCHA: activando reconocimiento de voz")
             voz.escuchar_simulado()
             em.procesar()
-
 
     print("[main.py] Secuencia de simulación finalizada.")
 

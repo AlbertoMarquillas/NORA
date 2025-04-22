@@ -284,10 +284,59 @@ software/
 
 ---
 
+### 🟢 Paso 12: Diseño del módulo `interfaz/` para representación simbólica
+
+**Fecha:** [22/04/2025]
+
+**Acción:** Se planifica la creación del módulo `interfaz/` con una clase `InterfazSimulada`, cuyo propósito será representar gráficamente (de forma textual o visual) los estados y emociones del asistente NORA.
+
+**Motivación técnica:** Complementar la interacción verbal con retroalimentación visual simbólica, incluso en modo de simulación. Este módulo podrá mostrar expresiones, colores simbólicos o mensajes que acompañen el comportamiento del sistema.
+
+**Objetivos principales del módulo:**
+- Mostrar visualmente el estado actual de NORA (REPOSO, ESCUCHA, ACTIVO, ERROR, etc.)
+- Representar emociones básicas (neutro, alegre, confundido, dormido)
+- Responder a eventos tipo `EVT_COMMAND_RECOGNIZED`, `EVT_COMMAND_UNKNOWN`, `EVT_FACE_DETECTED`, `EVT_IDLE_TIMEOUT`, etc.
+- Mantener una lógica desacoplada, escuchando eventos desde el `EventManager`
+
+**Representación prevista (modo texto):**
+- 😐 Neutro (estado PASIVO)
+- 🟢 Activo (tras comando entendido)
+- ❓ Confuso (tras comando no reconocido)
+- 💤 Inactivo (tras timeout o reposo)
+
+**Referencias:**
+- Futuro archivo: `software/src/interfaz/interfaz.py`
+- EventManager ya preparado para distribuir eventos
+
+---
+
+### 🟢 Paso 13: Integración indirecta de TTS e InterfazSimulada vía EventManager
+
+**Fecha:** [Especificar]
+
+**Acción:** Se confirma la integración completa de los módulos `SintetizadorVoz` y `InterfazSimulada` dentro de `main.py`, aunque no son invocados directamente. Ambos actúan como módulos pasivos, suscritos al `EventManager`, reaccionando a eventos específicos.
+
+**Detalles técnicos:**
+- `SintetizadorVoz` escucha `EVT_DECIR_TEXTO` y convierte el contenido en voz con `pyttsx3`.
+- `InterfazSimulada` escucha múltiples eventos (`EVT_COMMAND_RECOGNIZED`, `UNKNOWN`, etc.) y muestra representaciones simbólicas (emojis + mensajes) por consola.
+- Ambos módulos **no requieren llamadas explícitas en `main.py`**, sino que actúan cuando reciben sus eventos registrados.
+
+**Motivación técnica:** Confirmar y documentar el diseño desacoplado basado en eventos. Esta integración demuestra que el sistema es modular, extensible y que cada componente responde solo a los estímulos que le corresponden.
+
+**Resultado esperado:**
+- El sistema habla al reconocer comandos válidos.
+- Informa visualmente en consola al detectar presencia, reconocer o no comandos, o entrar en reposo.
+
+**Referencias:**
+- Archivos: `software/src/voz/sintetizador.py`, `software/src/interfaz/interfaz.py`
+- Integración comprobada en `main.py` mediante instanciación indirecta
+
+---
+
 ### 🔜 Próximos pasos previstos
 
-1. Crear manejadores independientes para interacción visual o luminosa
-2. Activar escucha solo bajo estados específicos de FSM (no forzada)
-3. Separar flujo principal en clase `Sistema` o módulo `nora.py`
+1. Añadir visualización basada en estado actual (FSM → interfaz)
+2. Emitir eventos emocionales simbólicos (`EVT_EMOCION_ALEGRE`, etc.)
+3. Desacoplar `main.py` en una clase `Sistema` para escalabilidad y pruebas unitarias
 
 Este archivo se actualizará de forma incremental conforme se ejecuten nuevas acciones en el entorno local del proyecto.
