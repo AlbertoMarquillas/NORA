@@ -12,34 +12,35 @@ activando los componentes definidos en `src/` y controlando el bucle principal.
 import os
 import sys
 import argparse
+import time
 
-# Simulación de la activación de módulos (reales o mocks)
+from src.sistema.fsm import FSM
+
+# Simulación de eventos controlados
+EVENTOS_SIMULADOS = [
+    "EVT_NFC_ACTIVATE",
+    "EVT_FACE_DETECTED",
+    "EVT_COMMAND_RECOGNIZED",
+    "EVT_IDLE_TIMEOUT",
+    "EVT_SHUTDOWN_REQUEST"
+]
 
 def iniciar_sistema(simulacion: bool):
     modo = "SIMULACIÓN" if simulacion else "PRODUCCIÓN"
     print(f"[main.py] Iniciando NORA en modo {modo}...\n")
 
-    # Inicialización del gestor de eventos
-    print("[main.py] Cargando EventManager... (pendiente de implementación)")
+    # Inicialización de la FSM
+    fsm = FSM()
+    print(f"[main.py] Estado inicial: {fsm.estado_actual.name}\n")
 
-    # Arranque de módulos simulados
-    print("[main.py] Cargando módulos del sistema:")
-    print("  - visión")
-    print("  - voz")
-    print("  - interfaz gráfica / facial")
-    print("  - control físico")
-    print("  - sistema central (FSM)")
-    print("  - base de datos y rutinas")
+    # Simulación de eventos en secuencia
+    for evento in EVENTOS_SIMULADOS:
+        time.sleep(1.2)
+        print(f"[main.py] → Enviando evento: {evento}")
+        nuevo_estado = fsm.transicion(evento)
+        print(f"[main.py] ← Nuevo estado: {nuevo_estado.name}\n")
 
-    print("\n[main.py] Sistema en marcha. Esperando eventos...\n")
-    
-    # Bucle principal simulado
-    try:
-        while True:
-            pass  # A reemplazar por detección de eventos
-    except KeyboardInterrupt:
-        print("\n[main.py] Interrupción detectada. Cerrando NORA...")
-        # Procedimientos de apagado ordenado
+    print("[main.py] Secuencia de simulación finalizada.")
 
 
 if __name__ == "__main__":
