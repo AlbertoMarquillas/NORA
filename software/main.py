@@ -62,10 +62,11 @@ def iniciar_sistema(simulacion: bool):
         em.emitir(Evento(tipo, origen="main"))
         em.procesar()
 
-        if tipo in ["EVT_FACE_DETECTED", "EVT_COMMAND_RECOGNIZED"]:
-            print("[main.py] → Activando simulación de voz")
+        if fsm.estado_actual.name == "ESCUCHA":
+            print("[main.py] → FSM en estado ESCUCHA: activando reconocimiento de voz")
             voz.escuchar_simulado()
             em.procesar()
+
 
     print("[main.py] Secuencia de simulación finalizada.")
 

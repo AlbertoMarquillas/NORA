@@ -23,3 +23,7 @@ def manejar_evento_fsm(evento: Evento, fsm, em):
             em.emitir(Evento("EVT_DECIR_TEXTO", origen="fsm", datos={"texto": respuesta}))
         else:
             print("[FSM] Advertencia: comando sin texto reconocido — no se emite respuesta")
+
+    elif evento.tipo == "EVT_COMMAND_UNKNOWN":
+        respuesta = "Lo siento, no he entendido lo que has dicho."
+        em.emitir(Evento("EVT_DECIR_TEXTO", origen="fsm", datos={"texto": respuesta}))
