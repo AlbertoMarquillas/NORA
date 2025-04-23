@@ -17,7 +17,7 @@ Justificación:
 
 Datasheet
 
-[Datasheet Raspberry Pi](docs/diseno_arquitectonico/datasheets/raspberry-pi-4-datasheet.pdf)
+[Datasheet Raspberry Pi](datasheets/raspberry-pi-4-datasheet.pdf)
 
 ## 2. Captación sensorial
 
@@ -34,8 +34,8 @@ Justificación:
 
 Datasheets
 
-[Datasheet Raspberry Pi Camera Module](docs/diseno_arquitectonico/datasheets/RPiCamMod2.pdf)  
-[Datasheet Raspberry Pi Camera v2](docs/diseno_arquitectonico/datasheets/2056179.pdf)
+[Datasheet Raspberry Pi Camera Module](datasheets/RPiCamMod2.pdf)  
+[Datasheet Raspberry Pi Camera v2](datasheets/2056179.pdf)
 
 Componente propuesto: **Micrófono (digital o analógico)**
 
@@ -48,7 +48,7 @@ Justificación:
 
 Datasheet
 
-[Datasheet Sennheiser XS Lav USB-C](docs/diseno_arquitectonico/datasheets/sp-1305-v1-1-xs-lav-usb-c-en.pdf)
+[Datasheet Sennheiser XS Lav USB-C](datasheets/sp-1305-v1-1-xs-lav-usb-c-en.pdf)
 
 Componente propuesto: **Módulo NFC (SPI/I2C/UART)**
 
@@ -59,7 +59,7 @@ Justificación:
 
 Datasheet
 
-[Datasheet NFC PN532](docs/diseno_arquitectonico/datasheets/PN532_C1.pdf)
+[Datasheet NFC PN532](datasheets/PN532_C1.pdf)
 
 Componente propuesto: **Sensor ultrasónico de proximidad (HC-SR04 o similar)**
 
@@ -71,7 +71,7 @@ Justificación:
 
 Datasheet
 
-[Datasheet HC-SR04](docs/diseno_arquitectonico/datasheets/HC-SR04.pdf)
+[Datasheet HC-SR04](datasheets/HC-SR04.pdf)
 
 
 
@@ -89,8 +89,8 @@ Justificación:
 
 Datasheets
 
-[Datasheet Altavoz Miniatura 20 mm 8 Ω 0.8 W](docs/diseno_arquitectonico/datasheets/SPKM.36.8.B.pdf)  
-[Datasheet PAM8403 (Amplificador)](docs/diseno_arquitectonico/datasheets/PAM8403.pdf)
+[Datasheet Altavoz Miniatura 20 mm 8 Ω 0.8 W](datasheets/SPKM.36.8.B.pdf)  
+[Datasheet PAM8403 (Amplificador)](datasheets/PAM8403.pdf)
 
 Componente propuesto: **Pantalla facial animada (OLED o TFT SPI)**
 
@@ -103,7 +103,7 @@ Justificación:
 
 Datasheets
 
-[Datasheet Pantalla TFT 1.8" SPI – ST7735](docs/diseno_arquitectonico/datasheets/ST7735.pdf)
+[Datasheet Pantalla TFT 1.8" SPI – ST7735](datasheets/ST7735.pdf)
 
 Componente propuesto: **Servomotores SG90/MG90**
 
@@ -115,8 +115,8 @@ Justificación:
 
 Datasheets
 
-[Datasheet SG90](docs/diseno_arquitectonico/datasheets/SG90-datasheet.pdf)  
-[Datasheet MG90](docs/diseno_arquitectonico/datasheets/MG90S_Tower-Pro.pdf)
+[Datasheet SG90](datasheets/SG90-datasheet.pdf)  
+[Datasheet MG90](datasheets/MG90S_Tower-Pro.pdf)
 
 Componente propuesto: **LEDs indicadores de estado (adicionales)**
 
@@ -128,8 +128,8 @@ Justificación:
 
 Datasheets
 
-[Datasheet Rojo de 5 mm](docs/diseno_arquitectonico/datasheets/TLDR5800.pdf)
-[Datasheet Verde de 3 mm](docs/diseno_arquitectonico/datasheets/204-15UTC-S400-X9.PDF)
+[Datasheet Rojo de 5 mm](datasheets/TLDR5800.pdf)
+[Datasheet Verde de 3 mm](datasheets/204-15UTC-S400-X9.PDF)
 
 Componente propuesto: **LEDs RGB tipo WS2812 (Neopixel)**
 
@@ -140,7 +140,7 @@ Justificación:
 
 Datasheets
 
-[Datasheet WS2812B](docs/diseno_arquitectonico/datasheets/WS2812B.pdf)
+[Datasheet WS2812B](datasheets/WS2812B.pdf)
 
 Componente propuesto: **LEDs indicadores de estado (adicionales)**
 
@@ -152,8 +152,8 @@ Justificación:
 
 Datasheets
 
-[Datasheet Rojo de 5 mm](docs/diseno_arquitectonico/datasheets/TLDR5800.pdf)  
-[Datasheet Verde de 3 mm](docs/diseno_arquitectonico/datasheets/204-15UTC-S400-X9.PDF)
+[Datasheet Rojo de 5 mm](datasheets/TLDR5800.pdf)  
+[Datasheet Verde de 3 mm](datasheets/204-15UTC-S400-X9.PDF)
 
 Componente propuesto: **LED RGB adicional (indicador de estado)**
 
@@ -169,7 +169,7 @@ Justificación:
 
 Datasheets
 
-[Datasheet LED RGB de 5 mm – Cátodo Común](docs/diseno_arquitectonico/datasheets/upload-5mm_RGB_led_common_cathode.pdf)
+[Datasheet LED RGB de 5 mm – Cátodo Común](datasheets/upload-5mm_RGB_led_common_cathode.pdf)
 
 Componente propuesto: **Módulo expansor I/O PCF8574 (I²C)**
 
@@ -183,7 +183,7 @@ Justificación:
 
 Datasheets
 
-[Datasheet PCF8574](docs/diseno_arquitectonico/datasheets/pcf8574.pdf)
+[Datasheet PCF8574](datasheets/pcf8574.pdf)
 
 
 
