@@ -3,7 +3,7 @@ Módulo: sistema/sistema.py
 
 Define la clase Sistema, encargada de inicializar y coordinar los módulos
 funcionales del asistente NORA. Centraliza la FSM, EventManager, interfaz,
-voz y respuesta simbólica, con soporte para ejecución en modo simulación.
+voz y respuesta simbólica, con soporte para ejecución en modo simulación o GUI.
 """
 
 from functools import partial
@@ -15,6 +15,7 @@ from src.voz.reconocedor import ReconocedorVoz
 from src.voz.sintetizador import SintetizadorVoz
 from src.interfaz.interfaz import InterfazSimulada
 from src.sistema.manejadores import manejar_evento_fsm
+from src.gui.control_gui import ControlGUI
 
 class Sistema:
     def __init__(self, simulacion=True):
@@ -25,7 +26,6 @@ class Sistema:
         self.sintetizador = SintetizadorVoz(self.eventos)
         self.interfaz = InterfazSimulada(self.eventos)
 
-        # Registro del manejador FSM a los eventos relevantes
         handler = partial(manejar_evento_fsm, fsm=self.fsm, em=self.eventos)
         for tipo in [
             "EVT_NFC_ACTIVATE",
@@ -39,8 +39,7 @@ class Sistema:
 
     def ejecutar_simulacion(self):
         """
-        Ejecuta una secuencia de eventos simulados, verificando el flujo FSM,
-        respuesta de voz y representación visual.
+        Ejecuta una secuencia de eventos simulados para validar el flujo interno.
         """
         secuencia = [
             "EVT_NFC_ACTIVATE",
@@ -65,3 +64,11 @@ class Sistema:
                 self.eventos.procesar()
 
         print("[Sistema] Simulación completada.\n")
+
+    def ejecutar_gui(self):
+        """
+        Lanza la interfaz gráfica de control en modo GUI.
+        """
+        print("[Sistema] Iniciando GUI de control...")
+        gui = ControlGUI(self)
+        gui.lanzar()

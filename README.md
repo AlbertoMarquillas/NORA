@@ -44,6 +44,8 @@ NORA/
 ├── software/                      # Código fuente del sistema y archivo principal
 │   ├── main.py                   # Punto de entrada del sistema NORA
 │   └── src/                      # Módulos funcionales del asistente
+│       ├── gui/                 # Interfaz gráfica de control en simulación
+│       │   └── control_gui.py   # Tkinter GUI: botones de eventos, estado, mensajes
 │       ├── vision/              # Percepción visual (detección facial, postural)
 │       ├── voz/                 # Entrada y salida de voz
 │       │   ├── reconocedor.py   # Simulación de reconocimiento de voz (ASR)
@@ -53,7 +55,8 @@ NORA/
 │       ├── sistema/             # FSM, EventManager y manejadores de eventos
 │       │   ├── fsm.py
 │       │   ├── event_manager.py
-│       │   └── manejadores.py
+│       │   ├── manejadores.py
+│       │   └── sistema.py
 │       └── datos/               # Base de datos, hábitos, rutinas y perfil
 │
 ├── utils/                         # Scripts de inicialización y herramientas

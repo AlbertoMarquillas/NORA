@@ -378,11 +378,79 @@ software/
 
 ---
 
+### 🟢 Paso 16: Implementación de una GUI de control
+
+**Fecha:** [23/04/2025]
+
+**Acción:** Se planifica el desarrollo de una interfaz gráfica de usuario básica, cuyo objetivo es permitir el control manual y visualización del funcionamiento interno del sistema en modo simulación. Esta GUI actuará como consola de comandos, visualizador de estado y herramienta de prueba para FSM, eventos y módulos de voz.
+
+**Motivación técnica:**
+
+- Facilitar la comprensión del sistema mediante interacción visual.
+- Ofrecer control manual sobre los eventos sin modificar el código.
+- Monitorizar la evolución del estado de forma dinámica y centralizada.
+
+**Características previstas:**
+
+- Panel con botones para enviar eventos (`EVT_FACE_DETECTED`, `EVT_COMMAND_RECOGNIZED`, etc.)
+- Visualización del estado FSM actual
+- Mensajes del sistema en tiempo real (eventos, respuestas, errores)
+- Representación visual simbólica equivalente a `InterfazSimulada`
+
+**Tecnología propuesta:**
+
+- `Tkinter` por su integración nativa con Python y simplicidad.
+
+**Estructura futura:**
+
+- Carpeta: `software/src/gui/`
+- Archivo: `control_gui.py`
+- Clase: `ControlGUI`
+
+**Referencias:**
+
+- Base funcional: `sistema.py` + `event_manager.py` + `interfaz.py`
+
+---
+
+### 🟢 Paso 17: Rediseño profesional de la GUI de control
+
+**Fecha:** [23/04/2025]
+
+**Acción:** Se ha rediseñado completamente la clase `ControlGUI` para ofrecer una interfaz más profesional, visualmente clara y preparada para visualizaciones avanzadas. Ahora la ventana se abre en una resolución fija (`800x600`) y está dividida en dos columnas:
+
+- Columna izquierda: estado actual, respuesta verbal y botones para emitir eventos manuales.
+- Columna derecha: canvas reservado para visualizaciones gráficas futuras (gráficas, métricas, etc.).
+
+**Motivación técnica:**
+- Mejorar la experiencia de prueba del sistema.
+- Preparar la GUI para integrar módulos de análisis visual o métricas en tiempo real.
+- Ofrecer una representación visual jerárquica, clara y coherente con el sistema simbólico de NORA.
+
+**Mejoras aplicadas:**
+- Layout con `Frame` y `grid` para control total del diseño.
+- Espacio gráfico dinámico (`Canvas`) para futuras extensiones.
+- Tipografía limpia, alineación profesional y estructura visual intuitiva.
+
+**Referencias:**
+- Archivo: `software/src/gui/control_gui.py`
+- Clase afectada: `ControlGUI`
+
+---
+
 ### 🔜 Próximos pasos previstos
 
-1. Añadir visualización basada en estado actual (FSM → interfaz)
-2. Emitir eventos emocionales simbólicos (`EVT_EMOCION_ALEGRE`, etc.)
-3. Añadir pruebas automatizadas del comportamiento FSM y EventManager
-4. Preparar integración futura con GUI o hardware físico
+
+
+1\. Añadir visualización basada en estado actual (FSM → interfaz)
+
+2\. Emitir eventos emocionales simbólicos (\`EVT\_EMOCION\_ALEGRE\`, etc.)
+
+3\. Añadir pruebas automatizadas del comportamiento FSM y EventManager
+
+4\. Preparar integración futura con GUI o hardware físico
+
+
 
 Este archivo se actualizará de forma incremental conforme se ejecuten nuevas acciones en el entorno local del proyecto.
+
