@@ -84,6 +84,53 @@ NORA/
 └── .gitignore                    # Exclusiones para Git
 ```
 
+## GUI de Control – Proyecto NORA
+
+**Ubicación:** `software/src/gui/control_gui.py`
+
+Esta interfaz gráfica está diseñada para ofrecer una herramienta de prueba, visualización y control simbólico del sistema NORA. Permite lanzar manualmente eventos, observar el estado interno de la FSM, leer respuestas del sistema y visualizar futuros gráficos.
+
+---
+
+### 🎯 Objetivos principales
+- Enviar eventos de forma manual (presencia, comando, NFC, timeout, etc.).
+- Ver en tiempo real el estado del sistema y su representación simbólica.
+- Leer respuestas verbales generadas por el módulo TTS.
+- Mostrar una zona de visualización expandible para representar métricas o gráficos.
+
+---
+
+### 📐 Diseño
+- **Tkinter**, interfaz estructurada con `Frame` y `grid()`.
+- Columna izquierda: control y estado.
+- Columna derecha: zona de visualización (`Canvas`).
+- Resolución inicial: `800x600`.
+
+---
+
+### ▶️ Cómo lanzarla
+Desde el entorno virtual:
+```bash
+python software/main.py --gui
+```
+
+O directamente desde código:
+```python
+from src.sistema.sistema import Sistema
+Sistema().ejecutar_gui()
+```
+
+---
+
+### 🔗 Módulos relacionados
+- `Sistema`: instancia y coordina la GUI (`ejecutar_gui()`)
+- `EventManager`: suscripciones `EVT_MOSTRAR_ESTADO`, `EVT_DECIR_TEXTO`
+- `FSM`: genera los eventos que actualizan la visualización
+
+---
+
+Esta GUI será la base para futuras extensiones con elementos gráficos avanzados (gráficas, indicadores de atención, métricas temporales).
+
 ## 🛠️ Tecnologías utilizadas
 
 - **Python** como lenguaje principal
