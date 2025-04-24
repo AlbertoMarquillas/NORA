@@ -1,3 +1,4 @@
+```text
 ───────────────────────────────
       BLOQUES DE HARDWARE
 ───────────────────────────────
@@ -92,7 +93,7 @@
 [Módulo WiFi externo ESP8266] → `control/` (comunicación IoT, MQTT/HTTP)
 
 ──────────────────────────────────────────────────────────────
-
+```
 ![Boceto del sistema NORA](fotos/Boceto.png)
 
 
