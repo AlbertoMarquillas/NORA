@@ -43,7 +43,6 @@ Este documento define los módulos funcionales principales que componen la lógi
    - Afecta la modulación de respuestas y expresividad del sistema.
    - Evento: `EVT_EMOTION_CHANGED`.
 
-
 ### Entradas:
 - Vídeo en tiempo real desde cámara CSI o USB (formato OpenCV).
 - Parámetros configurables desde `config.json` o sistema de preferencias (`FPS`, `ROI`, `limites de atención`, etc.).
@@ -63,6 +62,8 @@ Este documento define los módulos funcionales principales que componen la lógi
 - `scikit-learn` (opcional) para clasificación emocional ligera.
 - `dlib` o `face_recognition` (opcional) si se desea identificación de usuarios por rostro.
 
+### Interacción con el módulo `/agentes/`:
+El módulo `vision/` publica los eventos perceptivos relevantes al sistema de agentes (`/agentes/`) para su análisis y toma de decisiones descentralizada. Asimismo, puede recibir instrucciones de agentes para modificar su comportamiento, por ejemplo, activar o desactivar funciones específicas (como el análisis emocional o la detección de signos). En futuras versiones, parte de sus subfunciones podrían ser delegadas a agentes visuales especializados para optimizar recursos o adaptarse al contexto.
 
 ## 2. `voz/` – Módulo de procesamiento de voz
 
@@ -131,6 +132,9 @@ Este documento define los módulos funcionales principales que componen la lógi
 - (opcional) `espeak` o `nsss` como backends de síntesis en sistemas específicos.
 - (opcional) `scipy` para análisis de silencio, energía, espectro, etc.
 
+### Interacción con el módulo `/agentes/`:
+El módulo `voz/` emite eventos auditivos y emocionales que pueden ser interpretados por el sistema de agentes (`/agentes/`) para inferir el estado del usuario o activar decisiones conversacionales. Asimismo, puede ser modulado por agentes expresivos que ajusten el tono de voz, ritmo o respuestas según el contexto emocional. En futuras versiones, subfunciones como el reconocimiento emocional o la gestión de interrupciones podrían delegarse a agentes especializados auditivos.
+
 ## 2b. `dialogo/` – Módulo de conversación natural
 
 **Función:** Permite mantener conversaciones no estructuradas y contextuales con el usuario. Este módulo interpreta el texto reconocido por `voz/`, gestiona el contexto conversacional y genera respuestas libres.
@@ -169,6 +173,10 @@ Este documento define los módulos funcionales principales que componen la lógi
 - `transformers`, `sentence-transformers`, `nltk`, `spacy` (según el motor elegido).
 - `json` o `pickle` para mantener sesión.
 
+### Interacción con el módulo `/agentes/`:
+El módulo `dialogo/` puede recibir modulaciones expresivas desde el sistema de agentes (`/agentes/`), influenciando el tono, contenido o formato de las respuestas generadas. Asimismo, puede emitir señales contextuales o semánticas útiles para agentes que gestionan la coherencia emocional o la continuidad temática de la interacción. En futuras versiones, agentes lingüísticos podrían asumir directamente la función de generación o filtrado de respuesta en situaciones específicas.
+
+
 ## 3. `interfaz/` – Módulo de interacción y expresividad
 
 **Función:** Gestiona todos los canales expresivos de NORA: rostro animado en pantalla, LEDs RGB y movimientos físicos con servos. Transforma los estados internos o emocionales del sistema en salidas simbólicas y sensoriales.
@@ -176,50 +184,44 @@ Este documento define los módulos funcionales principales que componen la lógi
 ### Subfunciones:
 
 1. **Gestión de pantalla facial animada:**
-
    - Muestra expresiones básicas (alegría, tristeza, espera, escucha...).
    - Permite transiciones animadas entre estados.
    - Genera atención visual mediante mirada o parpadeo.
 
 2. **Control de LEDs RGB:**
-
    - Muestra colores según el estado interno o emoción actual.
    - Permite animaciones (pulsado, cambio gradual, ráfagas).
    - Se vincula con estados como “escuchando”, “pensando”, “procesando”.
 
 3. **Control de servomotores:**
-
    - Ejecuta movimientos físicos de la cabeza o partes del rostro (mirar, asentir, inclinar).
    - Refuerza el diálogo o expresa emociones físicas.
 
 4. **Coordinación multimodal (expresión compuesta):**
-
    - Sincroniza pantalla + LEDs + movimiento en respuestas complejas.
    - Permite definir “escenas expresivas” (ej: saludar, mirar a un lado, responder sonriente).
 
 ### Entradas:
-
 - Comandos desde `sistema/` o `voz/` (estado, emoción, atención).
 - Parámetros definidos por `dialogo/` o eventos visuales (gesto, presencia).
 
 ### Salidas:
-
 - Animaciones visuales en pantalla.
 - Cambios de color en LEDs.
 - Movimientos físicos mediante PWM.
 
 ### Tecnologías:
-
 - `Tkinter`, `PyQt`, `PyGame` o `Pillow` para la pantalla facial.
 - Control de LEDs con `rpi_ws281x`, `neopixel`, o salidas GPIO PWM.
 - Manejo de servos con `RPi.GPIO`, `pigpio`, `gpiozero`, o PWM por hardware.
 
 ### Dependencias externas:
-
 - `rpi_ws281x` / `neopixel` para LEDs RGB direccionables.
 - `RPi.GPIO` / `gpiozero` / `pigpio` para PWM y servos.
 - `Pillow`, `PyGame`, `PyQt5`, `tkinter` (según la librería gráfica elegida).
 
+### Interacción con el módulo `/agentes/`:
+El módulo `interfaz/` actúa como canal de salida para decisiones expresivas generadas por agentes. Puede recibir instrucciones de agentes expresivos para modular los canales visuales (pantalla, LEDs, servos) de forma coherente con el estado emocional o intencional del sistema. Además, los agentes pueden coordinar múltiples canales para generar escenas multimodales en respuesta a eventos de alto nivel.
 ## 4. `datos/` – Módulo de almacenamiento local
 
 **Función:** Gestiona una base de datos local persistente donde se registran y consultan rutinas personalizadas, notas del usuario, configuraciones del sistema y eventos generados por el asistente. Permite almacenar, recuperar y actualizar información estructurada.
@@ -274,6 +276,9 @@ Este documento define los módulos funcionales principales que componen la lógi
 ### Tecnologías:
 - `sqlite3` (directo o vía ORM ligero tipo `dataset` o `SQLAlchemy`).
 
+### Interacción con el módulo `/agentes/`:
+El módulo `datos/` puede ser consultado o actualizado por agentes que gestionen rutinas, hábitos, perfiles o condiciones emocionales persistentes. Asimismo, permite a los agentes acceder a patrones históricos que modulen el comportamiento del sistema (por ejemplo, evitar recomendaciones redundantes o reforzar hábitos saludables). En futuras versiones, agentes de análisis podrán generar anotaciones inteligentes o recomendaciones contextuales directamente sobre esta base de datos.
+
 ## 5. `sistema/` – Módulo de control central
 
 **Función:** Es el núcleo lógico de NORA. Orquesta el comportamiento global del sistema mediante una máquina de estados finita (FSM) y una gestión basada en eventos. Coordina todos los módulos, define respuestas según contexto y controla la transición entre estados operativos.
@@ -317,63 +322,57 @@ Este documento define los módulos funcionales principales que componen la lógi
 - `pyee`, `pubsub`, o `eventbus` para sistema de eventos.
 - (opcional) `watchdog`, `logging`, `threading` para control y depuración adicional.
 
-## 3. `activacion/` – Módulo de activación por múltiples entradas
+### Interacción con el módulo `/agentes/`:
+El módulo `sistema/` puede recibir eventos procesados por agentes para modificar su lógica de estado, priorización o supresión de flujos. También puede delegar decisiones de activación, inhibición o empatía a agentes especializados según contexto. A su vez, emite señales relevantes al módulo `/agentes/` para informar del estado operativo global o solicitar asesoramiento contextual.
+
+## 6. `activacion/` – Módulo de activación por múltiples entradas
 
 **Función:** Detecta credenciales físicas vía NFC. Anteriormente gestionaba ultrasonidos, pero esta lógica ha sido delegada al módulo `sensores/`.
 
 ### Fuentes de activación disponibles:
 
 1. **NFC PN532 (desde sensores/):**
-
    - Autenticación por proximidad con tarjeta o etiqueta.
 
 2. **Presencia física (desde `sensores/`):**
-
    - Activación automática al detectar un usuario cerca mediante HC-SR04.
 
 3. **Atención visual (desde `vision/`):**
-
    - Activación si el usuario mantiene la mirada hacia NORA.
 
 4. **Hotword (desde `voz/`):**
-
    - Frase como “oye NORA” activa el sistema.
 
 5. **Botón físico (GPIO):**
-
    - Pulsador accesible en el chasis para activación manual.
 
-6. **Bluetooth (desde `sensores/`):
-
+6. **Bluetooth (desde `sensores/`):**
    - Activación al reconocer dispositivos cercanos emparejados.
 
 ### Función extendida:
-
 - Este módulo escucha eventos de activación generados por otros módulos (`sensores/`, `vision/`, `voz/`) y determina si el sistema debe pasar a estado activo o interactivo. También aplica lógica combinada para evitar falsos positivos.
 
 ### Entradas:
-
 - Eventos desde `sensores/` (`EVT_PRESENCE_CONFIRMED`, `EVT_NFC_UID_DETECTED`, `EVT_BLUETOOTH_DETECTED`).
 - Eventos desde `vision/` (`EVT_ATTENTION_GAINED`).
 - Eventos desde `voz/` (`EVT_WAKEWORD`).
 - Señal digital de botón físico (opcional).
 
 ### Salidas:
-
 - Eventos de activación o reposo.
 - Comandos hacia `sistema/` para cambiar estado global.
 
 ### Tecnologías:
-
 - Eventos gestionados mediante `eventbus` o `pyee`.
 - Evaluación combinada de condiciones.
 - Integración de entrada discreta (botón físico) mediante `gpiozero` o `RPi.GPIO`.
 
 ### Dependencias externas:
-
 - Ninguna directa para lectura de hardware; depende de `sensores/` para datos físicos.
 - Utilidades de eventos y lógica combinatoria.
 
+### Interacción con el módulo `/agentes/`:
+El módulo `activacion/` puede delegar la decisión final de activación al sistema de agentes, permitiendo aplicar lógicas contextuales más complejas y dinámicas. Los agentes pueden combinar múltiples fuentes sensoriales y estados históricos para decidir si activar o inhibir el sistema. Asimismo, el módulo puede emitir señales hacia `/agentes/` para ser consideradas en la evaluación general del entorno o del usuario.
 
 ## 7. `gui/` – Interfaz gráfica de usuario en ordenador
 
@@ -417,6 +416,8 @@ Este documento define los módulos funcionales principales que componen la lógi
 - `flask`, `dash`, `streamlit` si se desea exponer como servicio web local o remoto.
 - `matplotlib` o `plotly` (opcional) para gráficas de uso o estado.
 
+### Interacción con el módulo `/agentes/`:
+El módulo `gui/` puede mostrar el estado interno y decisiones de los agentes activos, permitiendo visualizar cómo sus inferencias afectan al comportamiento global. También puede permitir la activación/desactivación manual de agentes o modificación de parámetros dinámicos, facilitando la experimentación y depuración en entornos de desarrollo o demostración.
 
 ## 8. `models/` – Carpeta para modelos de IA
 
@@ -456,6 +457,9 @@ Este documento define los módulos funcionales principales que componen la lógi
 - `/models/recommend/` – Modelos de recomendación contextual: sugerencias personalizadas basadas en patrones de uso e historial.
 - `/models/shared/` – Componentes comunes a varios modelos: embeddings, tokenizers, normalizadores, funciones auxiliares.
 
+### Interacción con el módulo `/agentes/`:
+El sistema de agentes puede acceder dinámicamente a los modelos contenidos en esta carpeta para ejecutar inferencias específicas según el contexto. Cada agente puede estar asociado a uno o varios modelos (por ejemplo, un agente emocional con una red CNN sobre MFCCs, o un agente de atención visual con un modelo de estimación de mirada). Esta carpeta debe estar estructurada de forma coherente para facilitar la carga modular y el uso selectivo por parte de los agentes activos.
+
 ## 9. `utils/` – Utilidades y funciones compartidas
 
 **Función:** Reúne funciones auxiliares, constantes, herramientas de logging, configuración o cálculo compartidas por varios módulos del sistema.
@@ -487,6 +491,8 @@ Este documento define los módulos funcionales principales que componen la lógi
 7. **Utilidades de validación y comprobación:**
    - Comprobaciones de integridad, existencia de archivos, sanitización de entradas.
 
+### Interacción con el módulo `/agentes/`:
+El módulo `utils/` ofrece herramientas de soporte para el desarrollo y ejecución de agentes. Las funciones matemáticas, de gestión de eventos o de temporización pueden ser utilizadas directamente por agentes especializados en visión, voz o comportamiento. Además, proporciona parsers y validadores comunes que aseguran coherencia en la interpretación de configuraciones y parámetros dinámicos que los agentes puedan cargar o modificar.
 ## 10. `tests/` – Módulos de prueba
 
 **Función:** Contiene scripts, rutinas y test cases destinados a verificar el comportamiento de los diferentes módulos del sistema NORA, tanto de forma aislada como en condiciones simuladas, antes de su integración completa.
@@ -517,6 +523,8 @@ Este documento define los módulos funcionales principales que componen la lógi
    - Medición de tiempos de respuesta, rendimiento de inferencias, carga de CPU.
    - Pruebas en condiciones límite o prolongadas.
 
+### Interacción con el módulo `/agentes/`:
+El módulo `tests/` incluye pruebas específicas para validar el comportamiento y las decisiones de los agentes activos. Estas pruebas pueden cubrir inferencias realizadas por modelos asociados, condiciones contextuales evaluadas por los agentes, o el impacto de sus decisiones sobre los estados del sistema. Además, permite simular entornos dinámicos donde los agentes deben adaptarse, facilitando la validación de lógica adaptativa, priorización y modulación emocional.
 
 ## 11. `control/` – Módulo de gestión del sistema embebido
 
@@ -579,6 +587,9 @@ Este documento define los módulos funcionales principales que componen la lógi
 - `RPi.GPIO`, `gpiozero`, `pcf8574`, `psutil`, `os`, `subprocess`, `logging`
 - Opcional: `flask` o `websocket` para control remoto desde navegador.
 
+### Interacción con el módulo `/agentes/`:
+El módulo `control/` puede servir como fuente de datos para agentes supervisores, proporcionando métricas de salud del sistema, logs o condiciones ambientales. A su vez, puede ejecutar acciones recomendadas por estos agentes, como apagado controlado ante sobretemperatura o reinicio selectivo de módulos. También facilita la auditoría de decisiones automatizadas registradas por los agentes en condiciones críticas.
+
 ## 12. `sensores/` – Módulo de adquisición y procesamiento ambiental
 
 **Función:** Lectura y procesamiento de sensores físicos conectados a NORA. Publica eventos como temperatura, luz, humedad, calidad del aire y presencia.
@@ -639,4 +650,65 @@ Este documento define los módulos funcionales principales que componen la lógi
 ### Tecnologías:
 
 - `adafruit_dht`, `smbus2`, `gpiozero`, `bleak`, `datetime`, `json`, `paho-mqtt`
+
+## 13. `agentes/` – Módulo de coordinación perceptiva y expresiva
+
+**Función:**\
+El módulo `agentes/` implementa una capa intermedia de coordinación inteligente entre los módulos sensoriales (`vision/`, `voz/`, `sensores/`, etc.) y los módulos actuadores (`interfaz/`, `sistema/`, `datos/`, etc.). Cada "agente" representa una entidad lógica especializada en procesar un tipo de información o supervisar un dominio funcional (visual, auditivo, emocional...), actuando como filtro, modulador o generador de decisiones autónomas.
+
+Este módulo permite desacoplar la lógica central del sistema de las decisiones contextuales, facilitando adaptabilidad, personalización y extensibilidad mediante agentes dedicados.
+
+### Subfunciones:
+
+1. **Agentes perceptivos:**
+
+   - Reciben eventos desde módulos sensoriales.
+   - Evalúan condiciones contextuales o temporales (presencia continua, atención sostenida, tono emocional persistente...).
+   - Generan nuevos eventos interpretados, por ejemplo: `AGT_ATTENTION_CONFIRMED`, `AGT_ENVIRONMENT_ALERT`.
+
+2. **Agentes expresivos:**
+
+   - Modulan la respuesta emocional y simbólica del sistema (colores, expresiones faciales, tono de voz) según el estado interno y contexto externo.
+   - Determinan qué canales expresivos deben activarse y cómo sincronizarse.
+
+3. **Agentes de activación y contexto:**
+
+   - Deciden si el sistema debe cambiar de estado en función de múltiples entradas (voz, NFC, atención, sensor ultrasónico).
+   - Evitan falsos positivos combinando datos multisensoriales.
+
+4. **Agentes especializados delegados:**
+
+   - Agentes dedicados a funciones concretas como: análisis emocional, interpretación de signos, clasificación de intención.
+   - Permiten activar/desactivar capacidades según el contexto o el perfil del usuario.
+
+5. **Gestión de prioridades y supresión:**
+
+   - Permiten decidir qué eventos tienen precedencia y cuáles deben suprimirse temporalmente.
+   - Ejemplo: suprimir detección de atención si se ha activado el modo descanso.
+
+### Entradas:
+
+- Eventos desde módulos perceptivos (`vision/`, `voz/`, `sensores/`).
+- Estado global del sistema (`sistema/`).
+- Configuraciones dinámicas del usuario (perfil, horario, modo activo/inactivo).
+
+### Salidas:
+
+- Eventos derivados para otros módulos (`sistema/`, `interfaz/`, `voz/`, `dialogo/`).
+- Activación de escenas expresivas combinadas.
+- Señales de modulación emocional o priorización (`CMD_SUPRIMIR_EVENTO`, `CMD_PRIORIDAD_ALTA`).
+
+### Tecnologías:
+
+- Sistema de eventos basado en `pyee`, `eventbus` o `asyncio.Queue`.
+- Implementación flexible basada en clases `AgenteBase`, con posibilidad de extender por herencia (`AgenteVisual`, `AgenteAuditivo`, etc.).
+- Evaluación de condiciones mediante reglas (tipo `if-this-then-that`) o lógica FSM por agente.
+
+### Dependencias externas:
+
+- No requiere librerías específicas fuera del sistema de eventos.
+- Compatible con lógica FSM (`transitions`) o reglas condicionales.
+- Puede integrarse con módulos de IA ligeros para toma de decisiones basadas en aprendizaje.
+
+...
 
