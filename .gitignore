@@ -29,7 +29,6 @@ __pycache__/
 *.json
 
 # Archivos binarios exportados o de documentación
-*.png
 *.drawio.bkp
 *.zip
 
