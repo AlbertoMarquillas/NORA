@@ -73,6 +73,75 @@ Datasheet
 
 [Datasheet HC-SR04](datasheets/HC-SR04.pdf)
 
+Componente propuesto: **Sensor de temperatura y humedad (DHT22 o BME280)**
+
+Justificación:
+- Permite a NORA percibir las condiciones ambientales de confort.
+- Útil para adaptar comportamientos o emitir recomendaciones ("La temperatura es alta", "Ambiente seco").
+- Bajo consumo y sencilla integración por GPIO o I2C.
+
+Alternativas:
+- AM2302, Si7021, HTU21D
+
+Datasheet:
+- [Datasheet BME280](datasheets/bst-bme280-ds002.pdf)
+
+---
+
+Componente propuesto: **Sensor de luminosidad (LDR o TSL2561)**
+
+Justificación:
+- Detecta condiciones de luz ambiente para ajustar la expresión visual (pantalla, LEDs).
+- Mejora la adaptabilidad del sistema en diferentes entornos.
+
+Alternativas:
+- BH1750, TEMT6000
+
+Datasheet:
+- [Datasheet TSL2561](datasheets/tsl2561-932888.pdf)
+
+---
+
+Componente propuesto: **Módulo Bluetooth (HC-05 o BLE integrado)**
+
+Justificación:
+- Permite detectar dispositivos cercanos (móvil del usuario, wearables).
+- Posibilidad de emparejamiento con sensores externos o transferencia de datos.
+
+Alternativas:
+- HM-10 (BLE), módulo USB BLE CSR
+
+Datasheet:
+- [Datasheet HC-05](datasheets/HC-05.PDF)
+
+---
+
+Componente propuesto: **RTC externo (DS3231)**
+
+Justificación:
+- Asegura la precisión horaria en ausencia de conectividad.
+- Clave para mantener coherencia temporal en eventos y registros.
+
+Alternativas:
+- DS1307, RV-3028-C7
+
+Datasheet:
+- [Datasheet DS3231](datasheets/ds3231.pdf)
+
+---
+
+Componente propuesto: **Sensor de calidad del aire (MQ-135 o CCS811)**
+
+Justificación:
+- Permite estimar la calidad del aire interior y actuar en consecuencia.
+- Aumenta la sensibilidad ambiental y posibles funciones de confort o alerta.
+
+Alternativas:
+- SGP30, BME680
+
+Datasheet:
+- [Datasheet CCS811](datasheets/CCS811_Datasheet-DS000459.pdf)
+
 
 
 ## 3. Actuadores

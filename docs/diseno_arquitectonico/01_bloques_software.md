@@ -108,8 +108,6 @@ Este documento define los módulos funcionales principales que componen la lógi
    - Funciona en segundo plano y lanza `EVT_WAKEWORD`.
    - Puede sustituir o complementar al módulo `activacion/`.
 
-
-
 - Señal de audio del micrófono.
 - Configuración local: idioma, sensibilidad, duración máxima, vocabulario clave.
 
@@ -222,8 +220,6 @@ Este documento define los módulos funcionales principales que componen la lógi
 - `RPi.GPIO` / `gpiozero` / `pigpio` para PWM y servos.
 - `Pillow`, `PyGame`, `PyQt5`, `tkinter` (según la librería gráfica elegida).
 
-##
-
 ## 4. `datos/` – Módulo de almacenamiento local
 
 **Función:** Gestiona una base de datos local persistente donde se registran y consultan rutinas personalizadas, notas del usuario, configuraciones del sistema y eventos generados por el asistente. Permite almacenar, recuperar y actualizar información estructurada.
@@ -243,6 +239,29 @@ Este documento define los módulos funcionales principales que componen la lógi
 
 4. **Parámetros y preferencias:**
    - Almacena configuraciones persistentes como idioma, volumen, perfil emocional o comportamiento por defecto.
+
+5. **Seguimiento de hábitos y comportamiento:**
+   - Registra métricas de uso, emociones predominantes, horarios de interacción.
+   - Permite análisis de bienestar o rutinas implícitas.
+
+6. **Almacenamiento de perfiles de usuario:**
+   - Soporta múltiples usuarios identificados por NFC, rostro o voz.
+   - Guarda configuraciones específicas de cada perfil.
+
+7. **Agenda y calendario integrado:**
+   - Permite añadir eventos, citas y recordatorios con fecha y hora.
+   - Integración opcional con GUI o exportación `.ics`.
+
+8. **Gestión de listas dinámicas:**
+   - Maneja listas como compras, tareas o ideas.
+   - Permite añadir, consultar o eliminar ítems por voz o GUI.
+
+9. **Registros multimedia o referenciales:**
+   - Permite guardar eventos asociados a una referencia de voz, tiempo o contexto visual.
+
+10. **Anotaciones emocionales:**
+   - Guarda emociones detectadas durante interacciones específicas.
+   - Permite adaptar la empatía futura del sistema.
 
 ### Entradas:
 - Comandos desde `voz/`, `gui/` o `sistema/`.
@@ -275,65 +294,85 @@ Este documento define los módulos funcionales principales que componen la lógi
 4. **Control de flujo de tareas:**
    - Prioriza peticiones, resuelve conflictos de concurrencia y delega control a los módulos adecuados.
 
+5. **Gestión del estado emocional global:**
+   - Integra inputs de `voz/`, `vision/` y `dialogo/` para inferir un estado emocional del sistema.
+   - Ajusta el comportamiento expresivo, verbal y reactivo en función del estado actual (empático).
+
+6. **Supervisión de consistencia intermodular:**
+   - Verifica que los módulos activos correspondan al estado global.
+   - Puede lanzar eventos de autocorrección o reinicio selectivo si detecta desincronización.
+
 ### Entradas:
 - Eventos del sistema (`EVT_FACE_DETECTED`, `EVT_NFC_ACTIVATE`, `EVT_IDLE_TIMEOUT`...).
-- Estados de otros módulos.
+- Estados y señales de módulos (`interfaz/`, `voz/`, `activacion/`, `datos/`, etc.).
 
 ### Salidas:
 - Comandos a módulos (`CMD_EXPRESAR`, `CMD_RESPONDER`, `CMD_GUARDAR`).
 - Transiciones de FSM (`STATE_IDLE` → `STATE_LISTENING`, etc.).
+- Eventos para logging o debugging (`EVT_STATE_CHANGED`, `EVT_MODULE_FAILURE`).
 
 ### Tecnologías:
-- `transitions` (FSM), `asyncio`, `queue`, `eventbus` personalizado o `pyee`.
- `sistema/` – Módulo de control central
+- `transitions` para FSM estructurada.
+- `asyncio` y `queue` para ejecución concurrente no bloqueante.
+- `pyee`, `pubsub`, o `eventbus` para sistema de eventos.
+- (opcional) `watchdog`, `logging`, `threading` para control y depuración adicional.
 
-**Función:** Gestiona los estados internos del asistente, orquesta la lógica de activación e inactividad y coordina las decisiones generales.
-**Tecnologías:** FSM central, EventManager.
-**Entradas:** eventos del sistema, NFC, voz, visión.
-**Salidas:** transiciones de estado, comandos a otros módulos.
+## 3. `activacion/` – Módulo de activación por múltiples entradas
 
+**Función:** Detecta credenciales físicas vía NFC. Anteriormente gestionaba ultrasonidos, pero esta lógica ha sido delegada al módulo `sensores/`.
 
-## 6. `activacion/` – Módulo de activación por NFC y presencia
+### Fuentes de activación disponibles:
 
-**Función:** Gestiona el encendido, apagado y activación del sistema NORA mediante mecanismos físicos como el módulo NFC o sensores de proximidad. Determina si el sistema debe entrar en estado activo, en espera o reposo.
+1. **NFC PN532 (desde sensores/):**
 
-### Subfunciones:
+   - Autenticación por proximidad con tarjeta o etiqueta.
 
-1. **Lectura de NFC:**
-   - Detecta la aproximación de una tarjeta o etiqueta NFC.
-   - Activa o desbloquea NORA según credencial o configuración.
-   - Evento: `EVT_NFC_ACTIVATE`.
+2. **Presencia física (desde `sensores/`):**
 
-2. **Gestión de inactividad:**
-   - Detecta ausencia prolongada de interacción o presencia.
-   - Lanza eventos como `EVT_IDLE_TIMEOUT` o `EVT_AUTO_SLEEP`.
+   - Activación automática al detectar un usuario cerca mediante HC-SR04.
 
-3. **Detección de presencia por ultrasonidos:**
-   - Usa el sensor HC-SR04 para verificar si hay una persona presente.
-   - Lanza eventos como `EVT_PRESENCE_CONFIRMED`, `EVT_PRESENCE_LOST`.
+3. **Atención visual (desde `vision/`):**
 
-4. **Activación combinada con visión:**
-   - Permite decisiones combinadas (NFC + rostro + presencia) para mayor robustez.
-   - Permite lógica tipo: “si hay rostro y NFC, activa interfaz completa”.
+   - Activación si el usuario mantiene la mirada hacia NORA.
+
+4. **Hotword (desde `voz/`):**
+
+   - Frase como “oye NORA” activa el sistema.
+
+5. **Botón físico (GPIO):**
+
+   - Pulsador accesible en el chasis para activación manual.
+
+6. **Bluetooth (desde `sensores/`):
+
+   - Activación al reconocer dispositivos cercanos emparejados.
+
+### Función extendida:
+
+- Este módulo escucha eventos de activación generados por otros módulos (`sensores/`, `vision/`, `voz/`) y determina si el sistema debe pasar a estado activo o interactivo. También aplica lógica combinada para evitar falsos positivos.
 
 ### Entradas:
-- Señal digital del sensor ultrasónico HC-SR04.
-- Lecturas desde el lector NFC.
-- Eventos desde `vision/` relacionados con detección de usuario.
+
+- Eventos desde `sensores/` (`EVT_PRESENCE_CONFIRMED`, `EVT_NFC_UID_DETECTED`, `EVT_BLUETOOTH_DETECTED`).
+- Eventos desde `vision/` (`EVT_ATTENTION_GAINED`).
+- Eventos desde `voz/` (`EVT_WAKEWORD`).
+- Señal digital de botón físico (opcional).
 
 ### Salidas:
+
 - Eventos de activación o reposo.
 - Comandos hacia `sistema/` para cambiar estado global.
 
 ### Tecnologías:
-- PN532 (vía I2C, UART o SPI).
-- Sensor HC-SR04 (trigger/echo vía GPIO).
-- Temporizadores y lógica combinada por software.
+
+- Eventos gestionados mediante `eventbus` o `pyee`.
+- Evaluación combinada de condiciones.
+- Integración de entrada discreta (botón físico) mediante `gpiozero` o `RPi.GPIO`.
 
 ### Dependencias externas:
-- `pn532pi`, `pynfc`, o librería equivalente para módulo NFC.
-- `RPi.GPIO` o `gpiozero` para gestión del sensor ultrasónico.
-- (opcional) `time`, `sched`, `threading` para gestión temporal avanzada.
+
+- Ninguna directa para lectura de hardware; depende de `sensores/` para datos físicos.
+- Utilidades de eventos y lógica combinatoria.
 
 
 ## 7. `gui/` – Interfaz gráfica de usuario en ordenador
@@ -341,42 +380,142 @@ Este documento define los módulos funcionales principales que componen la lógi
 **Función:** Proporciona una interfaz visual ejecutada en el ordenador del desarrollador o usuario, permitiendo controlar manualmente el estado del sistema, observar eventos en tiempo real y probar módulos de forma asistida.
 
 ### Subfunciones:
-- Panel de control: botones para activar/desactivar módulos, cambiar estados.
-- Monitor de eventos: visualización de logs o eventos generados por el sistema.
-- Configuración manual: edición de parámetros de entorno, emoción, volumen, etc.
+
+1. **Panel de control:**
+   - Botones para activar/desactivar módulos, cambiar entre estados del sistema.
+   - Control manual de LEDs, expresiones, servos, volumen y emociones.
+
+2. **Monitor de eventos:**
+   - Visualización cronológica de eventos generados por módulos.
+   - Filtros por tipo de evento, módulo de origen o severidad.
+   - Registro exportable para depuración o análisis.
+
+3. **Configuración manual:**
+   - Edición directa de parámetros como idioma, perfil de usuario, tiempos de espera, sensibilidad.
+   - Interfaz editable para las preferencias persistidas en `datos/`.
+
+4. **Monitoreo de salud del sistema:**
+   - Lectura de temperatura de CPU, carga, RAM, uptime, red.
+   - Visualización gráfica o semáforos de estado.
+   - Alerta de condiciones críticas.
+
+5. **Panel de intervenciones técnicas:**
+   - Posibilidad de reiniciar módulos individualmente.
+   - Acceso a logs y eventos en tiempo real.
+   - Control de pines GPIO en tiempo real.
+
+6. **Lanzador de pruebas y diagnósticos:**
+   - Ejecución de test unitarios o de integración desde `tests/`.
+   - Visualización del resultado en GUI.
+
+7. **Modo demostración / entrenamiento:**
+   - Permite simular interacciones para presentaciones o desarrollo.
+   - Controlar respuestas desde `dialogo/` o entrada de texto directa.
 
 ### Tecnologías:
-- `tkinter`, `PyQt`, `PySide`, `flask` (si se expone vía web).
+- `tkinter`, `PyQt`, `PySide` para entorno de escritorio.
+- `flask`, `dash`, `streamlit` si se desea exponer como servicio web local o remoto.
+- `matplotlib` o `plotly` (opcional) para gráficas de uso o estado.
 
 
 ## 8. `models/` – Carpeta para modelos de IA
 
 **Función:** Almacena y organiza todos los modelos entrenados o descargados usados por el sistema (ASR, gestos, emociones, signos, etc.).
 
-### Contenido esperado:
-- Modelos de visión: YOLO, MediaPipe custom, OpenPose.
-- Modelos de voz: Whisper, Vosk custom.
-- Modelos de diálogo: DialoGPT, LLM fine-tuned.
+### 1. Contenido esperado
 
+1. **Modelos de visión:**
+   - Detección de objetos (YOLOv5, YOLOv8).
+   - Estimación de pose y gestos (MediaPipe custom, OpenPose).
+   - Clasificación de emociones faciales.
+
+2. **Modelos de voz:**
+   - Reconocimiento automático del habla (ASR) personalizado con `Whisper` o `Vosk` adaptado.
+   - Análisis emocional a partir del tono de voz (redes LSTM o CNN sobre MFCCs).
+
+3. **Modelos de diálogo:**
+   - Generación de respuestas con `DialoGPT`, `GPT-2`/`GPT-3` fine-tuned o modelos propios.
+   - Clasificadores de intención o extractores de entidades entrenados.
+
+4. **Modelos de signos o lenguaje gestual:**
+   - Reconocimiento de gestos estáticos o dinámicos en LSE/ASL.
+   - Modelos basados en pose keypoints o CNN-RNN.
+
+5. **Modelos personalizados y adaptativos:**
+   - Modelos entrenados con los datos del usuario para adaptación progresiva.
+   - Recomendaciones, hábitos, preferencias y predicciones personalizadas.
+
+### 2. Estructura recomendada
+
+- `/models/vision/` – Modelos relacionados con percepción visual: detección de objetos, reconocimiento facial, emociones visuales, gestos y postura corporal.
+- `/models/voice/` – Modelos enfocados en procesamiento de audio: reconocimiento de voz (ASR), emociones vocales, segmentación por voz.
+- `/models/dialogue/` – Modelos para generación de lenguaje, clasificación de intención, extracción de entidades y gestión del diálogo.
+- `/models/sign/` – Modelos dedicados a la interpretación de lenguaje de signos o gestos simbólicos, tanto estáticos como dinámicos.
+- `/models/user/` – Modelos entrenados con datos del usuario: comportamiento, preferencias, estilo comunicativo, sensibilidad a emociones.
+- `/models/behavior/` – Modelos para análisis temporal de hábitos, rutinas implícitas, evaluación de constancia o anomalías.
+- `/models/recommend/` – Modelos de recomendación contextual: sugerencias personalizadas basadas en patrones de uso e historial.
+- `/models/shared/` – Componentes comunes a varios modelos: embeddings, tokenizers, normalizadores, funciones auxiliares.
 
 ## 9. `utils/` – Utilidades y funciones compartidas
 
-**Función:** Reúne funciones auxiliares, constantes, herramientas de logging, configuración o cálculo compartidas por varios módulos.
+**Función:** Reúne funciones auxiliares, constantes, herramientas de logging, configuración o cálculo compartidas por varios módulos del sistema.
 
-### Ejemplos:
-- Parsers de configuración.
-- Cálculo de distancias, transformaciones de coordenadas.
-- Generación de eventos estándar.
+### Ejemplos de contenido:
 
+1. **Parsers de configuración:**
+   - Lectura y validación de archivos `.json`, `.yaml` o `.ini`.
+   - Conversión de parámetros de entorno a estructuras internas.
+
+2. **Funciones matemáticas y geométricas:**
+   - Cálculo de distancias, ángulos, centroide, normalización de vectores.
+   - Transformaciones entre coordenadas de imagen y físicas.
+
+3. **Generación y gestión de eventos estándar:**
+   - Funciones para emitir eventos internos (`emit_event()`), con estructura uniforme.
+   - Enrutamiento básico o logging de eventos generados.
+
+4. **Gestión de tiempo y temporizadores:**
+   - Funciones de medición (`tic-toc`), espera cooperativa o temporización de fases.
+
+5. **Logger global del sistema:**
+   - Inicialización de `logging` estructurado.
+   - Niveles configurables por módulo: `DEBUG`, `INFO`, `ERROR`, etc.
+
+6. **Conversión y formateo:**
+   - Adaptación de unidades, formatos de fecha/hora, traducción de cadenas, codificación segura.
+
+7. **Utilidades de validación y comprobación:**
+   - Comprobaciones de integridad, existencia de archivos, sanitización de entradas.
 
 ## 10. `tests/` – Módulos de prueba
 
-**Función:** Contiene scripts, rutinas y test cases para probar módulos por separado antes de integrarlos.
+**Función:** Contiene scripts, rutinas y test cases destinados a verificar el comportamiento de los diferentes módulos del sistema NORA, tanto de forma aislada como en condiciones simuladas, antes de su integración completa.
 
 ### Subfunciones:
-- Pruebas unitarias.
-- Simulación de eventos.
-- Validación de dispositivos hardware.
+
+1. **Pruebas unitarias:**
+   - Verificación de funciones individuales dentro de cada módulo (`utils`, `datos`, `voz`, etc.).
+   - Uso de frameworks como `unittest`, `pytest` o `doctest`.
+
+2. **Simulación de eventos:**
+   - Generación artificial de eventos del sistema (`EVT_NFC_ACTIVATE`, `EVT_SPEECH_RECOGNIZED`, etc.).
+   - Permite probar flujos sin necesidad de hardware conectado.
+
+3. **Validación de dispositivos hardware:**
+   - Comprobación de conectividad, respuesta y estabilidad de sensores, actuadores, interfaces (NFC, cámara, servos...).
+   - Scripts interactivos para pruebas desde terminal o GUI.
+
+4. **Pruebas de integración parcial:**
+   - Validación de la interacción entre pares de módulos (por ejemplo, `voz` + `dialogo`, `vision` + `sistema`).
+   - Ejecución controlada de flujos de eventos.
+
+5. **Análisis de cobertura y regresión:**
+   - Evaluación de qué partes del código están cubiertas por los tests.
+   - Detección de errores introducidos tras modificaciones recientes.
+
+6. **Benchmarking y estrés:**
+   - Medición de tiempos de respuesta, rendimiento de inferencias, carga de CPU.
+   - Pruebas en condiciones límite o prolongadas.
 
 
 ## 11. `control/` – Módulo de gestión del sistema embebido
@@ -402,6 +541,30 @@ Este documento define los módulos funcionales principales que componen la lógi
    - Permite apagar, reiniciar, lanzar pruebas o exportar logs desde `gui/` o CLI.
    - Define interfaces de control manual o remoto.
 
+5. **Gestión de energía y consumo:**
+   - Controla el encendido/apagado selectivo de periféricos.
+   - Soporta perfiles de bajo consumo para modo reposo o portátil.
+
+6. **Gestión de logs estructurados:**
+   - Registro automático por módulo y tipo de evento.
+   - Rollover y exportación segura de archivos de log.
+
+7. **Diagnóstico de arranque (autotest):**
+   - Autoevaluación al encender: cámara, servos, NFC, sensores.
+   - Emisión de eventos `EVT_SELFTEST_PASS`, `EVT_SELFTEST_FAIL`.
+
+8. **Interfaz remota de administración:**
+   - Servidor embebido para control remoto con navegador.
+   - Acciones remotas de mantenimiento o estado del sistema.
+
+9. **Protección frente a fallos físicos:**
+   - Reinicio automático mediante watchdog interno.
+   - Monitor de sobretemperatura con apagado de emergencia.
+
+10. **Sincronización horaria:**
+   - Inicialización del reloj del sistema (NTP o RTC externo).
+   - Garantiza consistencia temporal en eventos y logs.
+
 ### Entradas:
 - Señales del sistema operativo (monitor de procesos, temperatura).
 - Comandos desde `gui/` o terminal.
@@ -415,3 +578,65 @@ Este documento define los módulos funcionales principales que componen la lógi
 ### Tecnologías:
 - `RPi.GPIO`, `gpiozero`, `pcf8574`, `psutil`, `os`, `subprocess`, `logging`
 - Opcional: `flask` o `websocket` para control remoto desde navegador.
+
+## 12. `sensores/` – Módulo de adquisición y procesamiento ambiental
+
+**Función:** Lectura y procesamiento de sensores físicos conectados a NORA. Publica eventos como temperatura, luz, humedad, calidad del aire y presencia.
+
+### Subfunciones:
+
+1. **Lectura periódica de sensores:**
+
+   - DHT22/BME280 (temperatura y humedad)
+   - TSL2561 (luminosidad)
+   - MQ135/CCS811 (calidad del aire)
+   - DS3231 (hora)
+   - HC-SR04 (presencia física)
+
+2. **Lectura de NFC (PN532):**
+
+   - Detecta y decodifica tarjetas o etiquetas NFC.
+   - Emite eventos como `EVT_NFC_UID_DETECTED` con el identificador de la etiqueta.
+   - Permite reutilización de la lectura por múltiples módulos (activación, perfiles, registros).
+
+3. **Conversión y validación:**
+
+   - Conversión de unidades físicas, validación de rango
+
+4. **Generación de eventos:**
+
+   - Eventos como `EVT_ENV_HOT`, `EVT_DARK_ENV`, `EVT_PRESENCE_CONFIRMED`, `EVT_NFC_UID_DETECTED`
+
+5. **Gestión de sensores BLE e I2C:**
+
+   - Comunicación con periféricos inalámbricos o por bus digital
+
+6. **Publicación de eventos y logging:**
+
+   - Comunicación con `sistema/` y persistencia en `datos/`\*\*
+   - DHT22/BME280 (temperatura y humedad)
+   - TSL2561 (luminosidad)
+   - MQ135/CCS811 (calidad del aire)
+   - DS3231 (hora)
+   - HC-SR04 (presencia física)
+
+7. **Conversión y validación:**
+
+   - Conversión de unidades físicas, validación de rango
+
+8. **Generación de eventos:**
+
+   - Eventos como `EVT_ENV_HOT`, `EVT_DARK_ENV`, `EVT_PRESENCE_CONFIRMED`
+
+9. **Gestión de sensores BLE e I2C:**
+
+   - Comunicación con periféricos inalámbricos o por bus digital
+
+10. **Publicación de eventos y logging:**
+
+    - Comunicación con `sistema/` y persistencia en `datos/`
+
+### Tecnologías:
+
+- `adafruit_dht`, `smbus2`, `gpiozero`, `bleak`, `datetime`, `json`, `paho-mqtt`
+
