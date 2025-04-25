@@ -1,35 +1,38 @@
-# Ficha Específica – `voz_main.py`
+# Ficha Funcional – `voz_main.py`
 
 ## Nombre del archivo:
 `voz_main.py`
 
 ## Responsabilidad principal:
-Coordinar el flujo general del módulo `voz/`. Inicializa los submódulos de entrada (ASR), salida (TTS), análisis emocional de voz, detección de hotword y gestión de actividad vocal. Orquesta la captura de audio, la transcripción, el análisis emocional y la síntesis de respuestas en función de los eventos del sistema.
+Orquestar el funcionamiento general del módulo de voz de NORA, gestionando la interacción entre los distintos submódulos de ASR, TTS, análisis emocional, y otros componentes. Este archivo se encarga de coordinar el flujo de trabajo entre los diferentes módulos de voz, activar el reconocimiento de voz, gestionar la síntesis de voz y aplicar las modulaciones emocionales correspondientes.
 
 ## Entradas esperadas:
-- Flujo de audio capturado en tiempo real (stream PCM).
-- Eventos de activación o reactivación (`EVT_WAKEWORD`, `EVT_USER_START_SPEAKING`, etc.).
-- Comandos de configuración o reconfiguración dinámica.
+- **Tipo de entrada:** Señal de audio para ASR, texto para TTS, eventos de análisis emocional, comandos de voz.
+- **Fuente:** Micrófono USB (para capturar la señal de audio), `sistema/`, `agentes/`, `interfaz/` (para recibir comandos y eventos relacionados con la voz).
+- **Formato o protocolo:** Stream de audio PCM, texto plano, eventos internos (`CMD_...`).
 
 ## Salidas generadas:
-- Texto transcrito del ASR.
-- Audio sintetizado vía TTS.
-- Eventos perceptivos y semánticos:
-  - `EVT_SPEECH_RECOGNIZED`
-  - `EVT_COMMAND_PARSED`
-  - `EVT_EMOTION_AUDIO_ANALYZED`
-  - `EVT_WAKEWORD_DETECTED`
+- **Tipo de salida:** Texto reconocido, audio sintetizado, eventos de control para los submódulos de ASR y TTS.
+- **Destinatario:** `dialogo/`, `sistema/`, `interfaz/`, `agentes/`, hardware de audio.
+- **Ejemplo de salida:**
+  - `EVT_SPEECH_RECOGNIZED` (Texto transcrito del habla).
+  - `EVT_COMMAND_PARSED` (Comando extraído del texto reconocido).
+  - `EVT_WAKEWORD` (Detección de la palabra clave "oye NORA").
+  - Stream de audio sintetizado enviado a salida sonora.
 
-## Funcionalidades principales:
-- Inicialización de dispositivos de entrada/salida de audio.
-- Orquestación de captura, procesamiento, análisis y síntesis.
-- Llamadas secuenciales a `asr.py`, `emocion_audio.py`, `hotword.py`, `parser_comandos.py`, `tts.py`.
-- Gestión de eventos para activar el reconocimiento o la respuesta de voz.
-- Coordinación con `pipeline_audio.py` para un procesamiento eficiente.
-- Gestión de interrupciones (barge-in) y turnos de conversación.
+## Módulos relacionados:
+- **Entrada desde:** `sistema/` (activación del sistema), `agentes/` (modulación de voz y emociones), `interfaz/` (pruebas de voz y control).
+- **Salida hacia:** `dialogo/`, `interfaz/`, `sistema/`, `agentes/` (para manejar las respuestas y los eventos derivados de la voz).
+- **Comunicación bidireccional con:** `dialogo/` (texto), `agentes/` (modulación de voz y emociones).
 
 ## Dependencias técnicas:
-- `pyaudio`, `sounddevice` – Captura y reproducción de audio.
-- `asyncio` – Gestión no bloqueante de streams de audio.
-- Submódulos específicos de `voz/`.
+- **Librerías externas:** `pyaudio`, `pyttsx3`, `vosk`, `whisper`, `numpy`, `scipy`, `webrtcvad`.
+- **Hardware gestionado:** Micrófono USB, salida de audio vía jack o USB.
+- **Protocolos:** PCM para captura y reproducción, eventos internos para coordinar las tareas de voz.
 
+## Notas adicionales:
+Este archivo es el encargado de coordinar la entrada y salida de la información relacionada con la voz. A través de este archivo, NORA podrá reconocer comandos, generar respuestas auditivas y gestionar interrupciones de voz de manera dinámica. Es el "cerebro" que orquesta los módulos de reconocimiento de voz, síntesis de voz y análisis emocional, permitiendo que el sistema sea altamente interactivo y emocionalmente inteligente.
+
+## Archivos previstos del módulo:
+- `voz_main.py`: Orquestador general del módulo (este archivo).
+- Archivos adicionales como `asr.py`, `tts.py`, `vad.py`, `emocion_audio.py`, `parser_comandos.py`, etc.

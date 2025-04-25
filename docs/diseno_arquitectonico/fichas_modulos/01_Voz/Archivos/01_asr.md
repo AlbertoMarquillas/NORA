@@ -1,30 +1,37 @@
-# Ficha Específica – `asr.py`
+# Ficha Funcional – `asr.py`
 
 ## Nombre del archivo:
 `asr.py`
 
 ## Responsabilidad principal:
-Realizar el reconocimiento automático del habla (ASR) a partir del flujo de audio capturado, transcribiendo la voz del usuario en texto para su posterior procesamiento semántico o contextual dentro de NORA.
+Gestionar el reconocimiento automático del habla (ASR) dentro del sistema NORA. Este archivo se encarga de convertir la señal de audio capturada por el micrófono en texto, utilizando modelos de ASR como `Vosk` o `Whisper`. El ASR es una de las partes fundamentales del sistema de voz, ya que permite que NORA entienda los comandos hablados y pueda interactuar con el usuario de manera natural.
 
 ## Entradas esperadas:
-- Stream de audio PCM capturado en tiempo real.
-- Configuraciones dinámicas (idioma, motor ASR seleccionado, sensibilidad a ruido).
+- **Tipo de entrada:** Señal de audio PCM desde el micrófono, comandos de configuración.
+- **Fuente:** Micrófono USB, `sistema/`, `voz_main.py` (para recibir comandos de inicio, pausa o reconfiguración).
+- **Formato o protocolo:** Stream de audio PCM, comandos internos (`CMD_...`), configuraciones en formato JSON.
 
 ## Salidas generadas:
-- Texto transcrito de la voz del usuario.
-- Nivel de confianza en la transcripción.
-- Eventos asociados:
-  - `EVT_SPEECH_RECOGNIZED`
+- **Tipo de salida:** Texto transcrito, eventos de reconocimiento de voz, comandos extraídos del texto.
+- **Destinatario:** `voz_main.py`, `dialogo/`, `sistema/`, `agentes/` (para procesar el texto transcrito y generar respuestas o ejecutar comandos).
+- **Ejemplo de salida:**
+  - `EVT_SPEECH_RECOGNIZED` (Texto transcrito desde la señal de audio).
+  - `EVT_COMMAND_PARSED` (Comando extraído del texto reconocido).
+  - `CMD_EXECUTE_COMMAND` (Instrucción para ejecutar el comando reconocido).
 
-## Funcionalidades principales:
-- Recepción de audio en buffers temporales o streams continuos.
-- Preprocesamiento del audio: normalización de volumen, reducción de ruido si procede.
-- Inferencia mediante modelo de ASR (`Vosk`, `Whisper`, modelo propio).
-- Postprocesado de texto transcrito (opcionalmente aplicado en `normalizacion_texto.py`).
-- Emisión de eventos de texto reconocido junto a métricas de confianza.
+## Módulos relacionados:
+- **Entrada desde:** `voz_main.py` (para recibir la señal de audio y configuraciones).
+- **Salida hacia:** `voz_main.py` (para devolver los resultados del reconocimiento de voz), `dialogo/`, `sistema/` (para ejecutar comandos o respuestas).
+- **Comunicación bidireccional con:** `voz_main.py` (para gestionar la activación y los resultados del ASR), `agentes/` (para ejecutar acciones basadas en el texto transcrito).
 
 ## Dependencias técnicas:
-- `vosk`, `whisper` – Librerías de reconocimiento de voz.
-- `numpy`, `scipy` – Preprocesamiento de señales de audio.
-- `sounddevice`, `pyaudio` – Captura de audio en tiempo real.
+- **Librerías externas:** `vosk`, `whisper`, `pyaudio`, `numpy`, `scipy`.
+- **Hardware gestionado:** Micrófono USB para capturar la señal de audio.
+- **Protocolos:** PCM para captura y reproducción de audio, eventos internos para comunicar los resultados del ASR.
 
+## Notas adicionales:
+El módulo **`asr.py`** es crucial para convertir la voz en texto, lo que permite que NORA interactúe de manera efectiva con el usuario. Este archivo gestiona la configuración y el procesamiento de audio para transcribir el habla en texto que luego puede ser analizado y procesado. Además, se puede configurar para adaptarse a diferentes tipos de micrófonos, condiciones de ruido y modelos de ASR personalizados.
+
+## Archivos previstos del módulo:
+- `asr.py`: Reconocimiento automático del habla (ASR) (este archivo).
+- Archivos adicionales como `voz_main.py`, `tts.py`, `vad.py`.
