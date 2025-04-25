@@ -48,4 +48,3 @@ Listado de archivos `.py` que se espera implementar dentro del directorio `activ
 - `eventos_activacion.py`: Definición y emisión de eventos estándar del módulo.
 - `config_activacion.py`: Parámetros configurables (tiempos de espera, prioridades, fuentes válidas).
 - `utils_activacion.py`: Funciones auxiliares (validación de eventos, debounce de botones, etc.).
-
