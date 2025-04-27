@@ -408,8 +408,66 @@ La información está organizada por **módulo funcional**, indicando las tecnol
   - Uso de `configparser` para configuraciones más simples basadas en INI.
   - Uso de `pydantic` para validación estricta de configuraciones JSON en proyectos que requieran robustez adicional.
 
+## Utils
 
+- **Tecnologías empleadas:**
 
+  - `json`
+  - `yaml`
+  - `logging`
+  - `math`
+  - `datetime`
+  - `os`
+  - `random`
+  - `numpy`
+
+- **Justificación:**
+
+  - `json`, `yaml`: gestión de configuraciones flexibles y estructuradas.
+  - `logging`: registro estructurado de eventos y estados internos del sistema.
+  - `math`, `numpy`: cálculos matemáticos, operaciones vectoriales y estadísticas básicas.
+  - `datetime`: gestión de tiempos y marcas temporales.
+  - `os`: gestión de rutas, archivos y operaciones del sistema operativo.
+  - `random`: generación de decisiones estocásticas controladas.
+
+- **Instalación:**
+
+  - `pip install pyyaml numpy`
+
+- **Alternativas:**
+
+  - Uso de `configparser` para configuraciones más simples basadas en INI.
+  - Uso de `pydantic` para validación estricta de configuraciones JSON en proyectos que requieran robustez adicional.
+
+## Tests
+
+- **Tecnologías empleadas:**
+
+  - `unittest`
+  - `pytest`
+  - `doctest`
+  - `coverage`
+  - `faker`
+  - `mock`
+  - `timeit`
+
+- **Justificación:**
+
+  - `unittest`, `pytest`: frameworks estándar y avanzados para pruebas unitarias y de integración.
+  - `doctest`: validación de ejemplos embebidos en documentación.
+  - `coverage`: análisis de cobertura de pruebas para garantizar calidad de software.
+  - `faker`: generación de datos simulados realistas para escenarios de prueba.
+  - `mock`: simulación de objetos y comportamientos para pruebas controladas.
+  - `timeit`: medición precisa del tiempo de ejecución para evaluar rendimiento.
+
+- **Instalación:**
+
+  - `pip install pytest coverage faker`
+
+- **Alternativas:**
+
+  - `hypothesis` para pruebas basadas en propiedades en lugar de casos concretos.
+  - Integración de herramientas de CI como `GitHub Actions` para ejecución automática de pruebas en pipelines de desarrollo.
 ---
 
 ## Entorno de Desarrollo General
