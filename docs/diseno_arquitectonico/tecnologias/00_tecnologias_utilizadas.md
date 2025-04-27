@@ -187,85 +187,228 @@ La información está organizada por **módulo funcional**, indicando las tecnol
   - Empleo de servicios cloud para reconocimiento y síntesis de voz (Google Speech-to-Text, Amazon Polly) si se admite conectividad.
   - Alternativas a `pandas`: `Polars` para procesamiento de datos más eficiente en ciertos entornos.
 
-### Interacción y Expresividad
+### Sistema
 
 - **Tecnologías empleadas:**
 
-  - `rpi_ws281x`, `neopixel` (control LEDs WS2812)
-  - `RPi.GPIO`, `gpiozero`, `pigpio` (PWM para servos)
-  - `Pillow`, `PyGame` (visualización facial)
+  - `transitions`
+  - `asyncio`
+  - `queue`
+  - `pyee`
+  - `eventbus`
 
 - **Justificación:**
 
-  - Librerías optimizadas para Raspberry Pi.
-  - Control simultáneo de múltiples salidas expresivas (luz, pantalla, movimiento).
+  - `transitions`: permite gestionar de forma estructurada y eficiente la máquina de estados finita (FSM) que orquesta el comportamiento global de NORA.
+  - `asyncio`: soporta la ejecución concurrente de tareas relacionadas con eventos y transiciones de estado en tiempo real.
+  - `queue`: facilita la gestión interna de eventos y comandos mediante colas de mensajes seguras y asincrónicas.
+  - `pyee`, `eventbus`: utilizados para el enrutamiento de eventos entre módulos y agentes, asegurando una comunicación robusta.
 
 - **Instalación:**
 
-  - `pip install rpi_ws281x neopixel RPi.GPIO gpiozero pigpio pillow pygame`
+  - `pip install transitions`
 
 - **Alternativas:**
 
-  - `PyQt5` para visualización más avanzada.
-  - `Adafruit CircuitPython` para unificación de control de LEDs y servos.
+  - Implementación manual de FSM mediante clases y `asyncio`.
+  - Uso de librerías más avanzadas como `Sismic` si en el futuro se requiere modelado visual de la FSM.
 
-### Control General
+
+### Interfaz
 
 - **Tecnologías empleadas:**
 
-  - `psutil`, `os`, `subprocess`, `logging`
-  - `flask` o `websocket` (opcional para control remoto)
+  - `rpi_ws281x`
+  - `neopixel`
+  - `RPi.GPIO`
+  - `pigpio`
+  - `Pillow`
+  - `PyGame`
+  - `PyQt5`
+  - `tkinter`
 
 - **Justificación:**
 
-  - Supervisión del sistema operativo y hardware mediante librerías ligeras.
-  - Opcionalmente exponer control técnico vía navegador.
+  - `rpi_ws281x`, `neopixel`: control de tiras LED WS2812 con alta precisión de temporización.
+  - `RPi.GPIO`, `pigpio`: control directo de pines GPIO para LEDs y servomotores.
+  - `Pillow`: creación de gráficos y animaciones para pantallas OLED/TFT.
+  - `PyGame`, `PyQt5`, `tkinter`: opciones para implementación de interfaces gráficas y simuladores visuales.
 
 - **Instalación:**
 
-  - `pip install psutil flask websocket-client`
+  - `pip install rpi_ws281x neopixel RPi.GPIO pigpio Pillow pygame pyqt5`
 
 - **Alternativas:**
 
-  - `dash`, `streamlit` para paneles de control rápidos.
+  - Uso de controladores LED SPI más avanzados como `DotStar` en lugar de WS2812 si se necesita mayor rendimiento.
+  - Sustitución de `PyGame` o `tkinter` por `Kivy` para interfaces gráficas más dinámicas.
 
-### Activación NFC
+### Diálogo
 
 - **Tecnologías empleadas:**
 
-  - `Adafruit_PN532` (librería de comunicación NFC)
+  - `transformers`
+  - `sentence-transformers`
+  - `nltk`
+  - `spacy`
+  - `json`
 
 - **Justificación:**
 
-  - Soporte directo para Raspberry Pi y múltiples protocolos (I2C, UART, SPI).
+  - `transformers`, `sentence-transformers`: permiten implementar modelos ligeros de NLU (Natural Language Understanding) y NLG (Natural Language Generation), optimizados para reconocimiento de intención y generación de texto.
+  - `nltk`, `spacy`: herramientas de procesamiento de lenguaje natural para análisis sintáctico, corrección y normalización de texto.
+  - `json`: formato ligero para gestionar la configuración dinámica de diálogos, respuestas predefinidas y estructuras de intención.
 
 - **Instalación:**
 
-  - `pip install adafruit-circuitpython-pn532`
+  - `pip install transformers sentence-transformers nltk spacy`
 
 - **Alternativas:**
 
-  - Implementación manual del protocolo NFC en Python usando `smbus2`.
+  - Utilizar `Rasa NLU/NLG` para procesamiento conversacional si se requiere una solución embebida más estructurada.
+  - Migrar en el futuro a `LLama.cpp` o implementaciones similares si se busca optimización en dispositivos ARM.
 
-### Almacenamiento Local
+## Datos
 
 - **Tecnologías empleadas:**
 
   - `sqlite3`
-  - `dataset` (ORM opcional)
+  - `dataset`
+  - `SQLAlchemy`
+  - `json`
+  - `datetime`
 
 - **Justificación:**
 
-  - `sqlite3` está integrado en Python, sin necesidad de servicios externos.
-  - `dataset` simplifica el acceso estructurado a bases de datos pequeñas.
+  - `sqlite3`, `dataset`, `SQLAlchemy`: gestión de bases de datos ligeras y persistencia estructurada de información en dispositivos locales.
+  - `json`: almacenamiento flexible de configuraciones, registros de eventos y datos no relacionales.
+  - `datetime`: gestión precisa de marcas de tiempo en historiales, rutinas, y registros de hábitos.
 
 - **Instalación:**
 
-  - `pip install dataset`
+  - `pip install dataset sqlalchemy`
 
 - **Alternativas:**
 
-  - `SQLAlchemy` para bases de datos más complejas o migraciones.
+  - Uso de `TinyDB` para almacenamiento JSON puro en sistemas extremadamente limitados.
+  - Uso de `DuckDB` para consultas analíticas más complejas si el historial de datos crece considerablemente.
+
+## Control
+
+- **Tecnologías empleadas:**
+
+  - `RPi.GPIO`
+  - `gpiozero`
+  - `smbus2`
+  - `psutil`
+  - `os`
+  - `subprocess`
+  - `logging`
+
+- **Justificación:**
+
+  - `RPi.GPIO`, `gpiozero`: gestión de entradas y salidas digitales (GPIO) para control de periféricos físicos.
+  - `smbus2`: comunicación I2C con expansores de I/O y otros dispositivos.
+  - `psutil`: monitorización avanzada de estado del sistema (CPU, memoria, redes).
+  - `os`, `subprocess`: ejecución de comandos del sistema operativo para control de energía, red y tareas administrativas.
+  - `logging`: registro estructurado de eventos de diagnóstico y operación.
+
+- **Instalación:**
+
+  - `pip install RPi.GPIO gpiozero smbus2 psutil`
+
+- **Alternativas:**
+
+  - Uso de `pigpio` en lugar de `RPi.GPIO` si se requiere control de PWM y gestión remota de GPIOs más precisa.
+  - `supervisor` o `systemd` para gestionar demonios de control de procesos si se amplía el sistema.
+
+## GUI
+
+- **Tecnologías empleadas:**
+
+  - `tkinter`
+  - `PyQt5`
+  - `PySide2`
+  - `flask`
+  - `dash`
+  - `streamlit`
+
+- **Justificación:**
+
+  - `tkinter`, `PyQt5`, `PySide2`: creación de interfaces gráficas locales para control, diagnóstico y configuración del sistema NORA.
+  - `flask`, `dash`, `streamlit`: exposición de la GUI vía servidor web local o remoto para administración distribuida.
+
+- **Instalación:**
+
+  - `pip install tkinter pyqt5 pyside2 flask dash streamlit`
+
+- **Alternativas:**
+
+  - Uso de `DearPyGui` o `Gradio` para interfaces más ligeras si se busca reducir la carga gráfica o simplificar el despliegue web.
+
+## Models
+
+- **Tecnologías empleadas:**
+
+  - `TensorFlow`
+  - `PyTorch`
+  - `scikit-learn`
+  - `MediaPipe`
+  - `transformers`
+  - `sentence-transformers`
+  - `OpenCV`
+  - `numpy`
+
+- **Justificación:**
+
+  - `TensorFlow`, `PyTorch`: gestión y ejecución de modelos de IA en visión, voz, emociones y hábitos.
+  - `scikit-learn`: modelos ligeros de clasificación y análisis de hábitos o datos estructurados.
+  - `MediaPipe`: detección de gestos, poses y reconocimiento facial de forma optimizada.
+  - `transformers`, `sentence-transformers`: procesamiento avanzado de lenguaje natural para NLU y embeddings textuales.
+  - `OpenCV`: preprocesamiento de imágenes para modelos de visión artificial.
+  - `numpy`: manipulación de matrices y tensores de entrada y salida de modelos.
+
+- **Instalación:**
+
+  - `pip install tensorflow torch scikit-learn mediapipe transformers sentence-transformers opencv-python numpy`
+
+- **Alternativas:**
+
+  - Uso de `ONNX Runtime` para ejecutar modelos optimizados en dispositivos con recursos limitados.
+  - Uso de `tflite` para optimizar modelos TensorFlow destinados a microcontroladores o Raspberry Pi.
+
+## Utils
+
+- **Tecnologías empleadas:**
+
+  - `json`
+  - `yaml`
+  - `logging`
+  - `math`
+  - `datetime`
+  - `os`
+  - `random`
+  - `numpy`
+
+- **Justificación:**
+
+  - `json`, `yaml`: gestión de configuraciones flexibles y estructuradas.
+  - `logging`: registro estructurado de eventos y estados internos del sistema.
+  - `math`, `numpy`: cálculos matemáticos, operaciones vectoriales y estadísticas básicas.
+  - `datetime`: gestión de tiempos y marcas temporales.
+  - `os`: gestión de rutas, archivos y operaciones del sistema operativo.
+  - `random`: generación de decisiones estocásticas controladas.
+
+- **Instalación:**
+
+  - `pip install pyyaml numpy`
+
+- **Alternativas:**
+
+  - Uso de `configparser` para configuraciones más simples basadas en INI.
+  - Uso de `pydantic` para validación estricta de configuraciones JSON en proyectos que requieran robustez adicional.
+
+
 
 ---
 
@@ -306,5 +449,5 @@ El stack tecnológico seleccionado para **NORA** prioriza:
 
 > Versión inicial: 26 Abril 2025.
 
-> Actualización: Inclusión de dependencias de submódulos específicos de los módulos `vision/`, `voz/`, `sensores/`, `activacion/` y `agentes/`.
+> Actualización: Inclusión de dependencias de submódulos específicos de los módulos `vision/`, `voz/`, `sensores/`, `activacion/`, `agentes/`, `sistema/`, `interfaz/` y `dialogo/`.
 
