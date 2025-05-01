@@ -223,7 +223,7 @@ Justificación:
 - Representación visual del rostro de NORA.
 - Comunicación visual directa con el usuario.
 - La OLED es más simple; la TFT puede representar más detalles.
-- Alternativa recomendada: OLED 0.96” SPI (SSD1306) para prototipos.
+- Alternativa recomendada: OLED 0.96” SPI (SSD1306).
 
 Agente:
 - Expresividad 
@@ -231,7 +231,7 @@ Agente:
 
 Datasheets
 
-[Datasheet Pantalla TFT 1.8" SPI – ST7735](datasheets/ST7735.pdf)
+[Datasheet Pantalla OLED 0.96” SPI – SSD1306](datasheets/SSD1306.pdf)
 
 Componente propuesto: **Servomotores SG90/MG90**
 
