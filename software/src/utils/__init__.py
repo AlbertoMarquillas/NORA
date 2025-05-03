@@ -1,1 +1,0 @@
-# M�dulo utils - inicializado

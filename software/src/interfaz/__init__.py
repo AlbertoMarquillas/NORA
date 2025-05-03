@@ -1,1 +1,0 @@
-# Módulo interfaz - inicializado
