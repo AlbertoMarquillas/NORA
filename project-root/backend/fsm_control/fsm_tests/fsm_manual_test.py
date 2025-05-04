@@ -9,16 +9,15 @@ import time
 from fsm_control.fsm_controller import FSMController
 from fsm_control.definitions.fsm_definitions import FSMEvent
 from fsm_control.definitions.fsm_conditions import FSMContext
+from fsm_control.fsm_tests.fsm_test_profiles import contexto_normal, contexto_sin_usuario, contexto_audio_caido, contexto_idle_total, contexto_visual_atencion
+
 
 
 # Instanciar controlador
 fsm = FSMController()
 
 # Actualizar contexto simulado
-fsm.actualizar_contexto(FSMContext(
-    usuario_presente=True,
-    modulo_audio_operativo=True
-))
+fsm.actualizar_contexto(contexto_normal)
 
 # Secuencia de prueba: simulamos varios eventos en orden
 secuencia_eventos = [
