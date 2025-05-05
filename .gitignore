@@ -1,2 +1,6 @@
 # Entorno virtual (colocado en la raíz del proyecto)
 env/
+
+node_modules/
+dist/
+.env*
