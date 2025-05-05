@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import '../styles/EstadoSistema.css';
 
-const Monitoreo = () => {
+const Agentes = () => {
   const navigate = useNavigate();
 
   const handleAction = async (action) => {
@@ -23,14 +23,13 @@ const Monitoreo = () => {
 
   return (
     <div className="estado-container">
-      <h2>Monitoreo en Tiempo Real</h2>
+      <h2>Control de Agentes y Núcleo</h2>
       <div className="actions-container">
-        <button onClick={() => handleAction('verUsoCPU')}>Ver Uso de CPU</button>
-        <button onClick={() => handleAction('verUsoMemoria')}>Ver Uso de Memoria</button>
-        <button onClick={() => handleAction('verLogsSistema')}>Ver Logs del Sistema</button>
-        <button onClick={() => handleAction('verLogsUsuario')}>Ver Logs del Usuario</button>
-        <button onClick={() => handleAction('verActividadReciente')}>Ver Actividad Reciente</button>
-        <button onClick={() => handleAction('mostrarVariables')}>Mostrar Variables Internas</button>
+        <button onClick={() => handleAction('evaluarContexto')}>Forzar Evaluación de Contexto</button>
+        <button onClick={() => handleAction('accionReflexiva')}>Forzar Acción Reflexiva</button>
+        <button onClick={() => handleAction('resetEmocional')}>Reset Emocional del Sistema</button>
+        <button onClick={() => handleAction('estadoAgenteCoordinador')}>Estado del Agente Coordinador</button>
+        <button onClick={() => handleAction('estadoTodosAgentes')}>Estado de Todos los Agentes</button>
       </div>
       <div style={{ textAlign: 'center', marginTop: '30px' }}>
         <button onClick={() => navigate('/debug/estado')}>← Volver al Panel Principal</button>
@@ -39,4 +38,4 @@ const Monitoreo = () => {
   );
 };
 
-export default Monitoreo;
+export default Agentes;

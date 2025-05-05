@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import '../styles/EstadoSistema.css';
 
-const Monitoreo = () => {
+const Admin = () => {
   const navigate = useNavigate();
 
   const handleAction = async (action) => {
@@ -23,14 +23,14 @@ const Monitoreo = () => {
 
   return (
     <div className="estado-container">
-      <h2>Monitoreo en Tiempo Real</h2>
+      <h2>Acciones del Administrador</h2>
       <div className="actions-container">
-        <button onClick={() => handleAction('verUsoCPU')}>Ver Uso de CPU</button>
-        <button onClick={() => handleAction('verUsoMemoria')}>Ver Uso de Memoria</button>
-        <button onClick={() => handleAction('verLogsSistema')}>Ver Logs del Sistema</button>
-        <button onClick={() => handleAction('verLogsUsuario')}>Ver Logs del Usuario</button>
-        <button onClick={() => handleAction('verActividadReciente')}>Ver Actividad Reciente</button>
-        <button onClick={() => handleAction('mostrarVariables')}>Mostrar Variables Internas</button>
+        <button onClick={() => handleAction('crearUsuario')}>Crear Usuario</button>
+        <button onClick={() => handleAction('eliminarUsuario')}>Eliminar Usuario</button>
+        <button onClick={() => handleAction('modificarUsuario')}>Modificar Usuario</button>
+        <button onClick={() => handleAction('verConfiguracionAvanzada')}>Ver Configuración Avanzada</button>
+        <button onClick={() => handleAction('descargarLogs')}>Descargar Logs del Sistema</button>
+        <button onClick={() => handleAction('forzarActualizacion')}>Forzar Actualización de Software</button>
       </div>
       <div style={{ textAlign: 'center', marginTop: '30px' }}>
         <button onClick={() => navigate('/debug/estado')}>← Volver al Panel Principal</button>
@@ -39,4 +39,4 @@ const Monitoreo = () => {
   );
 };
 
-export default Monitoreo;
+export default Admin;

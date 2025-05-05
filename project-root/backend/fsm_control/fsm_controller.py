@@ -12,13 +12,29 @@ Permite una integración centralizada y extensible con el resto del sistema.
 import time
 import heapq
 from typing import List, Callable, Tuple, Optional
-
+import logging
+from evento.models import TransicionFSM
+        
 from fsm_control.definitions.fsm_definitions import FSMState, FSMEvent
 from fsm_control.definitions.fsm_transitions import FSM_TRANSITIONS
 from fsm_control.definitions.fsm_priority import FSM_EVENT_PRIORITY, DEFAULT_EVENT_PRIORITY
 from fsm_control.definitions.fsm_conditions import FSMContext, condicion_siempre
 from fsm_control.definitions.fsm_guard_clauses import guardia_siempre_permitido
 from fsm_control.definitions.fsm_emotional_states import EmotionalStatus
+
+import logging
+from evento.models import TransicionFSM
+
+# Configuración del logger FSM (solo una vez)
+logger = logging.getLogger('fsm')
+logger.setLevel(logging.INFO)
+
+if not logger.handlers:
+    fh = logging.FileHandler('logs/fsm.log')
+    formatter = logging.Formatter('%(asctime)s - %(message)s')
+    fh.setFormatter(formatter)
+    logger.addHandler(fh)
+
 
 class PendingEvent:
     """Representa un evento pendiente ordenado por prioridad y timestamp."""
@@ -81,8 +97,22 @@ class FSMController:
 
     def _transicionar(self, nuevo_estado: FSMState, evento: FSMEvent):
         """Ejecuta el cambio de estado y registra el evento."""
-        print(f"[FSM] Transición: {self.estado_actual.name} --({evento.name})--> {nuevo_estado.name}")
+        estado_anterior = self.estado_actual.name
         self.estado_actual = nuevo_estado
+
+        # Log estructurado
+        log_msg = f"[FSM] {estado_anterior} --({evento.name})--> {nuevo_estado.name}"
+        print(log_msg)
+        logger.info(log_msg)
+
+        # Registro en base de datos
+        TransicionFSM.objects.create(
+            estado_anterior=estado_anterior,
+            evento=evento.name,
+            estado_nuevo=nuevo_estado.name
+        )
+
+
         # Aquí se podrían emitir señales, actualizar GUI o registrar logs estructurados
 
     def actualizar_contexto(self, nuevo_contexto: FSMContext):
