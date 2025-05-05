@@ -1,0 +1,50 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html, body, #root {
+    height: 100%;   
+    width: 100%;
+  }
+  
+  
+  /* Fuente principal */
+  body {
+    font-family: 'Segoe UI', 'Roboto', sans-serif;
+    background-color: #1e1e1e;
+    color: #f2f2f2;
+    line-height: 1.6;
+  }
+  
+  /* Enlaces */
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  /* Botones */
+  button {
+    padding: 0.5rem 1.2rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    background-color: #0080ff;
+    color: white;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #005fbb;
+  }
+  
+  /* Contenedores generales */
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+  
