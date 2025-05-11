@@ -24,13 +24,23 @@ from fsm_control.definitions.fsm_emotional_states import EmotionalStatus
 
 import logging
 from evento.models import TransicionFSM
+import os
+import logging
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+LOG_DIR = os.path.join(BASE_DIR, 'backend', 'logs')
+os.makedirs(LOG_DIR, exist_ok=True)
+
+LOG_PATH = os.path.join(LOG_DIR, 'fsm.log')
+
+
 
 # Configuración del logger FSM (solo una vez)
 logger = logging.getLogger('fsm')
 logger.setLevel(logging.INFO)
 
 if not logger.handlers:
-    fh = logging.FileHandler('logs/fsm.log')
+    fh = logging.FileHandler(LOG_PATH)
     formatter = logging.Formatter('%(asctime)s - %(message)s')
     fh.setFormatter(formatter)
     logger.addHandler(fh)

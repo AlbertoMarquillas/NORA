@@ -2,11 +2,11 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
 
-from sensors.modules.temperatura import leer_temperatura
-from fsm_control.evaluadores import evaluar_evento_temperatura
+from sensors.modules.humedad import leer_humedad
+from fsm_control.evaluadores import evaluar_evento_humedad
 
 @csrf_exempt
-def sensor_temperatura(request):
+def sensor_humedad(request):
     if request.method != 'POST':
         return JsonResponse({'error': 'Método no permitido'}, status=405)
 
@@ -15,8 +15,8 @@ def sensor_temperatura(request):
         valor_simulado = data.get('value')
         estado_actual = data.get('current_state')
 
-        temperatura = leer_temperatura(valor_simulado)
-        evento_futuro = evaluar_evento_temperatura(temperatura, estado_actual)
+        humedad = leer_humedad(valor_simulado)
+        evento_futuro = evaluar_evento_humedad(humedad, estado_actual)
 
         return JsonResponse({'evento_futuro': evento_futuro})
     except json.JSONDecodeError:
