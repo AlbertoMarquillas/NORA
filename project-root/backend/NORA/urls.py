@@ -24,4 +24,6 @@ urlpatterns = [
     path('api/system/', include('system.urls')),
     path('api/eventos/', include('evento.urls')),
     path('api/', include('fsm_control.urls')),
+    path('api/sensors/', include('sensors.urls')),
+
 ]

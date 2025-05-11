@@ -3,20 +3,16 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 
 @csrf_exempt
-def sensor_data(request):
+def sensor_presencia(request):
     if request.method != 'POST':
         return JsonResponse({'error': 'Método no permitido'}, status=405)
 
     try:
         data = json.loads(request.body.decode('utf-8'))
-        sensor = data.get('sensor')
-        value = data.get('value')
-        current_state = data.get('current_state')
+        presencia = data.get('value')
+        estado_actual = data.get('current_state')
 
-        # Aquí puedes hacer algo con los datos
-        print(f"Sensor: {sensor}, Valor: {value}, Estado actual: {current_state}")
-
-        return JsonResponse({'evento_futuro': None})  # o el evento que corresponda
-
+        evento_futuro = "EVT_PRESENCE_CONFIRMED" if presencia else None
+        return JsonResponse({'evento_futuro': evento_futuro})
     except json.JSONDecodeError:
         return JsonResponse({'error': 'JSON inválido'}, status=400)
