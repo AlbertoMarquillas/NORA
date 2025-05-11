@@ -8,12 +8,14 @@ class FSMState(Enum):
     reflejando tanto su disponibilidad funcional como su foco de atención o actividad principal.
     Estos estados son mutuamente excluyentes y se gestionan de forma determinista mediante la FSM.
     """
-    REPOSO = auto()         # Estado de bajo consumo o inactividad sin interacción activa.
-    ACTIVADO = auto()       # Estado de activación general tras un estímulo válido.
-    ESCUCHA = auto()        # Estado en el que se espera entrada verbal del usuario.
-    ATENCION = auto()       # Estado centrado en interacción visual o gestual.
-    PROCESANDO = auto()     # Estado interno de análisis y generación de respuesta.
-    ERROR = auto()          # Estado de fallo detectado que requiere recuperación.
+    INACTIVO = auto()
+    ACTIVO = auto()
+    ESCUCHANDO = auto()
+    PROCESANDO = auto()
+    RESPONDIENDO = auto()
+    ERROR = auto()
+    DURMIENDO = auto()
+
 
 class FSMEvent(Enum):
     """

@@ -1,140 +1,100 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import Navbar from "@/components/Navbar"; // ✅ añadimos el Navbar
+import Navbar from "@/components/Navbar";
+import {
+  eventLabels,
+  eventGroups,
+  fsmTransitions,
+  nodePositions,
+  stateColors,
+  NoraEvent,
+  NoraState,
+  EventLog,
+} from "@/components/InteractionDef";
 
-// Define FSM states and events
-type NoraState =
-  | "IDLE"
-  | "ACTIVE"
-  | "LISTENING"
-  | "PROCESSING"
-  | "RESPONDING"
-  | "ERROR"
-  | "SLEEP";
-
-type NoraEvent =
-  | "EVT_WAKEWORD"
-  | "EVT_PHYSICAL_TILT"
-  | "EVT_PRESENCE"
-  | "EVT_GUI_CLICK"
-  | "EVT_VOICE_COMMAND"
-  | "EVT_NFC_VALID"
-  | "EVT_NFC_INVALID"
-  | "EVT_TIMEOUT"
-  | "EVT_ERROR"
-  | "EVT_COMPLETE"
-  | "EVT_SLEEP";
-
-interface EventLog {
-  id: number;
-  event: NoraEvent;
-  timestamp: Date;
-  fromState: NoraState;
-  toState: NoraState;
-}
-
-const fsmTransitions: Record<NoraState, Partial<Record<NoraEvent, NoraState>>> = {
-  IDLE: {
-    EVT_WAKEWORD: "ACTIVE",
-    EVT_PHYSICAL_TILT: "ACTIVE",
-    EVT_PRESENCE: "ACTIVE",
-    EVT_GUI_CLICK: "ACTIVE",
-    EVT_SLEEP: "SLEEP",
-  },
-  ACTIVE: {
-    EVT_VOICE_COMMAND: "LISTENING",
-    EVT_GUI_CLICK: "LISTENING",
-    EVT_NFC_VALID: "PROCESSING",
-    EVT_NFC_INVALID: "ERROR",
-    EVT_TIMEOUT: "IDLE",
-    EVT_ERROR: "ERROR",
-    EVT_SLEEP: "SLEEP",
-  },
-  LISTENING: {
-    EVT_VOICE_COMMAND: "PROCESSING",
-    EVT_TIMEOUT: "IDLE",
-    EVT_ERROR: "ERROR",
-    EVT_SLEEP: "SLEEP",
-  },
-  PROCESSING: {
-    EVT_COMPLETE: "RESPONDING",
-    EVT_ERROR: "ERROR",
-    EVT_TIMEOUT: "IDLE",
-    EVT_SLEEP: "SLEEP",
-  },
-  RESPONDING: {
-    EVT_COMPLETE: "IDLE",
-    EVT_VOICE_COMMAND: "LISTENING",
-    EVT_GUI_CLICK: "LISTENING",
-    EVT_ERROR: "ERROR",
-    EVT_SLEEP: "SLEEP",
-  },
-  ERROR: {
-    EVT_GUI_CLICK: "IDLE",
-    EVT_PHYSICAL_TILT: "IDLE",
-    EVT_SLEEP: "SLEEP",
-  },
-  SLEEP: {
-    EVT_WAKEWORD: "IDLE",
-    EVT_PHYSICAL_TILT: "IDLE",
-    EVT_GUI_CLICK: "IDLE",
-  },
-};
-
-const eventGroups = {
-  Voice: ["EVT_WAKEWORD", "EVT_VOICE_COMMAND"],
-  Physical: ["EVT_PHYSICAL_TILT", "EVT_PRESENCE"],
-  Interface: ["EVT_GUI_CLICK", "EVT_NFC_VALID", "EVT_NFC_INVALID"],
-  System: ["EVT_TIMEOUT", "EVT_ERROR", "EVT_COMPLETE", "EVT_SLEEP"],
-};
-
-const nodePositions: Record<NoraState, { x: number; y: number }> = {
-  IDLE: { x: 40, y: 30 },
-  ACTIVE: { x: 320, y: 60 },
-  LISTENING: { x: 700, y: 30 },
-  PROCESSING: { x: 700, y: 300 },
-  RESPONDING: { x: 320, y: 250 },
-  ERROR: { x: 160, y: 180 },
-  SLEEP: { x: 40, y: 300 },
-};
-
-const stateColors: Record<NoraState, string> = {
-  IDLE: "bg-slate-700",
-  ACTIVE: "bg-cyan-600",
-  LISTENING: "bg-cyan-400",
-  PROCESSING: "bg-purple-500",
-  RESPONDING: "bg-green-500",
-  ERROR: "bg-red-500",
-  SLEEP: "bg-slate-900",
-};
+// Tu componente principal ahora solo tiene que importar y usar los elementos
 
 const NoraInteractionPage = () => {
-  const [currentState, setCurrentState] = useState<NoraState>("IDLE");
+  const [currentState, setCurrentState] = useState<NoraState>("INACTIVO");
   const [eventLog, setEventLog] = useState<EventLog[]>([]);
+  const [temperature, setTemperature] = useState<number>(22.0);
   const [highlightedTransition, setHighlightedTransition] = useState<{
     from: NoraState;
     to: NoraState;
   } | null>(null);
 
-  const handleEvent = (event: NoraEvent) => {
-    const nextState = fsmTransitions[currentState][event];
-    if (nextState) {
-      const newLog: EventLog = {
-        id: Date.now(),
-        event,
-        timestamp: new Date(),
-        fromState: currentState,
-        toState: nextState,
-      };
-      setEventLog((prev) => [newLog, ...prev].slice(0, 5));
-      setHighlightedTransition({ from: currentState, to: nextState });
-      setTimeout(() => {
-        setCurrentState(nextState);
-        setTimeout(() => setHighlightedTransition(null), 500);
-      }, 500);
+  const enviarEventoAlBackend = async (eventoActual: NoraEvent) => {
+    console.log("Enviando evento al backend:", eventoActual, "desde", currentState);
+
+    try {
+      const res = await fetch("http://localhost:8000/api/evento/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          type: "fsm_event",
+          evento: eventoActual,
+          descripcion: "",
+        }),
+      });
+
+      const data = await res.json();
+      console.log("Respuesta del backend:", data);
+
+      if (!res.ok) throw new Error("Error en la respuesta del backend");
+
+      const estadoNuevo = normalizaEstado(data.nuevo_estado);
+
+      console.log(
+        "Estado nuevo recibido del backend:",
+        estadoNuevo,
+        "Estado actual:",
+        currentState,
+        "Evento actual:",
+        eventoActual
+      );
+
+      console.log("TRANSICION:", fsmTransitions[currentState][eventoActual]);
+
+      if (fsmTransitions[currentState][eventoActual] === estadoNuevo) {
+        realizarTransicion(eventoActual);
+      } else {
+        console.warn("Evento válido pero transición no encontrada");
+      }
+    } catch (error) {
+      console.error("Fallo al enviar evento al backend:", error);
     }
+  };
+
+  const normalizaEstado = (estado: string): NoraState => {
+    const mapeo: Record<string, NoraState> = {
+      ACTIVADO: "ACTIVO",
+      ESCUCHA: "ESCUCHANDO",
+    };
+    return (mapeo[estado] || estado) as NoraState;
+  };
+
+  const realizarTransicion = (evento: NoraEvent) => {
+
+    const nextState = fsmTransitions[currentState][evento];
+    if (!nextState) return;
+
+    const newLog: EventLog = {
+      id: Date.now(),
+      event: evento,
+      timestamp: new Date(),
+      fromState: currentState,
+      toState: nextState,
+    };
+
+    setEventLog((prev) => [newLog, ...prev].slice(0, 5));
+    setHighlightedTransition({ from: currentState, to: nextState });
+
+    setTimeout(() => {
+      setCurrentState(nextState);
+      setTimeout(() => setHighlightedTransition(null), 500);
+    }, 500);
   };
 
   const isEventValid = (event: NoraEvent) => {
@@ -149,19 +109,42 @@ const NoraInteractionPage = () => {
     });
   };
 
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      fetch("http://localhost:8000/api/sensor/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          sensor: "temperatura",
+          value: temperature,
+          current_state: currentState,
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data && data.evento_futuro && isEventValid(data.evento_futuro)) {
+            realizarTransicion(data.evento_futuro);
+          }
+        })
+        .catch((err) => {
+          console.error("Error enviando sensor:", err);
+        });
+    }, 500);
+
+    return () => clearTimeout(timeout);
+  }, [temperature]);
+
   return (
     <div className="min-h-screen bg-black text-white font-['Roboto',sans-serif] px-6 pt-24">
       <Navbar />
       <div className="max-w-screen-xl mx-auto">
-        <h1 className="text-3xl font-bold text-cyan-400 mb-6">
-          NORA Interaction Simulator
-        </h1>
+        <h1 className="text-3xl font-bold text-cyan-400 mb-6">NORA Interaction Simulator</h1>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="bg-[#1a1a1a] border border-gray-800 rounded-xl p-6 shadow-inner">
-            <h2 className="text-xl font-semibold mb-4 text-cyan-300">
-              Interaction Events
-            </h2>
+            <h2 className="text-xl font-semibold mb-4 text-cyan-300">Interaction Events</h2>
             {Object.entries(eventGroups).map(([group, events]) => (
               <div key={group} className="mb-6">
                 <h3 className="text-md font-medium mb-2 text-cyan-200">{group}</h3>
@@ -169,22 +152,41 @@ const NoraInteractionPage = () => {
                   {events.map((evt) => (
                     <Button
                       key={evt}
-                      onClick={() => handleEvent(evt as NoraEvent)}
-                      disabled={!isEventValid(evt as NoraEvent)}
-                      variant={isEventValid(evt as NoraEvent) ? "default" : "outline"}
+                      onClick={() => enviarEventoAlBackend(evt)}
+                      disabled={!isEventValid(evt)}
+                      variant={isEventValid(evt) ? "default" : "outline"}
                       className={cn(
                         "text-sm px-3 py-2",
-                        isEventValid(evt as NoraEvent)
+                        isEventValid(evt)
                           ? "hover:bg-cyan-600"
                           : "opacity-50 cursor-not-allowed"
                       )}
                     >
-                      {evt.replace("EVT_", "").replace("_", " ")}
+                      {eventLabels[evt]}
                     </Button>
                   ))}
                 </div>
               </div>
             ))}
+
+            <div className="bg-[#1a1a1a] border border-gray-800 rounded-xl p-6 shadow-inner">
+              <h2 className="text-xl font-semibold mb-4 text-orange-400">Sensores</h2>
+              <div className="mb-6">
+                <label htmlFor="sensor-temp" className="block text-sm font-medium text-orange-300 mb-2">
+                  Temperatura ambiental: {temperature} °C
+                </label>
+                <input
+                  id="sensor-temp"
+                  type="range"
+                  min={-10}
+                  max={50}
+                  step={0.5}
+                  value={temperature}
+                  onChange={(e) => setTemperature(parseFloat(e.target.value))}
+                  className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
+                />
+              </div>
+            </div>
           </div>
 
           <div className="lg:col-span-2 bg-[#1a1a1a] border border-gray-800 rounded-xl p-6 shadow-inner">
@@ -261,7 +263,7 @@ const NoraInteractionPage = () => {
                       >
                         <div className="flex justify-between">
                           <span className="font-medium">
-                            {log.event.replace("EVT_", "")}
+                            {eventLabels[log.event]}
                           </span>
                           <span className="text-slate-400 text-sm">
                             {formatTime(log.timestamp)}

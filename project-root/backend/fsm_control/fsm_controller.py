@@ -54,7 +54,7 @@ class FSMController:
     Gestiona el ciclo completo de recepción, evaluación y transición de estados.
     """
     def __init__(self):
-        self.estado_actual: FSMState = FSMState.REPOSO
+        self.estado_actual: FSMState = FSMState.INACTIVO
         self.contexto: FSMContext = FSMContext()
         self.estado_emocional: EmotionalStatus = EmotionalStatus()
         self.event_queue: List[PendingEvent] = []

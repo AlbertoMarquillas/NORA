@@ -11785,9 +11785,10 @@ D:.
 |   \---migrations
 |           __init__.py
 |           
-+---log
++---logs
 |   |   admin.py
 |   |   apps.py
+|   |   fsm.log
 |   |   models.py
 |   |   tests.py
 |   |   views.py

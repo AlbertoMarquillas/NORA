@@ -45,3 +45,4 @@ def recibir_evento_fsm(request):
 
     except json.JSONDecodeError:
         return JsonResponse({'error': 'JSON inválido'}, status=400)
+ 
