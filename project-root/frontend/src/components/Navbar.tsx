@@ -14,7 +14,6 @@ import { useAuth } from "../context/AuthContext";
 
 import api from "../services/api"; // Asegúrate de tener esta instancia configurada
 
-
 const Navbar = () => {
   const {
     isAuthenticated,

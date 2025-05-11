@@ -11,6 +11,7 @@ import { useAuth } from "./context/AuthContext";
 import PrivateRoute from "./routes/PrivateRoute";
 import AdminRoute from "./routes/AdminRoute";
 import GuestRedirect from "./routes/GuestRedirect";
+import ConnectionStatusBar from "./components/ConnectionStatusBar";
 
 function App() {
   const { isAdmin, isAuthenticated, isGuest, login, register, loading } = useAuth();
@@ -72,7 +73,7 @@ function App() {
             <Route path="/tempobook/*" />
           )}
         </Routes>
-
+        <ConnectionStatusBar />
         {import.meta.env.VITE_TEMPO === "true" && useRoutes(routes)}
       </>
     </Suspense>

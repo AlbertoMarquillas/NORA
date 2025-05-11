@@ -29,7 +29,7 @@ const NoraInteractionPage = () => {
     console.log("Enviando evento al backend:", eventoActual, "desde", currentState);
 
     try {
-      const res = await fetch("http://localhost:8000/api/evento/", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/evento/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -38,6 +38,7 @@ const NoraInteractionPage = () => {
           descripcion: "",
         }),
       });
+
 
       const data = await res.json();
       console.log("Respuesta del backend:", data);
@@ -111,7 +112,7 @@ const NoraInteractionPage = () => {
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      fetch("http://localhost:8000/api/sensor/", {
+      fetch('${import.meta.env.VITE_API_URL}/api/sensor/', {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

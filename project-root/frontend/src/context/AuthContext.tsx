@@ -21,6 +21,8 @@ interface AuthContextType {
   loading: boolean;
 }
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
