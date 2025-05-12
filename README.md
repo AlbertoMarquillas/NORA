@@ -1,3 +1,144 @@
+# NORA – Instrucciones para lanzar el sistema
+
+Este proyecto contiene el frontend (React + Vite) y el backend (Django) del asistente inteligente NORA. A continuación se detallan los pasos para ejecutar ambos entornos, tanto desde **Windows** como desde **Linux (Debian o VM VirtualBox)**.
+
+---
+
+## 📦 Requisitos generales
+
+* Node.js 18+ y npm ([https://nodejs.org](https://nodejs.org))
+* Python 3.10+ con `pip` y `venv`
+* Git
+* VirtualBox (si se usa Linux en VM)
+* Clave SSH configurada en GitHub (si se clona por SSH)
+
+---
+
+## 🔯 Estructura esperada del proyecto
+
+```
+project-root/
+├── backend/
+│   └── manage.py
+├── frontend/
+│   └── package.json
+├── run_back_linux.sh
+├── run_front_linux.sh
+├── run_backend.ps1
+├── run_frontend.ps1
+```
+
+---
+
+# 🧪 Lanzar el proyecto en entorno de desarrollo
+
+## 🔹 A. Desde **Linux (Debian o VM)**
+
+### ✅ 1. Clonar el repositorio
+
+```bash
+git clone git@github.com:AlbertoMarquillas/NORA.git nora-dev
+cd nora-dev
+```
+
+### ✅ 2. Configurar y lanzar el backend
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+
+cd backend
+python3 manage.py migrate
+python3 manage.py runserver 0.0.0.0:8000
+```
+
+### ✅ 3. Lanzar el frontend
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+> Asegúrate de que `frontend/.env.local` contenga:
+>
+> ```env
+> VITE_API_URL=http://<ip-de-la-vm>:8000/api
+> ```
+>
+> Puedes obtener la IP con:
+>
+> ```bash
+> ip a
+> ```
+
+---
+
+## 🔾 B. Desde **Windows**
+
+### ✅ 1. Backend (PowerShell)
+
+```powershell
+cd project-root
+python -m venv venv
+.\venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+
+cd backend
+python manage.py migrate
+python manage.py runserver 0.0.0.0:8000
+```
+
+> Si usas VM para el backend, asegúrate de incluir la IP de la VM en `ALLOWED_HOSTS` en `settings.py`
+
+---
+
+### ✅ 2. Frontend (PowerShell)
+
+```powershell
+cd project-root\frontend
+npm install
+npm run dev
+```
+
+> Crea el archivo `frontend/.env.local` con:
+>
+> ```env
+> VITE_API_URL=http://localhost:8000/api
+> ```
+>
+> o usa la IP de la VM si el backend corre en Linux:
+>
+> ```env
+> VITE_API_URL=http://192.168.1.46:8000/api
+> ```
+
+---
+
+## 🌐 Acceso desde navegador
+
+* Frontend: [http://localhost:5173](http://localhost:5173)
+* Backend API: [http://localhost:8000/api/](http://localhost:8000/api/)
+
+---
+
+## ✅ Scripts automáticos disponibles
+
+* `run_front_linux.sh` – Inicia el frontend en Linux
+* `run_back_linux.sh` – Inicia el backend en Linux
+* `run_frontend.ps1` – Inicia el frontend en Windows (PowerShell)
+* `run_backend.ps1` – Inicia el backend en Windows (PowerShell)
+
+---
+
+## 🪡 Notas finales
+
+* El backend usa Django con autenticación JWT y FSM
+* El frontend debe apuntar al mismo host/IP donde corre el backend
+* Usa `.env.local` en React/Vite para conectar correctamente con el backend
+* Para evitar errores de red, comprueba que la VM está en modo puente y la IP es accesible desde Windows
+
 ```bash
 NORA-main/
     NORA-main/
