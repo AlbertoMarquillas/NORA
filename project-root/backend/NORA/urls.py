@@ -22,8 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/auth/', include('auth.urls')),
     path('api/system/', include('system.urls')),
-    path('api/eventos/', include('evento.urls')),
-    path('api/', include('fsm_control.urls')),
+    path('api/evento/', include('evento.urls')),
+    path('api/fsm_control/', include('fsm_control.urls')),
     path('api/sensors/', include('sensors.urls')),
-
 ]

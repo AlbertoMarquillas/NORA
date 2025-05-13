@@ -56,9 +56,7 @@ def recibir_evento_fsm(request):
         return JsonResponse({"error": str(e)}, status=500)
 
 def estado_fsm_actual(request):
-    """
-    Devuelve el estado actual de la FSM para ser consultado por el frontend.
-    """
     return JsonResponse({
         "estado": fsm_controller.estado_actual.name
     })
+
