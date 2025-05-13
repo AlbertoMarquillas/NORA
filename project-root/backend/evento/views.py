@@ -3,7 +3,8 @@
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 import json
-from fsm_controller import FSMController
+from fsm_control.controllers.fsm_controller import FSMController
+from evento.models import EventoRecibido
 from fsm_control.definitions.fsm_definitions import FSMEvent
 
 # Instancia global del controlador FSM
