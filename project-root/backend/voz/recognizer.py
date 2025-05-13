@@ -1,33 +1,63 @@
+"""
+recognizer.py
+
+Este módulo gestiona la captura de voz desde el micrófono
+y su conversión a texto mediante el motor de reconocimiento de Google.
+La configuración se extrae de definiciones.py
+"""
+
 import speech_recognition as sr
+from voz.definiciones import (
+    DEVICE_INDEX,
+    ENERGY_THRESHOLD,
+    PAUSE_THRESHOLD,
+    PHRASE_TIME_LIMIT,
+    TIMEOUT,
+    DEBUG_VOZ
+)
 
-def escuchar_frase():
+
+def escuchar_frase() -> str | None:
+    """
+    Escucha una frase del micrófono y devuelve su transcripción en texto.
+
+    Returns:
+        str | None: El texto reconocido o None si no se pudo interpretar.
+    """
     recognizer = sr.Recognizer()
-    recognizer.energy_threshold = 200  # 🔧 Baja el umbral para detectar voz débil
-    recognizer.pause_threshold = 0.8   # 🔧 Más sensible a pausas
-
-    print("Micrófonos detectados:")
-    for i, name in enumerate(sr.Microphone.list_microphone_names()):
-        print(f"[{i}] {name}")
-
-    with sr.Microphone(device_index=1) as source:  # Usa tu entrada MIC ADC
-        print("Escuchando...")
-        # NO ajustar al ruido porque te puede poner el threshold por las nubes
-        # recognizer.adjust_for_ambient_noise(source, duration=1)
-
-        try:
-            audio = recognizer.listen(source, timeout=5, phrase_time_limit=5)
-        except sr.WaitTimeoutError:
-            print("No se detectó audio.")
-            return None
+    recognizer.energy_threshold = ENERGY_THRESHOLD
+    recognizer.pause_threshold = PAUSE_THRESHOLD
 
     try:
-        print("Procesando...")
+        with sr.Microphone(device_index=DEVICE_INDEX) as source:
+            if DEBUG_VOZ:
+                print("🎧 Escuchando por el micro...")
+
+            audio = recognizer.listen(
+                source,
+                timeout=TIMEOUT,
+                phrase_time_limit=PHRASE_TIME_LIMIT
+            )
+    except sr.WaitTimeoutError:
+        if DEBUG_VOZ:
+            print("⏱️ No se detectó voz durante el tiempo límite.")
+        return None
+    except Exception as e:
+        if DEBUG_VOZ:
+            print(f"❌ Error al acceder al micro: {e}")
+        return None
+
+    # Reconocimiento de texto
+    try:
         texto = recognizer.recognize_google(audio, language="es-ES")
-        print(f"Has dicho: {texto}")
+        if DEBUG_VOZ:
+            print(f"📝 Frase reconocida: {texto}")
         return texto
     except sr.UnknownValueError:
-        print("No se entendió lo que dijiste.")
+        if DEBUG_VOZ:
+            print("🤔 No se entendió lo que se dijo.")
         return None
     except sr.RequestError as e:
-        print(f"Error en el servicio de reconocimiento: {e}")
+        if DEBUG_VOZ:
+            print(f"🔌 Error de conexión con el servicio de reconocimiento: {e}")
         return None
