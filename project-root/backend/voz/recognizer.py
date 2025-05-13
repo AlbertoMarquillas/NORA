@@ -7,9 +7,13 @@ def escuchar_frase():
     Escucha una frase por micrófono y devuelve el texto reconocido.
     """
     recognizer = sr.Recognizer()
-    with sr.Microphone() as source:
+    with sr.Microphone(device_index=1) as source:
         print("Escuchando...")
-        audio = recognizer.listen(source)
+        try:
+            audio = recognizer.listen(source, timeout=5, phrase_time_limit=5)
+        except sr.WaitTimeoutError:
+            print("No se detectó audio.")
+            return None
     try:
         texto = recognizer.recognize_google(audio, language="es-ES")
         print(f"Has dicho: {texto}")
@@ -20,3 +24,4 @@ def escuchar_frase():
     except sr.RequestError as e:
         print(f"Error en el servicio de reconocimiento: {e}")
         return None
+

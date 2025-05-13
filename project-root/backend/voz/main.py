@@ -1,5 +1,6 @@
 from recognizer import escuchar_frase
 from responder import responder_texto
+from emisor_eventos import enviar_evento_fsm
 import re
 
 # Lista de frases que activan a NORA
@@ -8,7 +9,8 @@ FRASES_ACTIVACION = [
     "oye nora",
     "nora estás ahí",
     "despierta nora",
-    "nora activa"
+    "nora activa",
+    "buenos días nora",
 ]
 
 FRASES_DESACTIVACION = [
@@ -45,6 +47,7 @@ def main():
         frase = normalizar_texto(frase)
         if frase:
             if contiene_frase_clave(frase, FRASES_ACTIVACION):
+                responder_texto("Hola, ¿cómo estas hoy?")
                 enviar_evento_fsm("EVT_WAKEWORD", "Frase de activación detectada por voz")
             elif contiene_frase_clave(frase, FRASES_DESACTIVACION):
                 enviar_evento_fsm("EVT_SHUTDOWN", "Frase de desactivación detectada por voz")
