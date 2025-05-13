@@ -64,5 +64,3 @@ class FSMEvent(Enum):
     # --- Eventos de desactivación ---
     EVT_SHUTDOWN = auto()             # Desactivación del sistema por comando o evento.
     EVT_NFC_DEACTIVATE = auto()       # Desactivación por NFC no válido.
-    EVT_PRESENCE_LOST = auto()        # Desactivación por ausencia física.
-    EVT_ATTENTION_LOST = auto()       # Desactivación por pérdida de atención visual. 
