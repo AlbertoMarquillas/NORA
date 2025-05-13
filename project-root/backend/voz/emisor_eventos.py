@@ -1,5 +1,4 @@
 # backend/voz/emisor_eventos.py
-
 import requests
 
 def enviar_evento_fsm(evento, descripcion=""):
