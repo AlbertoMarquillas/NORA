@@ -45,4 +45,8 @@ def recibir_evento_fsm(request):
 
     except json.JSONDecodeError:
         return JsonResponse({'error': 'JSON inválido'}, status=400)
- 
+
+def estado_fsm_actual(request):
+    return JsonResponse({
+        "estado": fsm_controller.estado_actual.name
+    })

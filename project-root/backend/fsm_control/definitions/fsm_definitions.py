@@ -60,3 +60,7 @@ class FSMEvent(Enum):
     CMD_INHIBIR_ACTIVACION = auto()   # Inhibición de cualquier activación externa.
     CMD_INHIBIR_ESCUCHA = auto()      # Inhibición de la entrada verbal.
     CMD_CANCEL_LISTENING = auto()     # Cancelación inmediata del estado de escucha.
+    
+    # --- Eventos de desactivación ---
+    EVT_SHUTDOWN = auto()             # Desactivación del sistema por comando o evento.
+    EVT_NFC_DEACTIVATE = auto()       # Desactivación por NFC no válido.
