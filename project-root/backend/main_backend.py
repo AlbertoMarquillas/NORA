@@ -28,7 +28,8 @@ def lanzar_backend():
     Inicia el servidor de Django.
     """
     print("🚀 Iniciando backend Django...")
-    os.system("python manage.py runserver 0.0.0.0:8000")
+    os.system("python backend/manage.py runserver 0.0.0.0:8000")
+
 
 
 def lanzar_motor_voz():
