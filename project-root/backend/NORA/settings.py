@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'users',
     'corsheaders',
     'evento',
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -56,8 +57,17 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOW_CREDENTIALS = True
-
+ASGI_APPLICATION = "NORA.asgi.application"
 ROOT_URLCONF = 'NORA.urls'
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],  # asegúrate de tener Redis corriendo
+        },
+    },
+}
 
 TEMPLATES = [
     {

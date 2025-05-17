@@ -6,6 +6,9 @@ from evento.models import EventoRecibido
 from fsm_control.fsm_instance import fsm
 from fsm_control.definitions.fsm_definitions import FSMEvent
 
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
+
 @csrf_exempt
 def recibir_evento_fsm(request):
     if request.method != 'POST':
@@ -21,11 +24,10 @@ def recibir_evento_fsm(request):
             return JsonResponse({'error': 'Datos inválidos'}, status=400)
 
         try:
-            evento = FSMEvent[evento_str]  # Convierte string a Enum
+            evento = FSMEvent[evento_str]
         except KeyError:
             return JsonResponse({'error': f'Evento desconocido: {evento_str}'}, status=400)
 
-        # Guardar en base de datos
         EventoRecibido.objects.create(
             tipo=tipo,
             evento=evento.name,
@@ -33,9 +35,22 @@ def recibir_evento_fsm(request):
             origen='frontend'
         )
 
-        # Enviar evento al FSM
         fsm.recibir_evento(evento)
         fsm.procesar_siguiente_evento()
+
+        # WebSocket: notificación al frontend
+        channel_layer = get_channel_layer()
+        async_to_sync(channel_layer.group_send)(
+            "eventos",
+            {
+                "type": "enviar_evento",
+                "data": {
+                    "evento": evento.name,
+                    "descripcion": descripcion,
+                    "nuevo_estado": fsm.estado_actual.name,
+                }
+            }
+        )
 
         return JsonResponse({
             'status': 'ok',
@@ -45,6 +60,7 @@ def recibir_evento_fsm(request):
 
     except json.JSONDecodeError:
         return JsonResponse({'error': 'JSON inválido'}, status=400)
+
 
 def estado_fsm_actual(request):
     return JsonResponse({
