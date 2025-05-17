@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import Navbar from "@/components/Navbar";
+import EventoListener from "./EventoListener";
+
 import {
   eventLabels,
   eventGroups,
@@ -45,7 +47,7 @@ const NoraInteractionPage = () => {
 
       if (!res.ok) throw new Error("Error en la respuesta del backend");
 
-      const estadoNuevo = normalizaEstado(data.nuevo_estado);
+      const estadoNuevo = normalizaEstado(data.estado_actual);
 
       console.log(
         "Estado nuevo recibido del backend:",
@@ -140,6 +142,16 @@ const NoraInteractionPage = () => {
   return (
     <div className="min-h-screen bg-black text-white font-['Roboto',sans-serif] px-6 pt-24">
       <Navbar />
+      <EventoListener
+        onEventoRecibido={(data) => {
+          const estado = normalizaEstado(data.nuevo_estado);
+          if (fsmTransitions[currentState][data.evento] === estado) {
+            realizarTransicion(data.evento as NoraEvent);
+          } else {
+            console.warn("Transición inesperada (WebSocket):", data);
+          }
+        }}
+      />
       <div className="max-w-screen-xl mx-auto">
         <h1 className="text-3xl font-bold text-cyan-400 mb-6">NORA Interaction Simulator</h1>
 

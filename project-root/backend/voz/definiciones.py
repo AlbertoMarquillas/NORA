@@ -10,10 +10,10 @@ Contiene los parámetros ajustables para entrada de voz, salida hablada, activad
 # ─────────────────────────────────────────────────────────────
 
 # Índice del micrófono (obtenido con sr.Microphone.list_microphone_names())
-DEVICE_INDEX = 1
+DEVICE_INDEX = 11
 
 # Umbral mínimo de energía para considerar que alguien está hablando
-ENERGY_THRESHOLD = 200
+ENERGY_THRESHOLD = 300
 
 # Tiempo de silencio para considerar que la frase ha terminado (en segundos)
 PAUSE_THRESHOLD = 0.8
@@ -22,7 +22,7 @@ PAUSE_THRESHOLD = 0.8
 PHRASE_TIME_LIMIT = 5
 
 # Tiempo máximo de espera sin captar voz antes de cancelar escucha
-TIMEOUT = 5
+TIMEOUT = 3
 
 
 # ─────────────────────────────────────────────────────────────
