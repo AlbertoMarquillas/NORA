@@ -6,8 +6,6 @@ y su conversión a texto mediante el motor de reconocimiento de Google.
 La configuración se extrae de definiciones.py
 """
 
-import os
-import sys
 import speech_recognition as sr
 from voz.definiciones import (
     DEVICE_INDEX,
@@ -17,26 +15,6 @@ from voz.definiciones import (
     TIMEOUT,
     DEBUG_VOZ
 )
-
-import contextlib
-
-@contextlib.contextmanager
-def suprimir_alsa_errors():
-    """
-    Redirige el descriptor de errores estándar a /dev/null para ocultar
-    mensajes molestos de ALSA, jackd, etc.
-    """
-    fd_stderr = sys.stderr.fileno()
-    fd_devnull = os.open(os.devnull, os.O_WRONLY)
-    old_stderr = os.dup(fd_stderr)
-    try:
-        os.dup2(fd_devnull, fd_stderr)
-        yield
-    finally:
-        os.dup2(old_stderr, fd_stderr)
-        os.close(fd_devnull)
-        os.close(old_stderr)
-
 
 def escuchar_frase() -> str | None:
     """
@@ -49,18 +27,27 @@ def escuchar_frase() -> str | None:
     recognizer.energy_threshold = ENERGY_THRESHOLD
     recognizer.pause_threshold = PAUSE_THRESHOLD
 
-    try:
-        with suprimir_alsa_errors():
-            with sr.Microphone(device_index=sr.Microphone.list_microphone_names().index('pulse')) as source:
-                recognizer.adjust_for_ambient_noise(source, duration=1)
-                if DEBUG_VOZ:
-                    print("🎧 Escuchando por el micro...")
+    # Buscar índice del micrófono "pulse"
+    mic_name = "pulse"
+    mic_index = next((i for i, name in enumerate(sr.Microphone.list_microphone_names())
+                      if mic_name in name.lower()), None)
 
-                audio = recognizer.listen(
-                    source,
-                    timeout=TIMEOUT,
-                    phrase_time_limit=PHRASE_TIME_LIMIT
-                )
+    if mic_index is None:
+        if DEBUG_VOZ:
+            print("❌ No se encontró el micrófono con nombre 'pulse'.")
+        return None
+
+    try:
+        with sr.Microphone(device_index=mic_index) as source:
+            recognizer.adjust_for_ambient_noise(source, duration=1)
+            if DEBUG_VOZ:
+                print("🎧 Escuchando por el micro...")
+
+            audio = recognizer.listen(
+                source,
+                timeout=TIMEOUT,
+                phrase_time_limit=PHRASE_TIME_LIMIT
+            )
     except sr.WaitTimeoutError:
         if DEBUG_VOZ:
             print("⏱️ No se detectó voz durante el tiempo límite.")
