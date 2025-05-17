@@ -49,7 +49,15 @@ def escuchar_frase() -> str | None:
         with sr.Microphone(device_index=device_index) as source:
             print("✅ Micrófono abierto correctamente.")
             print("🛠️ Ajustando ruido ambiente...")
-            recognizer.adjust_for_ambient_noise(source, duration=1)
+            try:
+                print("🛠️ Ajustando ruido ambiente...")
+                recognizer.adjust_for_ambient_noise(source, duration=1)
+                print("🎧 Escuchando por el micro...")
+            except Exception as e:
+                print(f"⚠️ Error al ajustar el ruido ambiente: {e}")
+                recognizer.energy_threshold = ENERGY_THRESHOLD
+                print(f"⚠️ Usando ENERGY_THRESHOLD fijo: {ENERGY_THRESHOLD}")
+
             if DEBUG_VOZ:
                 print("🎧 Escuchando por el micro...")
 
