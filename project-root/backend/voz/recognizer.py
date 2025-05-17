@@ -27,18 +27,26 @@ def escuchar_frase() -> str | None:
     recognizer.energy_threshold = ENERGY_THRESHOLD
     recognizer.pause_threshold = PAUSE_THRESHOLD
 
-    # Buscar índice del micrófono "pulse"
-    mic_name = "pulse"
-    mic_index = next((i for i, name in enumerate(sr.Microphone.list_microphone_names())
-                      if mic_name in name.lower()), None)
+    mic_list = sr.Microphone.list_microphone_names()
+    if DEBUG_VOZ:
+        print("🎙️ Micrófonos disponibles:", mic_list)
 
-    if mic_index is None:
-        if DEBUG_VOZ:
-            print("❌ No se encontró el micrófono con nombre 'pulse'.")
+    # Selección dinámica de índice
+    try:
+        if 'pulse' in mic_list:
+            device_index = mic_list.index('pulse')
+            if DEBUG_VOZ:
+                print(f"🔄 Usando micrófono 'pulse' (índice {device_index})")
+        else:
+            device_index = DEVICE_INDEX
+            if DEBUG_VOZ:
+                print(f"⚠️ 'pulse' no encontrado. Usando índice por defecto: {DEVICE_INDEX}")
+    except Exception as e:
+        print(f"❌ Error al seleccionar micrófono: {e}")
         return None
 
     try:
-        with sr.Microphone(device_index=mic_index) as source:
+        with sr.Microphone(device_index=device_index) as source:
             recognizer.adjust_for_ambient_noise(source, duration=1)
             if DEBUG_VOZ:
                 print("🎧 Escuchando por el micro...")
