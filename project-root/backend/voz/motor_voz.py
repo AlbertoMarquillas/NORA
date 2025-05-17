@@ -21,7 +21,9 @@ def iniciar_motor_voz():
 
     while True:
         try:
+            print(">> Inicio del bucle de escucha")
             frase = escuchar_frase()
+            print(f">> Resultado de escuchar_frase(): {frase}")
             if not frase:
                 if DEBUG_VOZ:
                     print("🔁 No se obtuvo frase válida. Esperando nueva entrada...\n")
