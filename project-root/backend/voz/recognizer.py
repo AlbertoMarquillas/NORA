@@ -20,16 +20,19 @@ from voz.definiciones import (
 def escuchar_frase() -> str | None:
     """
     Escucha una frase del micrófono y devuelve su transcripción en texto.
-
-    Returns:
-        str | None: El texto reconocido o None si no se pudo interpretar.
     """
     recognizer = sr.Recognizer()
     recognizer.energy_threshold = ENERGY_THRESHOLD
     recognizer.pause_threshold = PAUSE_THRESHOLD
 
     try:
-        with sr.Microphone(device_index=sr.Microphone.list_microphone_names().index('pulse')) as source:
+        mic_list = sr.Microphone.list_microphone_names()
+        if "pulse" in mic_list:
+            device_index = mic_list.index("pulse")
+        else:
+            device_index = DEVICE_INDEX  # fallback definido en definiciones.py
+
+        with sr.Microphone(device_index=device_index) as source:
             recognizer.adjust_for_ambient_noise(source, duration=1)
             if DEBUG_VOZ:
                 print("🎧 Escuchando por el micro...")
@@ -48,7 +51,6 @@ def escuchar_frase() -> str | None:
             print(f"❌ Error al acceder al micro: {e}")
         return None
 
-    # Reconocimiento de texto
     try:
         texto = recognizer.recognize_google(audio, language="es-ES")
         if DEBUG_VOZ:
