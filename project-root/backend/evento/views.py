@@ -24,36 +24,38 @@ def listar_eventos(request):
     ]
     return JsonResponse(datos, safe=False)
 
+
 @csrf_exempt
 def recibir_evento_fsm(request):
-    if request.method != "POST":
-        return JsonResponse({"error": "Solo se aceptan peticiones POST"}, status=405)
-
+    """
+    Procesa un evento de tipo FSM enviado desde el frontend.
+    El evento debe venir con tipo 'fsm_event' y el nombre del evento.
+    """
     try:
-        datos = json.loads(request.body)
-        if datos.get("type") != "fsm_event":
+        if request.data.get("type") != "fsm_event":
             return JsonResponse({"error": "Tipo de evento no válido"}, status=400)
 
-        evento_nombre = datos.get("evento")
-        descripcion = datos.get("descripcion", "")
+        evento_nombre = request.data.get("evento")
+        descripcion = request.data.get("descripcion", "")
 
-        # Convertir string a FSMEvent
+        # Convertir a Enum
         evento = FSMEvent[evento_nombre]
 
-        # Enviar evento a la FSM y procesarlo
         fsm_controller.recibir_evento(evento)
         fsm_controller.procesar_siguiente_evento()
 
         return JsonResponse({
             "status": "ok",
             "evento": evento.name,
-            "descripcion": descripcion
-        })
+            "descripcion": descripcion,
+            "estado_actual": fsm_controller.estado_actual.name,
+        }, status=200)
 
     except KeyError:
         return JsonResponse({"error": f"Evento desconocido: {evento_nombre}"}, status=400)
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=500)
+    
 
 def estado_fsm_actual(request):
     return JsonResponse({
