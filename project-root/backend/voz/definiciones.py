@@ -13,7 +13,7 @@ Contiene los parámetros ajustables para entrada de voz, salida hablada, activad
 DEVICE_INDEX = 1
 
 # Umbral mínimo de energía para considerar que alguien está hablando
-ENERGY_THRESHOLD = 300
+ENERGY_THRESHOLD = 100
 
 # Tiempo de silencio para considerar que la frase ha terminado (en segundos)
 PAUSE_THRESHOLD = 0.8
