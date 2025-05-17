@@ -38,3 +38,9 @@ def iniciar_motor_voz():
             time.sleep(1)  # espera mínima para evitar bucle incontrolado
 
     print("🟢 Finalización del motor de voz.")
+
+if __name__ == "__main__":
+    # Si se ejecuta directamente, inicia el motor de voz
+    iniciar_motor_voz()
+    
+    
