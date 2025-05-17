@@ -38,6 +38,8 @@ def recibir_evento_fsm(request):
         evento_nombre = request.data.get("evento")
         descripcion = request.data.get("descripcion", "")
 
+        print("Evento recibido:", evento_nombre)
+
         # Convertir a Enum
         evento = FSMEvent[evento_nombre]
 
