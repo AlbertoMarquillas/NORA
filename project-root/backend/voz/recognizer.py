@@ -29,7 +29,7 @@ def escuchar_frase() -> str | None:
     recognizer.pause_threshold = PAUSE_THRESHOLD
 
     try:
-        with sr.Microphone(device_index=DEVICE_INDEX) as source:
+        with sr.Microphone(device_index=sr.Microphone.list_microphone_names().index('pulse')) as source:
             recognizer.adjust_for_ambient_noise(source, duration=1)
             if DEBUG_VOZ:
                 print("🎧 Escuchando por el micro...")
