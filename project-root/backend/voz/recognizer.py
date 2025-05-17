@@ -30,6 +30,7 @@ def escuchar_frase() -> str | None:
 
     try:
         with sr.Microphone(device_index=DEVICE_INDEX) as source:
+            recognizer.adjust_for_ambient_noise(source, duration=1)
             if DEBUG_VOZ:
                 print("🎧 Escuchando por el micro...")
 

@@ -19,7 +19,7 @@ ENERGY_THRESHOLD = 100
 PAUSE_THRESHOLD = 0.8
 
 # Tiempo máximo permitido por frase hablada
-PHRASE_TIME_LIMIT = 5
+PHRASE_TIME_LIMIT = 10
 
 # Tiempo máximo de espera sin captar voz antes de cancelar escucha
 TIMEOUT = 3
