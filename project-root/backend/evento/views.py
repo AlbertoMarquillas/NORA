@@ -25,38 +25,41 @@ def listar_eventos(request):
     return JsonResponse(datos, safe=False)
 
 
-@csrf_exempt
+@api_view(["POST"])
 def recibir_evento_fsm(request):
-    """
-    Procesa un evento de tipo FSM enviado desde el frontend.
-    El evento debe venir con tipo 'fsm_event' y el nombre del evento.
-    """
     try:
+        print("Petición recibida:", request.data)
+
         if request.data.get("type") != "fsm_event":
-            return JsonResponse({"error": "Tipo de evento no válido"}, status=400)
+            print("Tipo de evento no válido:", request.data.get("type"))
+            return Response({"error": "Tipo de evento no válido"}, status=status.HTTP_400_BAD_REQUEST)
 
         evento_nombre = request.data.get("evento")
         descripcion = request.data.get("descripcion", "")
-
         print("Evento recibido:", evento_nombre)
 
-        # Convertir a Enum
-        evento = FSMEvent[evento_nombre]
+        evento = FSMEvent[evento_nombre]  # <- Aquí es donde puede fallar
 
         fsm_controller.recibir_evento(evento)
         fsm_controller.procesar_siguiente_evento()
 
-        return JsonResponse({
+        print("Evento procesado correctamente. Estado actual:", fsm_controller.estado_actual.name)
+
+        return Response({
             "status": "ok",
             "evento": evento.name,
             "descripcion": descripcion,
             "estado_actual": fsm_controller.estado_actual.name,
-        }, status=200)
+        })
 
-    except KeyError:
-        return JsonResponse({"error": f"Evento desconocido: {evento_nombre}"}, status=400)
+    except KeyError as e:
+        print("Evento no reconocido:", e)
+        return Response({"error": f"Evento desconocido: {evento_nombre}"}, status=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
-        return JsonResponse({"error": str(e)}, status=500)
+        import traceback
+        traceback.print_exc()
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
     
 
 def estado_fsm_actual(request):
