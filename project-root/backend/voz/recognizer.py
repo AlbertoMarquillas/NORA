@@ -7,6 +7,9 @@ La configuración se extrae de definiciones.py
 """
 
 import speech_recognition as sr
+import os
+import sys
+import contextlib
 from voz.definiciones import (
     DEVICE_INDEX,
     ENERGY_THRESHOLD,
@@ -15,6 +18,22 @@ from voz.definiciones import (
     TIMEOUT,
     DEBUG_VOZ
 )
+
+@contextlib.contextmanager
+def suprimir_stderr():
+    """
+    Context manager que suprime temporalmente la salida estándar de errores (stderr).
+    Evita que ALSA/jack impriman errores en consola.
+    """
+    with open(os.devnull, 'w') as fnull:
+        old_stderr = sys.stderr
+        try:
+            sys.stderr = fnull
+            yield
+        finally:
+            sys.stderr = old_stderr
+
+
 
 
 def escuchar_frase() -> str | None:
@@ -32,16 +51,17 @@ def escuchar_frase() -> str | None:
         else:
             device_index = DEVICE_INDEX  # fallback definido en definiciones.py
 
-        with sr.Microphone(device_index=device_index) as source:
-            recognizer.adjust_for_ambient_noise(source, duration=1)
-            if DEBUG_VOZ:
-                print("🎧 Escuchando por el micro...")
+        with suprimir_stderr():
+            with sr.Microphone(device_index=device_index) as source:
+                recognizer.adjust_for_ambient_noise(source, duration=1)
+                if DEBUG_VOZ:
+                    print("🎧 Escuchando por el micro...")
+                audio = recognizer.listen(
+                    source,
+                    timeout=TIMEOUT,
+                    phrase_time_limit=PHRASE_TIME_LIMIT
+                )
 
-            audio = recognizer.listen(
-                source,
-                timeout=TIMEOUT,
-                phrase_time_limit=PHRASE_TIME_LIMIT
-            )
     except sr.WaitTimeoutError:
         if DEBUG_VOZ:
             print("⏱️ No se detectó voz durante el tiempo límite.")
