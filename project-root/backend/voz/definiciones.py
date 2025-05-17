@@ -10,7 +10,7 @@ Contiene los parámetros ajustables para entrada de voz, salida hablada, activad
 # ─────────────────────────────────────────────────────────────
 
 # Índice del micrófono (obtenido con sr.Microphone.list_microphone_names())
-DEVICE_INDEX = 1
+DEVICE_INDEX = None
 
 # Umbral mínimo de energía para considerar que alguien está hablando
 ENERGY_THRESHOLD = 100
