@@ -62,6 +62,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setUser(user);
     localStorage.setItem("accessToken", data.access);
     localStorage.setItem("refreshToken", data.refresh);
+
+    await fetchUser();
   };
 
   const logout = async () => {

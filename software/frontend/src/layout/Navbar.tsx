@@ -11,8 +11,7 @@ import { Button } from "../ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-
-import api from "../services/api"; // Asegúrate de tener esta instancia configurada
+import RoleBadge from "../components/RoleBadge"; // Asegúrate que la ruta sea correcta
 
 const Navbar = () => {
   const {
@@ -21,16 +20,20 @@ const Navbar = () => {
     isAdmin,
     user,
     logout,
-    login: contextLogin,
-    register,
     loading,
-  } = useAuth(); // <- aquí accedeixes també a loading
+  } = useAuth();
 
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
 
-  // 🔄 Si el context encara està carregant, evita renderitzar el Navbar
-  if (loading) return null;
+  if (loading) {
+    return (
+      <nav className="w-full py-4 px-6 bg-black text-white">
+        {/* Puedes poner un skeleton loader si quieres */}
+        <p className="text-sm text-gray-400">Loading session...</p>
+      </nav>
+    );
+  }
+
 
   const handleLogout = async () => {
     await logout();
@@ -58,57 +61,57 @@ const Navbar = () => {
         </Link>
 
         <div className="hidden md:flex items-center space-x-6">
-          {isAuthenticated && (
-            <>
-              <NavLink href="/chat">Chat</NavLink>
-            </>
+          {isAuthenticated && !isGuest && (
+            <NavLink href="/chat">Chat</NavLink>
           )}
 
           {isAdmin && (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button
-                  className="flex items-center gap-1 px-3 py-1.5 rounded-md text-sm font-medium text-white border border-[#2f2f2f] bg-[#1a1a1a] hover:text-cyan-400 hover:border-cyan-500 hover:scale-105 transition-all duration-200"
-                >
+                <Button className="flex items-center gap-1 px-3 py-1.5 rounded-md text-sm font-medium text-white border border-[#2f2f2f] bg-[#1a1a1a] hover:text-cyan-400 hover:border-cyan-500 hover:scale-105 transition-all duration-200">
                   DEBUG <ChevronDown className="h-4 w-4" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="bg-[#1a1a1a] border-gray-700 shadow-lg">
-                <DropdownMenuItem
-                  className="text-white hover:bg-gray-800 hover:text-cyan-400 cursor-pointer"
-                  asChild
-                >
-                  <Link to="/admin">Admin Dashboard</Link>
+                <DropdownMenuItem asChild>
+                  <Link to="/admin" className="text-white hover:bg-gray-800 hover:text-cyan-400">
+                    Admin Dashboard
+                  </Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem className="text-white hover:bg-gray-800 hover:text-cyan-400 cursor-pointer">
+                <DropdownMenuItem className="text-white hover:bg-gray-800 hover:text-cyan-400">
                   System Status
                 </DropdownMenuItem>
-                <DropdownMenuItem className="text-white hover:bg-gray-800 hover:text-cyan-400 cursor-pointer">
+                <DropdownMenuItem className="text-white hover:bg-gray-800 hover:text-cyan-400">
                   Logs
                 </DropdownMenuItem>
-                <DropdownMenuItem
-                  className="text-white hover:bg-gray-800 hover:text-cyan-400 cursor-pointer"
-                  asChild
-                >
-                  <Link to="/interaction">Interacción</Link>
+                <DropdownMenuItem asChild>
+                  <Link to="/interaction" className="text-white hover:bg-gray-800 hover:text-cyan-400">
+                    Interacción
+                  </Link>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           )}
 
           {isAuthenticated ? (
-            <motion.div whileHover={{ scale: 1.05 }} className="ml-2">
+            <div className="flex items-center gap-4 ml-2">
               <Link to="/profile">
                 <Avatar className="h-9 w-9 border-2 border-cyan-500/30 hover:border-cyan-400 transition-colors duration-200">
-                  <AvatarImage src={user.avatar || undefined} />
+                  <AvatarImage src={user?.avatar || undefined} />
                   <AvatarFallback className="bg-cyan-900/30 text-cyan-100">
                     <User className="h-5 w-5" />
                   </AvatarFallback>
                 </Avatar>
               </Link>
-            </motion.div>
-
-
+              <RoleBadge role={user?.role ?? "guest"} />
+              <Button
+                variant="ghost"
+                onClick={handleLogout}
+                className="text-white hover:text-red-400 hover:scale-105 transition-all"
+              >
+                <LogOut className="mr-1 h-4 w-4" /> Logout
+              </Button>
+            </div>
           ) : (
             <div className="flex items-center space-x-3">
               <Button

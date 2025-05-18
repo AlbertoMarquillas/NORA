@@ -5,6 +5,8 @@ import { AlertCircle } from "lucide-react";
 import { cn } from "@/utils/cn";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
+import Navbar from "@/layout/Navbar";
+import Register from "./Register";
 
 interface LoginProps {
   onLogin?: (email: string, password: string) => Promise<void>;
@@ -36,6 +38,8 @@ const Login = ({ onLogin }: LoginProps = {}) => {
   };
 
   return (
+    <div className="min-h-screen bg-[#121212] text-white">
+      <Navbar /> {/* ✅ Aquí se incluye el Navbar */}
     <motion.div
       className="min-h-screen w-full flex items-center justify-center bg-[#121212] p-4"
       initial={{ opacity: 0 }}
@@ -144,13 +148,14 @@ const Login = ({ onLogin }: LoginProps = {}) => {
         <div className="mt-6 text-center">
           <p className="text-gray-400">
             Don't have an account?{" "}
-            <a href="#" className="text-cyan-400 hover:text-cyan-300 transition-colors">
+            <a href="/register" className="text-cyan-400 hover:text-cyan-300 transition-colors">
               Sign up
             </a>
           </p>
         </div>
       </motion.div>
     </motion.div>
+    </div>
   );
 };
 
