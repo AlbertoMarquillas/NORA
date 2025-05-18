@@ -1,85 +1,85 @@
-# 01 - Git y Commits Limpios
+# 01 - Git and Clean Commits
 
-Este documento recopila las buenas prácticas que estoy aprendiendo para usar Git de forma profesional, con especial énfasis en los commits semánticos y estructurados.
-
----
-
-## 1. Commits semánticos
-
-Los commits semánticos siguen una convención clara para estructurar los mensajes y facilitar el control de versiones, revisión de historial y automatización de changelogs.
-
-### 🧩 Formato general
-
-```
-<tipo>[opcional alcance]: <descripción breve>
-```
-
-**Ejemplo:**
-
-```
-feat(voz): añade detección de palabra clave personalizada
-```
+This document gathers the best practices I am learning to use Git professionally, with a special focus on structured semantic commits.
 
 ---
 
-## 2. Tipos comunes
+## 1. Semantic Commits
 
-| Tipo       | Descripción                                             |
+Semantic commits follow a clear convention to structure messages and facilitate version control, history review, and changelog automation.
+
+### 🧩 General Format
+
+```
+<type>[optional scope]: <short description>
+```
+
+**Example:**
+
+```
+feat(voice): add custom wake word detection
+```
+
+---
+
+## 2. Common Types
+
+| Type       | Description                                             |
 | ---------- | ------------------------------------------------------- |
-| `feat`     | Nueva funcionalidad                                     |
-| `fix`      | Corrección de errores                                   |
-| `docs`     | Cambios en la documentación                             |
-| `style`    | Formato (espacios, indentación, sin cambio funcional)   |
-| `refactor` | Refactorización sin cambio funcionalidad externa        |
-| `perf`     | Mejora de rendimiento                                   |
-| `test`     | Añadir o modificar tests                                |
-| `chore`    | Tareas de mantenimiento (builds, scripts, dependencias) |
-| `build`    | Cambios relacionados con la construcción o packaging    |
-| `ci`       | Cambios en integración continua o workflows automáticos |
+| `feat`     | New feature                                             |
+| `fix`      | Bug fix                                                 |
+| `docs`     | Documentation changes                                   |
+| `style`    | Formatting (spaces, indentation, no functional changes) |
+| `refactor` | Code refactoring without affecting external behavior    |
+| `perf`     | Performance improvements                                |
+| `test`     | Adding or modifying tests                               |
+| `chore`    | Maintenance tasks (builds, scripts, dependencies)       |
+| `build`    | Build system or packaging changes                       |
+| `ci`       | Continuous integration and automation workflow changes  |
 
 ---
 
-## 3. Buenas prácticas
+## 3. Best Practices
 
-* **Escribir en imperativo.** Ejemplo: “¡Añade módulo NFC!”, no “Añadido módulo NFC”.
-* **Primera línea ≤ 72 caracteres.**
-* **Usar mensajes claros, específicos y enfocados a una tarea.**
-* **Evitar commits acumulativos tipo “cambios varios” o “update”.**
-* **Referenciar tareas o tickets si se usa Jira o similar.**
+* **Use imperative tone.** Example: "add NFC module", not "added NFC module".
+* **First line ≤ 72 characters.**
+* **Write clear, specific, and task-focused messages.**
+* **Avoid vague commits like "misc changes" or "update".**
+* **Reference tasks or tickets if using Jira or similar.**
 
 ---
 
-## 4. Commits con breaking changes
+## 4. Commits with Breaking Changes
 
-Cuando un cambio rompe compatibilidad, debe indicarse explícitamente:
+When a change breaks compatibility, it must be explicitly marked:
 
 ```
-feat(api): elimina endpoint /v1/status
+feat(api): remove /v1/status endpoint
 
-BREAKING CHANGE: Todos los clientes deben usar /v2/status en adelante.
-```
-
----
-
-## 5. Herramientas útiles
-
-* **Commitizen (`cz`)**: interfaz CLI para crear commits guiados.
-* **Husky + Commitlint**: fuerza validaciones antes del push.
-* **Conventional Changelog**: genera changelogs automáticos.
-
----
-
-## 6. Ejemplos reales en este proyecto
-
-```
-feat(frontend): añade botón de interacción en la landing
-fix(rtc): corrige lectura no bloqueante del registro 0x0F
-docs(gui): explica estados posibles en el grafo FSM
+BREAKING CHANGE: All clients must now use /v2/status instead.
 ```
 
 ---
 
-## 7. Recursos
+## 5. Useful Tools
+
+* **Commitizen (`cz`)**: CLI for guided commits.
+* **Husky + Commitlint**: Enforce commit rules before pushing.
+* **Conventional Changelog**: Automatically generates changelogs.
+
+---
+
+## 6. Real Examples in This Project
+
+```
+feat(frontend): add interaction button to landing page
+fix(rtc): fix non-blocking read of register 0x0F
+docs(gui): document possible states in FSM graph
+```
+
+---
+
+## 7. Resources
 
 * [https://www.conventionalcommits.org](https://www.conventionalcommits.org)
 * [https://www.npmjs.com/package/commitizen](https://www.npmjs.com/package/commitizen)
