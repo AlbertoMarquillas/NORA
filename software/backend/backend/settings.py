@@ -19,6 +19,9 @@ INSTALLED_APPS = [
     'corsheaders',                         # 👈 Debe ir antes que rest_framework
     'rest_framework',
     'authsystem',
+    'fsm',
+    "evento",
+    
 ]
 
 # Middleware

@@ -29,7 +29,7 @@ const NoraInteractionPage = () => {
     console.log("Enviando evento al backend:", eventoActual, "desde", currentState);
 
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/evento/`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/fsm/evento/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

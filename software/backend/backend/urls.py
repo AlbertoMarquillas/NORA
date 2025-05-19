@@ -22,4 +22,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/auth/', include('authsystem.urls')),
     path("api/test-cors/", CorsTestView.as_view()),
+    path("api/fsm/", include("fsm.urls")),
+    path("api/evento/", include("evento.urls")),
 ]
