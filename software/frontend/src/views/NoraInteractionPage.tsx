@@ -11,10 +11,8 @@ import {
   fsmTransitions,
   nodePositions,
   stateColors,
-  NoraEvent,
-  NoraState,
-  EventLog,
 } from "@/components/interaction/InteractionDef";
+import type { NoraEvent, NoraState, EventLog } from "@/components/interaction/InteractionDef";
 
 // Tu componente principal ahora solo tiene que importar y usar los elementos
 
