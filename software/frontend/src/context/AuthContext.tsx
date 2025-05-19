@@ -1,6 +1,8 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import api from "../lib/api"; // Axios instance with baseURL
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 // User typing
 interface User {
   name: string;
@@ -32,16 +34,27 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const fetchUser = async () => {
     try {
-      const response = await api.get("/auth/me");
-      setUser(response.data);
+      const response = await api.get("/auth/me", { withCredentials: true });
+      const data = response.data;
+      const user: User = {
+        name: data.username,
+        email: data.email,
+        avatar: data.avatar ?? null,
+        role: data.is_admin ? "admin" : data.is_guest ? "guest" : "user",
+      };
+      setUser(user);
     } catch (error) {
       setUser(null);
     }
   };
 
-  const login = async (email: string, password: string) => {
+
+
+
+  const login = async (name: string, password: string) => {
+  try {
     const response = await api.post("/auth/login/", {
-      username_or_email: email,
+      username: name,
       password,
     });
 
@@ -53,18 +66,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       role: data.is_admin ? "admin" : data.is_guest ? "guest" : "user",
     };
 
-    console.log("Login result →", {
-      is_admin: data.is_admin,
-      is_guest: data.is_guest,
-      username: data.username,
-    });
-
     setUser(user);
     localStorage.setItem("accessToken", data.access);
     localStorage.setItem("refreshToken", data.refresh);
+    console.log("Login response:", response.data);
 
     await fetchUser();
-  };
+  } catch (error: any) {
+    console.error("Login failed:", error.response?.data || error.message);
+    throw error; // deja que el componente (ej. `Login.tsx`) maneje el error
+  }
+};
+
 
   const logout = async () => {
     try {

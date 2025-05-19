@@ -12,5 +12,6 @@ const getEnv = (key: string, fallback?: string): string => {
 };
 
 // Exported constants
+export const API_URL = getEnv('VITE_API_URL');
 export const BACKEND_URL = getEnv('VITE_BACKEND_URL');
 export const WS_URL = getEnv('VITE_WS_URL');

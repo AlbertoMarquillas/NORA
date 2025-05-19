@@ -14,6 +14,9 @@ import { useAuth } from "../context/AuthContext";
 import RoleBadge from "../components/RoleBadge"; // Asegúrate que la ruta sea correcta
 
 const Navbar = () => {
+  const auth = useAuth();
+  console.log("Navbar montado con contexto:", auth);
+
   const {
     isAuthenticated,
     isGuest,

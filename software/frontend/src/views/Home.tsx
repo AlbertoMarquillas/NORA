@@ -15,6 +15,7 @@ const fadeUp = (delay = 0) => ({
 });
 
 const Home = () => {
+  
   return (
 
     <div className="min-h-screen bg-black text-white font-['Roboto',sans-serif] snap-y snap-mandatory overflow-y-scroll scroll-smooth">

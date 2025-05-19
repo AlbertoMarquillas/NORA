@@ -19,6 +19,8 @@ const Login = ({ onLogin }: LoginProps = {}) => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { login } = useAuth();
+  const [identifier, setIdentifier] = useState("");
+
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,7 +28,9 @@ const Login = ({ onLogin }: LoginProps = {}) => {
     setIsLoading(true);
 
     try {
-      await login(email, password);
+
+      await login(identifier, password);
+
       navigate("/");
     } catch (err) {
       setError(
@@ -85,25 +89,27 @@ const Login = ({ onLogin }: LoginProps = {}) => {
 
         <form onSubmit={handleLogin} className="space-y-6">
           <div className="space-y-2">
-            <label htmlFor="email" className="block text-sm font-medium text-gray-300">
-              Email
+            <label htmlFor="identifier" className="block text-sm font-medium text-gray-300">
+              Email or Username
             </label>
             <input
-              id="email"
-              name="email"
-              type="email"
-              autoComplete="email"
+              id="identifier"
+              name="identifier"
+              type="text"
+              autoComplete="username"
               required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={identifier}
+              onChange={(e) => setIdentifier(e.target.value)}
+
               className={cn(
                 "w-full px-4 py-3 rounded-md bg-[#252525] border border-gray-700",
                 "text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500",
                 "transition-all duration-200"
               )}
-              placeholder="you@example.com"
+              placeholder="yourname or you@example.com"
             />
           </div>
+
 
           <div className="space-y-2">
             <div className="flex justify-between">
