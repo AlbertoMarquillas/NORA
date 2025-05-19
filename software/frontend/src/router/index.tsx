@@ -5,8 +5,11 @@ import Login from "@/views/Login";
 import AdminDashboard from "@/views/AdminDashboard";
 import ProtectedRoute from "@/router/ProtectedRoute";
 import NotFound from "@/views/NotFound";
-import Register from "@/views/Register"; // opcional
-import TestCors from "@/views/TestCors"; // opcional
+import path from 'path';
+import Register from "@/views/Register";
+import TestCors from "@/views/TestCors";
+import NoraInteractionPage from "../views/NoraInteractionPage";
+
 // import NotFound from "@/views/NotFound"; // opcional
 
 const AppRoutes = () => {
@@ -39,6 +42,14 @@ const AppRoutes = () => {
       {/* Catch-all route for 404 Not Found */}
       {/* <Route path="*" element={<NotFound />} /> opcional */}
       <Route path="/test-cors" element={<TestCors />} />
+      <Route
+        path="/interaction"
+        element={
+          <ProtectedRoute allowedRoles={["admin"]}>
+            <NoraInteractionPage />
+          </ProtectedRoute>
+        }
+      />
       <Route path="*" element={<NotFound />} />
 
     </Routes>

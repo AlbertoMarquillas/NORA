@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { motion } from "framer-motion";
 import {
   DropdownMenu,
@@ -89,7 +88,7 @@ const Navbar = () => {
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
                   <Link to="/interaction" className="text-white hover:bg-gray-800 hover:text-cyan-400">
-                    Interacción
+                    Interaction
                   </Link>
                 </DropdownMenuItem>
               </DropdownMenuContent>
