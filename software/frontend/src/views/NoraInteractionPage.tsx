@@ -1,12 +1,8 @@
 import { useState, useEffect } from "react";
 import Navbar from "@/layout/Navbar";
 import EventoListener from "@/components/interaction/EventoListener";
-import {
-  fsmTransitions,
-  NoraEvent,
-  NoraState,
-  EventLog,
-} from "@/components/interaction/InteractionDef";
+import type { NoraEvent, NoraState, EventLog } from "@/components/interaction/InteractionDef";
+import { fsmTransitions } from "@/components/interaction/InteractionDef";
 
 const NoraInteractionPage = () => {
   const [currentState, setCurrentState] = useState<NoraState>("INACTIVO");
