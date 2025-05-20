@@ -4,6 +4,7 @@ import { Button } from "../ui/button";
 import { AlertCircle, CheckCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Navbar from "../layout/Navbar";
+import { useAuth } from "@/context/AuthContext";
 
 interface RegisterProps {
   onRegister?: (
@@ -21,6 +22,8 @@ const Register = ({ onRegister }: RegisterProps = {}) => {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const { register } = useAuth();
+
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -53,14 +56,15 @@ const Register = ({ onRegister }: RegisterProps = {}) => {
     }
 
     try {
-      if (onRegister) {
-        await onRegister(username, email, password);
-        setSuccess("Registration successful!");
-      } else {
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-        console.log("Registration successful", { username, email });
-        setSuccess("Account created successfully!");
-      }
+      await register(username, email, password, confirmPassword);
+      setSuccess("Account created successfully!");
+      setUsername("");
+      setEmail("");
+      setPassword("");
+      setConfirmPassword("");
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 2000);
     } catch (err) {
       setError(
         err instanceof Error

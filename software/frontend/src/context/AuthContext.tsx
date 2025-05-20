@@ -19,8 +19,10 @@ interface AuthContextType {
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   fetchUser: () => Promise<void>;
+  register: (username: string, email: string, password: string) => Promise<void>;
   loading: boolean;
 }
+
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -99,7 +101,27 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const isAdmin = user?.role === "admin";
   const isGuest = user?.role === "guest" || !user;
 
-  return (
+ 
+
+const register = async (username: string, email: string, password: string, password2: string) => {
+  try {
+    await api.post("/auth/register/", {
+      username,
+      email,
+      password,
+      password2,
+    });
+  } catch (err: any) {
+    console.error("Register error:", err.response?.data || err.message);
+    throw new Error(
+      err.response?.data?.detail ||
+      "Error al registrar. Intenta con otro usuario o email."
+    );
+  }
+};
+
+
+ return (
     <AuthContext.Provider
       value={{
         user,
@@ -109,6 +131,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         login,
         logout,
         fetchUser,
+        register,
         loading,
       }}
     >
