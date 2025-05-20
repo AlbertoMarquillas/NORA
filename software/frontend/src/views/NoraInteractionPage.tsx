@@ -112,7 +112,7 @@ const NoraInteractionPage = () => {
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      fetch('${import.meta.env.VITE_API_URL}/sensor/', {
+      fetch(`${import.meta.env.VITE_API_URL}/fsm/sensor/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

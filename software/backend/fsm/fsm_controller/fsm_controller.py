@@ -10,6 +10,8 @@ import logging
 import os
 from typing import List, Callable, Optional
 from evento.models import TransicionFSM
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
 
 from fsm.definitions.fsm_definitions import FSMState, FSMEvent
 from fsm.definitions.fsm_transitions import FSM_TRANSITIONS
@@ -95,6 +97,17 @@ class FSMController:
             estado_anterior=estado_anterior,
             evento=evento.name,
             estado_nuevo=nuevo_estado.name
+        )
+        channel_layer = get_channel_layer()
+        async_to_sync(channel_layer.group_send)(
+            "fsm_updates",
+            {
+                "type": "send_fsm_event",
+                "content": {
+                    "evento": evento.name,
+                    "nuevo_estado": nuevo_estado.name,
+                },
+            }
         )
 
         # Aquí deberías emitir señales (ej. WebSocket) para frontend y agentes externos

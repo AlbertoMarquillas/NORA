@@ -43,13 +43,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         role: data.is_admin ? "admin" : data.is_guest ? "guest" : "user",
       };
       setUser(user);
-    } catch (error) {
+    } catch (error: any) {
+      if (error.response?.status === 401) {
+        // No está logueado: comportamiento esperado
+        console.info("Usuario no autenticado.");
+      } else {
+        console.error("Error inesperado al obtener usuario:", error);
+      }
       setUser(null);
     }
   };
-
-
-
 
   const login = async (name: string, password: string) => {
   try {
