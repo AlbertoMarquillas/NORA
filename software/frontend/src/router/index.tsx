@@ -9,6 +9,7 @@ import path from 'path';
 import Register from "@/views/Register";
 import TestCors from "@/views/TestCors";
 import NoraInteractionPage from "../views/NoraInteractionPage";
+import Chat from "@/views/ChatInterface";
 
 // import NotFound from "@/views/NotFound"; // opcional
 
@@ -42,6 +43,14 @@ const AppRoutes = () => {
       {/* Catch-all route for 404 Not Found */}
       {/* <Route path="*" element={<NotFound />} /> opcional */}
       <Route path="/test-cors" element={<TestCors />} />
+      <Route path="/chat" element={<Chat />} />
+      {/* <Route path="/chat" element={<ChatInterface />} /> */}
+      {/* <Route path="/chat" element={<Chat />} /> */}
+      {/* <Route path="/chat" element={<ChatInterface />} /> */}
+      {/* <Route path="/chat" element={<Chat />} /> */}
+      {/* <Route path="/chat" element={<ChatInterface />} /> */}
+      {/* <Route path="/chat" element={<Chat />} /> */}
+      {/* <Route path="/chat" element={<ChatInterface />} /> */}
       <Route
         path="/interaction"
         element={
