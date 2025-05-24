@@ -11,6 +11,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import RoleBadge from "../components/RoleBadge"; // Asegúrate que la ruta sea correcta
+import SystemStatus from '@/views/SystemStatus';
 
 const Navbar = () => {
   const auth = useAuth();
@@ -75,20 +76,22 @@ const Navbar = () => {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="bg-[#1a1a1a] border-gray-700 shadow-lg">
-                <DropdownMenuItem asChild>
+                <DropdownMenuItem className="text-white hover:bg-gray-800 hover:text-cyan-400">
                   <Link to="/admin" className="text-white hover:bg-gray-800 hover:text-cyan-400">
                     Admin Dashboard
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem className="text-white hover:bg-gray-800 hover:text-cyan-400">
-                  System Status
+                    <Link to="/system-status" className="text-white hover:bg-gray-800 hover:text-cyan-400">
+                    System Status
+                  </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem className="text-white hover:bg-gray-800 hover:text-cyan-400">
                     <Link to="/logs" className="text-white hover:bg-gray-800 hover:text-cyan-400">
                     Logs
                   </Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem asChild>
+                <DropdownMenuItem className="text-white hover:bg-gray-800 hover:text-cyan-400">
                   <Link to="/interaction" className="text-white hover:bg-gray-800 hover:text-cyan-400">
                     Interaction
                   </Link>

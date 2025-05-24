@@ -11,6 +11,7 @@ import TestCors from "@/views/TestCors";
 import NoraInteractionPage from "../views/NoraInteractionPage";
 import Chat from "@/views/ChatInterface";
 import Logs from "@/views/Logs";
+import SystemStatus from "@/views/SystemStatus";
 
 // import NotFound from "@/views/NotFound"; // opcional
 
@@ -39,6 +40,14 @@ const AppRoutes = () => {
         element={
           <ProtectedRoute allowedRoles={["admin"]}>
             <Logs />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/system-status"
+        element={
+          <ProtectedRoute allowedRoles={["admin"]}>
+            <SystemStatus />
           </ProtectedRoute>
         }
       />
