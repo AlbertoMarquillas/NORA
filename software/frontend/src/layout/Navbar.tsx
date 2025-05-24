@@ -84,7 +84,9 @@ const Navbar = () => {
                   System Status
                 </DropdownMenuItem>
                 <DropdownMenuItem className="text-white hover:bg-gray-800 hover:text-cyan-400">
-                  Logs
+                    <Link to="/logs" className="text-white hover:bg-gray-800 hover:text-cyan-400">
+                    Logs
+                  </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
                   <Link to="/interaction" className="text-white hover:bg-gray-800 hover:text-cyan-400">

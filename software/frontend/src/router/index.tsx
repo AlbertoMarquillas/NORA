@@ -10,6 +10,7 @@ import Register from "@/views/Register";
 import TestCors from "@/views/TestCors";
 import NoraInteractionPage from "../views/NoraInteractionPage";
 import Chat from "@/views/ChatInterface";
+import Logs from "@/views/Logs";
 
 // import NotFound from "@/views/NotFound"; // opcional
 
@@ -30,6 +31,14 @@ const AppRoutes = () => {
         element={
           <ProtectedRoute allowedRoles={["admin"]}>
             <AdminDashboard />
+          </ProtectedRoute>
+        }
+      />
+        <Route
+        path="/logs"
+        element={
+          <ProtectedRoute allowedRoles={["admin"]}>
+            <Logs />
           </ProtectedRoute>
         }
       />

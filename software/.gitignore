@@ -28,3 +28,11 @@ dist-ssr
 
 venv
 venv.*
+
+node_modules/*
+node_modules
+node_modules.*
+
+Lib/
+Lib.*
+Lib_pa
