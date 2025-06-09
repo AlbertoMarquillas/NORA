@@ -2,24 +2,62 @@
 \input{preamble.tex}
 
 \begin{document}
+
+% Cover page (not included in TOC)
 \input{sections/00_cover.tex}
 
+% Table of contents (no page number displayed)
+\clearpage
+\begingroup
+\pagestyle{empty}
+\pagenumbering{gobble}
 \tableofcontents
-\newpage
+\clearpage
+\endgroup
 
+% Activate normal page numbering
+\pagenumbering{arabic}
+\setcounter{page}{1}
+\pagestyle{fancy}
+
+% -------------------------------
+% Section 1 — General Overview
+% -------------------------------
 \input{sections/01_overview.tex}
-\input{sections/02_features.tex}
-\input{sections/03_block_diagram.tex}
-\input{sections/04_specifications.tex}
-\input{sections/05_modules.tex}
-\input{sections/06_interfaces.tex}
-\input{sections/07_power.tex}
-\input{sections/08_vision_voice.tex}
-\input{sections/09_fsm_agents.tex}
-\input{sections/10_nas_storage.tex}
-\input{sections/11_expansion_edgelink.tex}
-\input{sections/12_interaction.tex}
-\input{sections/13_dimensions.tex}
-\input{sections/14_license.tex}
+\input{sections/Section01/11_0_product_introduction.tex}
+\input{sections/Section01/12_0_target_applications.tex}
+\input{sections/Section01/13_0_key_features_summary.tex}
+\input{sections/Section01/14_0_system_architecture.tex}
+\input{sections/Section01/15_0_subsystem_overview.tex}
+\input{sections/Section01/15_1_voice_interface.tex}
+\input{sections/Section01/15_2_vision_interface.tex}
+\input{sections/Section01/15_3_FSM_control_logic.tex}
+\input{sections/Section01/15_4_mobility_subsystem.tex}
+\input{sections/Section01/15_5_NAS_&_memory_structure.tex}
+\input{sections/Section01/15_6_memory_diary.tex}
+\input{sections/Section01/16_0_communication_and_interfaces.tex}
+\input{sections/Section01/17_0_modes_of_operation.tex}
+\input{sections/Section01/18_0_expansion_and_modularity.tex}
+\input{sections/Section01/19_0_power_and_autonomy_considerations.tex}
+\input{sections/Section01/110_0_security_and_privacy_model.tex}
+\input{sections/Section01/120_0_development_environment.tex}
+\input{sections/Section01/130_0_future_enhancements.tex}
+
+% -------------------------------
+% Additional Sections (Module-based)
+% -------------------------------
+%\input{sections/02_features.tex}
+%\input{sections/03_block_diagram.tex}
+%\input{sections/04_specifications.tex}
+%\input{sections/05_modules.tex}
+%\input{sections/06_interfaces.tex}
+%\input{sections/07_power.tex}
+%\input{sections/08_vision_voice.tex}
+%\input{sections/09_fsm_agents.tex}
+%\input{sections/10_nas_storage.tex}
+%\input{sections/11_expansion_edgelink.tex}
+%\input{sections/12_interaction.tex}
+%\input{sections/13_dimensions.tex}
+%\input{sections/14_license.tex}
 
 \end{document}

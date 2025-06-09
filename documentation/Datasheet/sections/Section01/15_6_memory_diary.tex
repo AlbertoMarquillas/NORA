@@ -1,0 +1,63 @@
+\subsubsection*{1.5.6 Memory and Diary System}
+\addcontentsline{toc}{subsubsection}{1.5.6 Memory and Diary System}
+
+The Memory and Diary subsystem enables NORA to store meaningful user experiences, states, and interaction histories in a structured and revisitable manner. It combines contextual metadata, emotional state tracking, voice annotations, and timestamps to build an internal “life log” of its operation.
+
+\vspace{0.5cm}
+
+\noindent\textbf{Core Features:}
+\begin{itemize}
+    \item \textbf{Memory Logs:} Each relevant event (voice command, sensor detection, emotional shift) is logged with context.
+    \item \textbf{Daily Diary:} Summarizes key events and emotional states per day.
+    \item \textbf{Voice Notes:} Users can dictate messages to be stored as diary entries.
+    \item \textbf{Markdown Export:} Textual entries can be exported to human-readable `.md` files.
+    \item \textbf{NAS Integration:} All entries are saved within NORA's local NAS and accessible via GUI.
+\end{itemize}
+
+\vspace{0.5cm}
+
+\noindent\textbf{Event Format Example:}
+\begin{verbatim}
+2025-06-01 18:32 — [EVENT] NFC tag "MyKeys" detected
+2025-06-01 18:33 — [EMOTION] Shifted to CURIOUS
+2025-06-01 18:40 — [VOICE] "Remind me to call Alex tomorrow"
+2025-06-01 18:41 — [DIARY] Entry created: "Reminder set: call Alex"
+\end{verbatim}
+
+\vspace{0.5cm}
+
+\noindent\textbf{Voice Command Examples:}
+\begin{itemize}
+    \item “Take a note: I'm feeling tired today.”
+    \item “Remember that the red folder belongs to math.”
+    \item “Show me my diary from last week.”
+\end{itemize}
+
+\vspace{0.5cm}
+
+\noindent\textbf{Data Organization:}
+\begin{itemize}
+    \item \texttt{/storage/diary/YYYY-MM-DD.md} — Text diary for each day
+    \item \texttt{/storage/logs/emotions.log} — Chronological emotional states
+    \item \texttt{/storage/voice-notes/YYYY-MM-DD\_hhmm.ogg} — Optional audio notes
+    \item \texttt{/storage/reminders.json} — Persistent reminders/events
+\end{itemize}
+
+\vspace{0.5cm}
+
+\noindent\textbf{Internal Architecture:}
+\begin{itemize}
+    \item Python-based logging daemon
+    \item Receives input from FSM, Emotional Engine, Voice Module
+    \item Automatically rotates and archives logs daily
+    \item Provides REST endpoint for frontend visualization
+\end{itemize}
+
+\vspace{0.5cm}
+
+\noindent\textbf{Access and Review:}
+\begin{itemize}
+    \item Through GUI → "Diary" section (calendar + list view)
+    \item By voice → "Show my memories from today"
+    \item Remotely via NAS interface (read-only access)
+\end{itemize}

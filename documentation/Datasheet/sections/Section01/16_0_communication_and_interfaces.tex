@@ -1,0 +1,92 @@
+\subsection*{FSM \& Agent-Based Control}
+
+\addcontentsline{toc}{section}{1.6 FSM \& Agent-Based Control}
+
+NORA's behavior is governed by a combination of a centralized Finite State Machine (FSM) and modular intelligent agents. This architecture allows for predictable control logic (FSM) while supporting reactive and adaptive behavior through autonomous subsystems (agents).
+
+\vspace{0.5cm}
+
+\subsubsection*{1.6.1 Global FSM Architecture}
+\addcontentsline{toc}{subsection}{1.6.1 Global FSM Architecture}
+
+The main FSM defines the high-level operational modes of NORA. Each state encapsulates behaviors and activates relevant modules.
+
+\begin{itemize}
+    \item \textbf{IDLE} -- Minimal activity; awaiting input
+    \item \textbf{ACTIVE} -- Full attention, processing input and executing tasks
+    \item \textbf{FOLLOW} -- Locomotion mode following a user or object
+    \item \textbf{PATROL} -- Autonomous movement through known areas
+    \item \textbf{DOCKING} -- Navigating to charging station
+    \item \textbf{SLEEP} -- Power-saving and ambient monitoring
+\end{itemize}
+
+Each state transition is triggered by events (e.g., voice commands, sensor triggers, internal thresholds) and validated by guard conditions.
+
+\vspace{0.5cm}
+
+\subsubsection*{1.6.2 Event Processing Flow}
+\addcontentsline{toc}{subsection}{1.6.2 Event Processing Flow}
+
+Events are received via:
+
+\begin{itemize}
+    \item \textbf{Voice input}
+    \item \textbf{Sensor detection}
+    \item \textbf{Time-based triggers}
+    \item \textbf{Remote commands}
+\end{itemize}
+
+All events are processed by the \texttt{FSMController}, which evaluates transitions, updates the state, and propagates signals to agents.
+
+\vspace{0.5cm}
+
+\subsubsection*{1.6.3 Internal Agents}
+\addcontentsline{toc}{subsection}{1.6.3 Internal Agents}
+
+Agents are lightweight services responsible for modular tasks. They receive context from the FSM and act independently or in cooperation.
+
+\vspace{0.3cm}
+\begin{tabular}{|p{4cm}|p{9cm}|}
+\hline
+\textbf{Agent Name} & \textbf{Role} \\
+\hline
+\texttt{NavigationAgent} & Path planning, obstacle avoidance, and destination arrival logic \\
+\texttt{EmotionAgent} & State evaluation, expression rendering, and memory contribution \\
+\texttt{VisionAgent} & Real-time object/person detection and spatial localization \\
+\texttt{VoiceAgent} & Recognition of commands, synthesis, and contextual query processing \\
+\texttt{EnergyAgent} & Monitoring power levels and triggering docking behavior \\
+\texttt{MemoryAgent} & Logging events, diary management, and log access control \\
+\hline
+\end{tabular}
+
+\vspace{0.5cm}
+
+\subsection*{1.6.4 Coordination Mechanism}
+\addcontentsline{toc}{subsection}{1.6.4 Coordination Mechanism}
+
+Agents communicate via a shared context bus and notification dispatcher. Each module can:
+
+\begin{itemize}
+    \item Emit signals (e.g., \texttt{low\_battery}, \texttt{human\_detected})
+    \item Subscribe to events (e.g., \texttt{state\_changed: FOLLOW})
+    \item Modify the shared world model
+\end{itemize}
+
+The FSM remains the single source of truth for global state, while agents provide decentralized intelligence.
+
+\vspace{0.5cm}
+
+\subsection*{1.6.5 Real-Time Feedback Loop}
+\addcontentsline{toc}{subsection}{1.6.5 Real-Time Feedback Loop}
+
+The FSM-agent system enables tight control loops. For example:
+
+\begin{enumerate}
+    \item The camera detects an obstacle.
+    \item The \texttt{VisionAgent} emits an \texttt{obstacle\_detected} signal.
+    \item The \texttt{NavigationAgent} updates the route and notifies the FSM.
+    \item The FSM transitions from \texttt{PATROL} to \texttt{IDLE}.
+    \item The system emits a visual alert (e.g., LED state change).
+\end{enumerate}
+
+This loop operates with low latency and supports both deterministic logic and adaptive behavior.

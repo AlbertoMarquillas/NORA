@@ -1,0 +1,28 @@
+\subsection*{1.5 Subsystem Overview}
+\addcontentsline{toc}{subsection}{1.5 Subsystem Overview}
+
+The NORA platform is composed of five primary functional subsystems, each responsible for a critical aspect of system operation. These are:
+
+\begin{enumerate}
+    \item Voice Interface
+    \item Vision Interface
+    \item FSM Control Logic
+    \item Mobility Subsystem
+    \item NAS and Memory Structure
+\end{enumerate}
+
+Each subsystem is implemented as an independent software module, with clearly defined interfaces, event triggers, and execution contexts. Subsystems can be developed and tested in isolation, and are fully configurable during deployment. They are designed to operate both in direct response to user input and as part of autonomous behavior loops managed by the FSM controller.
+
+The following subsections (1.5.1 through 1.5.5) describe the internal role, interfaces, dependencies, and characteristics of each subsystem. The modular design allows for flexible scaling depending on available hardware, power constraints, or desired functionality.
+
+In standard operation, these modules are executed concurrently and communicate via shared memory, messaging queues, or FSM event triggers. Their design allows the system to remain operational even if one or more subsystems are temporarily disabled, ensuring a degree of fault tolerance and graceful degradation.
+
+Subsystem modularity also enables partial deployment configurations, such as:
+\begin{itemize}
+    \item Headless voice-only assistant (no vision or mobility).
+    \item Stationary node with NAS logging and FSM-based reactive logic.
+    \item Mobile unit with navigation and gesture interaction, but without GUI.
+\end{itemize}
+
+These modes can be defined at compile time or through runtime configuration files, depending on the build target.
+

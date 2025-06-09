@@ -1,0 +1,23 @@
+\subsection*{1.1 Product Introduction}
+\addcontentsline{toc}{subsection}{1.1 Product Introduction}
+
+The NORA system is a modular, embedded physical assistant designed to operate autonomously in human-centric environments. Developed as a general-purpose experimental platform, NORA integrates perception, logic, memory, and actuation into a single extensible system.
+
+At its core, NORA functions as a standalone, programmable device capable of voice-based interaction, visual analysis, motion control, and memory retention. Its architecture is optimized for local processing, modular scalability, and deterministic behavior through a finite state machine (FSM)-driven logic system.
+
+NORA does not rely on cloud infrastructure for operation. All critical functionalities—including speech recognition, system control, and data logging—are executed locally. This design ensures data privacy, fast response times, and full control by the user.
+
+The hardware platform is based on off-the-shelf components, typically built around a Raspberry Pi 4 Model B board, with USB or CSI camera support, microphone input, audio output, general-purpose I/O, and local storage through USB or SSD interfaces. A fully documented API and hardware abstraction layer allow for easy integration of new sensors, actuators, and behavior modules.
+
+NORA is intended for use in the following scenarios:
+\begin{itemize}
+    \item Development and prototyping of embedded intelligence systems.
+    \item Personal assistance in private, offline environments.
+    \item Education in robotics, control systems, and human-computer interaction.
+    \item Testbed for adaptive agents and multimodal control interfaces.
+    \item Research into real-time decision-making and privacy-preserving AI systems.
+\end{itemize}
+
+The system can be deployed in multiple configurations: as a stationary voice- and vision-enabled assistant, as a mobile platform capable of physical navigation, or as an integrated node in a sensor-rich smart environment. In all cases, NORA emphasizes transparency, modularity, and embedded control.
+
+This document describes the functional characteristics, internal architecture, and operational details of NORA version 1.0, including hardware recommendations, subsystem descriptions, and integration options.

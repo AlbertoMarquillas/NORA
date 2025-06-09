@@ -1,0 +1,71 @@
+\subsubsection*{1.5.5 Emotional Engine}
+\addcontentsline{toc}{subsubsection}{1.5.5 Emotional Engine}
+
+The Emotional Engine is a conceptual and software subsystem designed to simulate internal affective states within NORA. These emotional states influence both behavior and multimodal expressions, including lighting, posture, vocal tone, and movement patterns.
+
+Rather than using pure randomness, NORA bases its emotional changes on external stimuli, user interaction patterns, and internal system metrics such as battery level or temperature.
+
+\vspace{0.5cm}
+
+\noindent\textbf{Emotional States (core set):}
+\begin{itemize}
+    \item \texttt{NEUTRAL} – Default, idle state
+    \item \texttt{CURIOUS} – Triggered by new input or sensory detection
+    \item \texttt{HAPPY} – Positive feedback or social engagement
+    \item \texttt{TIRED} – Low battery or long uptime
+    \item \texttt{ALERT} – Motion detected or unexpected event
+    \item \texttt{SAD} – Lack of interaction or shutdown request
+\end{itemize}
+
+\vspace{0.5cm}
+
+\noindent\textbf{State Transitions:}
+
+Emotional state is updated through a weighted evaluation of inputs over time. A sample transition matrix:
+
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Trigger} & \textbf{Current State} & \textbf{Next State} \\
+\hline
+No interaction for >10 min & NEUTRAL & SAD \\
+User voice detected & NEUTRAL or SAD & HAPPY \\
+New NFC tag detected & NEUTRAL & CURIOUS \\
+Low battery warning & Any & TIRED \\
+Movement in environment & Any & ALERT \\
+Charging dock reached & TIRED & NEUTRAL \\
+\hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5cm}
+
+\noindent\textbf{Expression Outputs:}
+\begin{itemize}
+    \item \textbf{RGB Lighting:} Internal LED color or pulsing frequency
+    \item \textbf{Voice Modulation:} Pitch and rhythm variation
+    \item \textbf{Posture and Movement:} Tilting head, small motions
+    \item \textbf{Facial Animation:} (optional) Display-based facial expressions
+    \item \textbf{Log Entry:} Each emotional shift is stored in the system diary
+\end{itemize}
+
+\vspace{0.5cm}
+
+\noindent\textbf{Implementation:}
+\begin{itemize}
+    \item Python module running as a background agent
+    \item State stored in shared memory accessible by GUI and Voice modules
+    \item Configurable thresholds and reaction profiles
+    \item Exposes API for external modules to query or modify current state
+\end{itemize}
+
+\vspace{0.5cm}
+
+\noindent\textbf{Interaction Example:}
+
+\begin{itemize}
+    \item FSM triggers event: `user\_speaks`
+    \item Emotional engine updates state to \texttt{HAPPY}
+    \item LED fades to warm yellow, speech becomes more energetic
+    \item Diary logs: `14:23 — Detected friendly voice, changed state to HAPPY`
+\end{itemize}

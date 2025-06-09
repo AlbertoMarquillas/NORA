@@ -1,0 +1,84 @@
+\subsubsection*{1.5.4 Mobility Subsystem}
+\addcontentsline{toc}{subsubsection}{1.5.4 Mobility Subsystem}
+
+The Mobility Subsystem provides NORA with locomotion capabilities, enabling it to navigate its physical environment, respond to spatial commands, and autonomously approach targets or charging stations.
+
+This subsystem is composed of motor drivers, wheel encoders (optional), motion control algorithms, and interaction logic with the central FSM Controller. It receives movement instructions through high-level commands (e.g., “go to X”, “follow object”, “dock”) and translates them into low-level PWM control.
+
+\vspace{0.5cm}
+
+\noindent\textbf{Physical Setup:}
+\begin{itemize}
+    \item \textbf{Motors:} 2× DC gear motors with encoders (optional)
+    \item \textbf{Drivers:} Dual H-Bridge (e.g., L298N or ODrive for BLDC)
+    \item \textbf{Power:} Independent 12 V rail for traction system
+    \item \textbf{Platform:} Differential drive chassis
+\end{itemize}
+
+\vspace{0.5cm}
+
+\noindent\textbf{Motion Modes:}
+\begin{itemize}
+    \item \texttt{MANUAL} – Controlled remotely via voice or interface
+    \item \texttt{AUTONOMOUS} – Moves according to internal FSM state (e.g., follow object, explore area)
+    \item \texttt{PATROL} – Predefined cyclic route
+    \item \texttt{DOCKING} – Seeks and aligns to charging station
+    \item \texttt{STOPPED} – Motors disabled, system in static mode
+\end{itemize}
+
+\vspace{0.5cm}
+
+\noindent\textbf{Motion Commands (abstracted):}
+\begin{itemize}
+    \item \texttt{MOB\_GO\_FORWARD} – Move forward a fixed distance
+    \item \texttt{MOB\_ROTATE\_LEFT} – Turn on axis counter-clockwise
+    \item \texttt{MOB\_FOLLOW\_TARGET} – Adjust motion based on vision tracking
+    \item \texttt{MOB\_STOP} – Immediately stop all motors
+\end{itemize}
+
+\vspace{0.5cm}
+
+\noindent\textbf{Sensors and Feedback:}
+\begin{itemize}
+    \item Ultrasonic sensors for front/back obstacle detection
+    \item Optional rotary encoders for position estimation
+    \item IMU (optional) for heading stabilization
+    \item Docking beacon (IR or magnetic guide)
+\end{itemize}
+
+\vspace{0.5cm}
+
+\noindent\textbf{FSM Integration:}
+
+Each motion command is triggered by FSM events. Example:
+
+\begin{center}
+\begin{tabular}{|l|l|l|l|}
+\hline
+\textbf{FSM State} & \textbf{Event} & \textbf{Next State} & \textbf{Action} \\
+\hline
+IDLE & sensor\_motion & TRACKING & Enable motors \\
+TRACKING & vision\_target\_found & MOVING & MOB\_FOLLOW\_TARGET \\
+MOVING & target\_lost & IDLE & MOB\_STOP \\
+IDLE & low\_battery & DOCKING & MOB\_SEEK\_DOCK \\
+\hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5cm}
+
+\noindent\textbf{Safety Features:}
+\begin{itemize}
+    \item Emergency stop pin (hardware interrupt)
+    \item Timeout watchdog for motor commands
+    \item Battery-level constraints integrated in FSM logic
+\end{itemize}
+
+\vspace{0.5cm}
+
+\noindent\textbf{Implementation Notes:}
+\begin{itemize}
+    \item Motor PWM control implemented using Raspberry Pi GPIO + external driver
+    \item Motion logic managed in an independent Python thread with shared state
+    \item Docking logic supports autonomous recharging and state feedback
+\end{itemize}

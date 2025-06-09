@@ -1,0 +1,74 @@
+\subsubsection*{1.5.3 FSM Control Logic}
+\addcontentsline{toc}{subsubsection}{1.5.3 FSM Control Logic}
+
+The FSM (Finite State Machine) Control Logic module is the core of NORA's decision-making and behavioral control framework. It governs the system’s operation by managing discrete states and defining allowed transitions based on internal and external events.
+
+Each subsystem in NORA communicates with the FSM controller via structured events. These events can be triggered by voice commands, visual detections, sensor readings, timeouts, or internal conditions. The FSM controller evaluates each event against its current state and transition table, applying the corresponding action and updating the system state accordingly.
+
+\vspace{0.5cm}
+
+\noindent\textbf{FSM Controller Components:}
+\begin{itemize}
+    \item \textbf{State Table:} Defines all legal states, including idle, listening, navigating, responding, logging, etc.
+    \item \textbf{Transition Matrix:} Maps each event in each state to a target state and optional action.
+    \item \textbf{Guard Conditions:} Optional logical conditions (boolean expressions) that must be met for a transition to occur.
+    \item \textbf{Event Queue:} Receives and prioritizes incoming events from all active subsystems.
+    \item \textbf{Action Dispatcher:} Executes system-level actions (e.g., move, speak, record) as part of a transition.
+\end{itemize}
+
+\vspace{0.5cm}
+
+\noindent\textbf{State Properties:}
+\begin{itemize}
+    \item States are exclusive; only one active state at a time.
+    \item Each state may have associated entry and exit actions.
+    \item Some states are interruptible (e.g., listening), while others are protected (e.g., critical execution).
+\end{itemize}
+
+\vspace{0.5cm}
+
+\noindent\textbf{Examples of Core States:}
+\begin{itemize}
+    \item \texttt{IDLE} – Waiting for interaction.
+    \item \texttt{LISTENING} – Active voice recognition.
+    \item \texttt{RESPONDING} – Synthesizing or executing response.
+    \item \texttt{TRACKING} – Vision tracking active.
+    \item \texttt{MOVING} – Motion system in progress.
+    \item \texttt{LOGGING} – Writing data to persistent memory.
+\end{itemize}
+
+\vspace{0.5cm}
+
+\noindent\textbf{Example Transition:}
+
+\begin{center}
+\begin{tabular}{|l|l|l|l|}
+\hline
+\textbf{Current State} & \textbf{Event} & \textbf{Next State} & \textbf{Action} \\
+\hline
+IDLE & voice\_wakeword & LISTENING & Enable microphone \\
+LISTENING & voice\_command\_found & RESPONDING & Trigger TTS output \\
+TRACKING & face\_lost & IDLE & Stop motors \\
+IDLE & sensor\_motion & TRACKING & Start vision module \\
+\hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5cm}
+
+\noindent\textbf{Implementation Details:}
+\begin{itemize}
+    \item Implemented in Python as a standalone controller class.
+    \item Stateless transition definitions stored as dictionaries or JSON for portability.
+    \item Supports hot-reload of FSM structure without full system reboot.
+    \item Fully decoupled from subsystems; operates via event abstraction.
+\end{itemize}
+
+\vspace{0.5cm}
+
+\noindent\textbf{Design Advantages:}
+\begin{itemize}
+    \item Predictable behavior and execution path.
+    \item Easy debugging with transition tracing.
+    \item Modular and transparent logic suitable for safety-critical prototyping.
+\end{itemize}

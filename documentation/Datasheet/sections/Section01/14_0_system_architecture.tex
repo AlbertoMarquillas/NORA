@@ -1,0 +1,38 @@
+\subsection*{1.4 System Architecture}
+\addcontentsline{toc}{subsection}{1.4 System Architecture}
+
+NORA is structured as a decentralized embedded system composed of five primary functional domains: voice processing, vision analysis, control logic, mobility subsystem, and memory management. These domains are managed by a centralized Finite State Machine (FSM) engine, which orchestrates transitions based on system events, user commands, or sensor inputs.
+
+The architecture emphasizes local processing and modular separation. Each subsystem is encapsulated in its own software service and communicates with the central FSM controller via internal events. This structure allows each block to be developed, debugged, and extended independently.
+
+All critical functionalities are performed on-device. Communication with external agents, such as sensors or remote clients, is managed through MQTT and/or HTTP interfaces, depending on the use case. A local dashboard built in React enables real-time monitoring and manual control, while the FSM and agents maintain autonomous operation in the background.
+
+\vspace{0.5cm}
+The following diagram illustrates the high-level architecture of the system.
+
+\vspace{0.5cm}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[node distance=1.5cm, every node/.style={font=\small}]
+    % Nodes
+    \node (gui) [draw, rectangle, minimum width=3.5cm, minimum height=1cm] {GUI (Web Dashboard)};
+    \node (fsm) [draw, rectangle, below=of gui, minimum width=3.5cm, minimum height=1cm, fill=gray!10] {FSM Controller};
+    
+    \node (voice) [draw, rectangle, left=3.5cm of fsm, minimum width=2.7cm, minimum height=1cm] {Voice Module};
+    \node (vision) [draw, rectangle, right=3.5cm of fsm, minimum width=2.7cm, minimum height=1cm] {Vision Module};
+
+    \node (mobility) [draw, rectangle, below left=2cm and 1cm of fsm, minimum width=3.1cm, minimum height=1cm] {Mobility System};
+    \node (memory) [draw, rectangle, below=of fsm, yshift=-2cm, minimum width=3.1cm, minimum height=1cm] {Local NAS / Logs};
+    \node (sensors) [draw, rectangle, below right=2cm and 1cm of fsm, minimum width=3.1cm, minimum height=1cm] {External Sensors};
+
+    % Arrows
+    \draw[->] (gui) -- (fsm);
+    \draw[->] (voice) -- (fsm);
+    \draw[->] (vision) -- (fsm);
+    \draw[->] (fsm) -- (mobility);
+    \draw[->] (fsm) -- (memory);
+    \draw[->] (fsm) -- (sensors);
+\end{tikzpicture}
+\caption*{\textbf{Figure 1-1: System architecture overview of NORA}}
+\end{figure}

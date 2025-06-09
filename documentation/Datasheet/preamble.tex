@@ -1,27 +1,51 @@
+% Márgenes del documento y tamaño de papel
 \usepackage[a4paper, margin=2.5cm]{geometry}
+
+% Gráficos y diagramas
 \usepackage{graphicx}
-\usepackage{fancyhdr}
-\usepackage{titlesec}
-\usepackage{lmodern}
-\usepackage{hyperref}
 \usepackage{tikz}
-\usepackage{array}
-\usepackage{setspace}
-\usepackage{booktabs}
-\usepackage{xcolor}
+\usetikzlibrary{positioning}
 \usepackage{float}
 
-\pagestyle{fancy}
-\fancyhf{}
-\rfoot{DS-NORA-1.0 — \today}
+\usepackage[utf8]{inputenc}  % ya deberías tenerlo por defecto
+\DeclareUnicodeCharacter{202F}{\,}  % interpreta U+202F como un pequeño espacio
 
-\renewcommand{\headrulewidth}{0pt}
+
+% Tipografía moderna y limpia
+\usepackage{lmodern}
 \renewcommand{\familydefault}{\sfdefault}
 
+% Encabezado y pie de página personalizados
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[C]{- \thepage\ -}  % Número de página centrado
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% Configuración del índice
+\usepackage{tocloft}
+\renewcommand{\cftsecfont}{\normalfont}
+\renewcommand{\cftsecpagefont}{\normalfont}
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}  % Puntos entre título y página
+\renewcommand{\cftsecindent}{0pt}
+\renewcommand{\cftsecnumwidth}{0pt}
+\setlength{\cftbeforesecskip}{4pt}                     % Espacio entre secciones del índice
+
+% Control de títulos
+\usepackage{titlesec}
+
+% Estilo de enlaces (sin color ni subrayado)
+\usepackage{hyperref}
 \hypersetup{
-    colorlinks=true,
-    linkcolor=blue,
-    urlcolor=blue,
+    colorlinks=false,
+    pdfborder={0 0 0},
     pdftitle={NORA Datasheet},
     pdfauthor={Alberto Marquillas}
 }
+
+% Espaciado útil y tablas limpias
+\usepackage{setspace}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{xcolor}

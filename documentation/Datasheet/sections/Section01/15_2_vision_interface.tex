@@ -1,0 +1,61 @@
+\subsubsection*{1.5.2 Vision Interface}
+\addcontentsline{toc}{subsubsection}{1.5.2 Vision Interface}
+
+The Vision Interface module enables real-time visual perception capabilities within the NORA system. It is responsible for acquiring image data, performing basic analysis, extracting relevant features, and emitting high-level events to the FSM controller.
+
+It operates as a continuously running service that processes frames from a connected camera device, applying a configurable set of detection pipelines depending on the operational mode and current FSM state.
+
+\vspace{0.5cm}
+
+\noindent\textbf{Core Components:}
+\begin{itemize}
+    \item \textbf{Camera Driver:} Interface for USB (UVC) or CSI-based cameras. Captures video frames at standard resolution (typically 640x480 @ 30~fps).
+    \item \textbf{Frame Processor:} Applies preprocessing steps such as grayscale conversion, Gaussian filtering, and resizing.
+    \item \textbf{Feature Extractor:} Analyzes frames using methods such as:
+    \begin{itemize}
+        \item Face detection (Haar cascades, DNN)
+        \item Motion estimation (frame differencing)
+        \item Contour or shape recognition
+        \item Object detection (YOLOv5-lite or MobileNet SSD, optional)
+    \end{itemize}
+    \item \textbf{Event Mapper:} Converts extracted features or triggers (e.g., "face detected", "movement on left") into FSM events.
+\end{itemize}
+
+\vspace{0.5cm}
+
+\noindent\textbf{Operational Modes:}
+\begin{itemize}
+    \item \textbf{Surveillance Mode:} Monitors for presence or movement and triggers alert events.
+    \item \textbf{Face Interaction Mode:} Detects face proximity, orientation or expressions for interaction adaptation.
+    \item \textbf{Gesture Mode (Optional):} Uses trained models to recognize hand gestures for input (under development).
+    \item \textbf{Tracking Mode:} Maintains lock on a moving object or face and provides coordinates to the mobility system.
+\end{itemize}
+
+\vspace{0.5cm}
+
+\noindent\textbf{Integration and Outputs:}
+\begin{itemize}
+    \item Events are sent to the FSM in symbolic form (e.g., \texttt{face\_near}, \texttt{movement\_left}, \texttt{no\_target}).
+    \item Visual overlays are optionally rendered for debugging via OpenCV.
+    \item Diagnostic data (e.g., FPS, resolution, active detectors) can be logged locally.
+\end{itemize}
+
+\vspace{0.5cm}
+
+\noindent\textbf{Dependencies and Performance:}
+\begin{itemize}
+    \item Requires OpenCV 4.x or compatible image processing library.
+    \item Processing load is adjustable via frame skip rate and resolution.
+    \item Can operate in parallel with the Voice Interface under standard thermal limits on Raspberry Pi~4.
+\end{itemize}
+
+\vspace{0.5cm}
+
+\noindent\textbf{Event Flow Example:}
+\begin{enumerate}
+    \item Camera captures frame at 30~fps.
+    \item Frame processor normalizes the image.
+    \item Face detector identifies one or more faces.
+    \item Event \texttt{face\_detected} is sent to the FSM.
+    \item FSM transitions to \texttt{interaction} state and enables voice response.
+\end{enumerate}

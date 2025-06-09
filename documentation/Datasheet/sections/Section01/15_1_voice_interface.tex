@@ -1,0 +1,43 @@
+\subsubsection*{1.5.1 Voice Interface}
+\addcontentsline{toc}{subsubsection}{1.5.1 Voice Interface}
+
+The Voice Interface module is responsible for all audio-based interaction in the NORA system, including speech recognition, voice command processing, and text-to-speech (TTS) synthesis. It serves as the primary input modality in non-visual configurations and complements the vision system when multimodal interaction is active.
+
+The subsystem is composed of the following internal components:
+
+\begin{itemize}
+\item \textbf{Audio Input Handler:} Captures microphone data in real-time using a pulseaudio or ALSA interface. Sampling rate is typically 16 kHz, mono-channel.\item \textbf{Speech Recognition Engine:} Performs offline transcription using an embedded model (e.g., Vosk, Whisper.cpp, or PocketSphinx). The system supports both continuous listening and activation word modes.
+    \item \textbf{Command Parser:} Maps transcribed text to internal events or FSM triggers. Can differentiate between direct commands (e.g., "go forward") and indirect queries (e.g., "what time is it?").
+    \item \textbf{Text-to-Speech Synthesizer:} Converts system-generated responses into spoken audio using local TTS engines (e.g., espeak-ng, Festival, or PicoTTS).
+    \item \textbf{FSM Interface:} Sends event flags and parsed content to the FSM controller for evaluation and execution.
+\end{itemize}
+
+\vspace{0.5cm}
+
+\noindent\textbf{Operational Modes:}
+\begin{itemize}
+    \item \textbf{Passive listening:} Commands are accepted only after an activation keyword is detected (e.g., "NORA").
+    \item \textbf{Continuous listening:} Open command recognition with periodic resets and silence detection to prevent flooding.
+    \item \textbf{Manual trigger:} External hardware (button, GUI) activates a single recognition window.
+\end{itemize}
+
+\vspace{0.5cm}
+
+\noindent\textbf{Dependencies and Resources:}
+\begin{itemize}
+    \item Compatible with USB or onboard audio input.
+    \item CPU usage depends on model; real-time performance achievable on quad-core ARM-based boards.
+    \item Requires no internet connection; all models and grammars are stored locally.
+\end{itemize}
+
+\vspace{0.5cm}
+
+\noindent\textbf{Event Flow Example:}
+\begin{enumerate}
+    \item Microphone detects speech input and digitizes signal.
+    \item Audio is passed to the recognition engine.
+    \item Resulting text is parsed and matched to a known intent.
+    \item FSM is notified with the intent as an event.
+    \item FSM triggers a response or state transition.
+    \item Optional TTS engine vocalizes the system’s response.
+\end{enumerate}

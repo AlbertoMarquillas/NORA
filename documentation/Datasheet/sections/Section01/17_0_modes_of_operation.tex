@@ -1,0 +1,38 @@
+\section*{1.7 Modes of Operation}
+\addcontentsline{toc}{section}{1.7 Modes of Operation}
+
+NORA supports multiple operational modes designed to adapt its functionality, responsiveness, and power consumption to various user contexts and environmental conditions. Each mode activates or restricts certain subsystems and behaviors according to the current scenario or user command.
+
+\vspace{0.5cm}
+
+\begin{enumerate}
+    \item \textbf{Normal Mode} \\
+    Default operational configuration. All subsystems are active: FSM control, voice and vision interfaces, mobility, sensors, and memory logging. Suitable for interactive environments.
+
+    \item \textbf{Night Mode} \\
+    Visual outputs are dimmed, LEDs reduced or disabled, and voice synthesis muted. Only essential sensors remain active. Designed for low-disturbance operation during rest hours.
+
+    \item \textbf{Follow Mode} \\
+    Activates motion and vision systems to maintain proximity to a target (typically a user). FSM prioritizes trajectory tracking and obstacle avoidance. Activated by command or trigger.
+
+    \item \textbf{Silent Mode} \\
+    Voice output is disabled. Interaction occurs through visual indicators or GUI only. Recommended for quiet or shared spaces.
+
+    \item \textbf{Maintenance Mode} \\
+    Disables automatic behaviors. Allows manual control of motors, sensors, and interfaces. Used for calibration, testing, or hardware access.
+
+    \item \textbf{Debug Mode} \\
+    Enables real-time internal logging of events, transitions, and sensor values. FSM remains active. Intended for development or troubleshooting.
+
+    \item \textbf{Charging Mode} \\
+    Activated when docked or externally powered. Limits processing load and disables mobility. GUI may display charge status and logs system temperature/battery voltage.
+
+    \item \textbf{Offline Mode} \\
+    Disables all network interfaces. Data remains strictly local. Ideal for privacy-restricted or disconnected environments.
+
+    \item \textbf{NAS Mode} \\
+    Prioritizes file storage and transfer operations. Voice/vision modules may be disabled. NAS services (e.g., Samba) run at elevated priority.
+
+    \item \textbf{Learning Mode} \\
+    Passive observation mode. Events are logged, but no active responses are generated. Useful for data collection, user modeling, or agent retraining.
+\end{enumerate}

@@ -1,31 +1,33 @@
 \section*{1. General Overview}
-\addcontentsline{toc}{section}{1. General Overview}
 
-NORA is a modular physical assistant designed to operate autonomously with embedded voice, vision, and behavioral intelligence. It serves as a platform for interactive applications in personal, educational, and experimental environments.
+The NORA system is a modular, intelligent physical assistant designed for embedded operation in personal, educational, and experimental environments. It integrates voice recognition, computer vision, agent-based behavior logic, and physical mobility, all supported by a fully local architecture that eliminates reliance on cloud infrastructure.
 
-\vspace{0.5cm}
+The device is built around a decentralized control model, where software modules operate semi-independently and communicate through a central Finite State Machine (FSM) controller. This allows for predictable behavior patterns, easy debugging, and a scalable logic core. NORA operates in real-time, responding to vocal commands, visual stimuli, and environmental events through FSM-driven transitions and adaptive agents.
 
-The system combines multiple subsystems in a unified architecture:
+In its standard configuration, NORA includes a primary processor board (e.g., Raspberry Pi 4 Model B), a camera module, a microphone array, actuators (wheels or servos), and a local storage interface functioning as a NAS. Additional modules, such as an emotion engine, external sensor interfaces, and network-discoverable subsystems, can be enabled depending on the application.
 
+NORA is fully customizable, and each subsystem—voice, vision, motion, memory, and logic—can be independently developed, replaced, or expanded. This makes it suitable for research projects, robotics curricula, personal productivity, or interactive installations where user feedback and autonomy are required.
+
+The system is developed with a privacy-first philosophy. All inference, classification, memory storage, and behavior logic occur within the device boundary. No data is transmitted externally unless explicitly configured.
+
+Key design principles include:
 \begin{itemize}
-	\item \textbf{Multimodal Interaction:} Speech recognition, synthesis, and computer vision for human-centered communication.
-	\item \textbf{Modular Control:} Finite State Machine (FSM)-based control logic, agent-based decision modules, and customizable behaviors.
-	\item \textbf{Physical Mobility:} Support for autonomous movement, obstacle detection, and environmental interaction.
-	\item \textbf{Data Awareness:} Integration of a local NAS system for file storage and memory logging.
-	\item \textbf{Expansion Ready:} Compatible with EdgeLink protocol for automatic discovery and management of external IoT sensors.
+    \item \textbf{Modularity:} Each hardware and software block is isolated, versioned, and extensible.
+    \item \textbf{Determinism:} The FSM core ensures traceable behavior and reproducible state transitions.
+    \item \textbf{Local Execution:} No cloud dependency is required for primary functionality.
+    \item \textbf{Voice and Visual Fusion:} Commands and recognition pipelines can be cross-validated.
+    \item \textbf{File-Centric Memory:} Data, logs, and recorded events are stored in a structured, user-accessible format.
 \end{itemize}
 
-\vspace{0.5cm}
+Multiple modes of interaction are supported, including:
 
-Its design philosophy prioritizes:
 \begin{itemize}
-	\item \textbf{Modularity:} Each component (voice, vision, mobility, storage, agents) can be independently developed, tested, or replaced.
-	\item \textbf{Privacy:} All processing is performed locally, without cloud dependency.
-	\item \textbf{Transparency:} Fully documented and licensed under MIT for educational and research reuse.
+    \item Voice-only operation for environments where screens are not desirable.
+    \item Web-based GUI control via a local dashboard, including sensor display and file access.
+    \item Autonomous mode with no user input, responding to ambient stimuli or recurring routines.
 \end{itemize}
 
-\vspace{0.5cm}
+The current firmware version supports real-time speech processing, audio feedback, gesture recognition, movement planning, and file-based recall. Future releases will include integration with reinforcement-based learning agents, improved navigation modules, and wireless sensor auto-discovery (EdgeLink protocol).
 
-NORA can serve as a testbed for embedded AI, robotics, and system integration, offering both real-time interaction and system-level autonomy.
-
+NORA is distributed under the MIT License and is suitable for academic, prototyping, or personal enhancement purposes.
 

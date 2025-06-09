@@ -1,0 +1,41 @@
+\subsection*{1.3 Key Features Summary}
+\addcontentsline{toc}{subsection}{1.3 Key Features Summary}
+
+NORA integrates a wide range of features commonly required in autonomous assistant systems. The following table summarizes the primary functionalities supported in the standard configuration of NORA-V1.
+
+\vspace{0.5cm}
+
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{|p{6cm}|c|p{6cm}|}
+\hline
+\textbf{Feature} & \textbf{Enabled by Default} & \textbf{Description / Notes} \\
+\hline
+Voice Recognition (offline) & Yes & Real-time speech-to-text using local acoustic models; no internet required. \\
+\hline
+Text-to-Speech Synthesis & Yes & Converts system responses or reminders into natural voice output. \\
+\hline
+FSM-Controlled Behavior Logic & Yes & Core finite state machine engine for deterministic transitions. \\
+\hline
+Vision-Based Tracking & Yes & Uses USB/CSI camera to detect movement, face, or object targets. \\
+\hline
+File-Based Memory (NAS) & Yes & All logs, notes, and user memories stored locally; accessible via web GUI. \\
+\hline
+Local Web Dashboard (GUI) & Yes & React-based interface for viewing logs, states, and interacting with the system. \\
+\hline
+Mobility Control System & Optional & Configurable motor drivers (e.g., L298N) and motion planning engine. \\
+\hline
+Sensor Expansion via EdgeLink & Optional & Detect and integrate external devices (ESP32, Pi, etc.) via MQTT or mDNS. \\
+\hline
+Energy Monitoring & Optional & Tracks battery level, triggers low-power behavior modes, optional solar input. \\
+\hline
+Emotional State Estimation & Planned & Internal agent model to associate sensory inputs with emotional context. \\
+\hline
+Personal Diary (voice/text) & Yes & Entries recorded manually or by command; stored in human-readable Markdown. \\
+\hline
+Offline Operation (cloud-free) & Yes & All core functionalities designed to work without any internet connection. \\
+\hline
+\end{tabular}
+\caption*{\textbf{Table 1-1: Summary of Functional Features in NORA-V1}}
+\end{table}
