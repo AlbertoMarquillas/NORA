@@ -1,5 +1,47 @@
+# ============================================================
+# NORA - Global .gitignore
+# Monorepo with Python, JavaScript, frontend, backend,
+# perception modules, simulators, hardware scripts and docs.
+# ============================================================
+
+# ============================================================
+# OS / system files
+# ============================================================
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# ============================================================
+# Editor / IDE
+# ============================================================
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/launch.json
+!.vscode/tasks.json
+
+.idea/
+*.iml
+
+# Visual Studio / Windows
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.ntvs*
+*.njsproj
+*.sln
+
+# Vim
+*.swp
+*.swo
+*~
+
+# ============================================================
 # Logs
-logs
+# ============================================================
+logs/
 *.log
 npm-debug.log*
 yarn-debug.log*
@@ -7,32 +49,208 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
+# ============================================================
+# Environment files / secrets
+# ============================================================
+.env
+.env.*
+!.env.example
+!.env.template
+
+# ============================================================
+# Python
+# ============================================================
+__pycache__/
+**/__pycache__/
+
+*.pyc
+*.pyo
+*.pyd
+*.py[cod]
+
+.python-version
+
+# Virtual environments
+.venv/
+.venv.*/
+venv/
+venv.*/
+env/
+env.*/
+ENV/
+
+# Packaging / build
+build/
+dist/
+site/
+pip-wheel-metadata/
+*.egg-info/
+.eggs/
+
+# Testing / coverage
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+.mypy_cache/
+.ruff_cache/
+.pyre/
+.hypothesis/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Python local libs sometimes generated on Windows
+Lib/
+Lib.*/
+Lib_pa/
+Scripts/
+Include/
+
+# ============================================================
+# Django / Flask / FastAPI / generic Python app artifacts
+# ============================================================
+instance/
+*.sqlite3
+db.sqlite3
+db.sqlite3-journal
+
+# Migrations are usually versioned in Django.
+# Therefore DO NOT ignore migrations/
+# But ignore Python cache inside migrations.
+**/migrations/__pycache__/
+
+# Media and collected static generated locally
+media/
+staticfiles/
+
+# ============================================================
+# JavaScript / Node / frontend
+# ============================================================
+node_modules/
+**/node_modules/
+
+# Build outputs
+dist/
+dist-ssr/
+build/
+coverage/
+.next/
+.nuxt/
+.svelte-kit/
+storybook-static/
+
+# Package manager caches
+.npm/
+.pnpm-store/
+.yarn/
+.yarn/cache/
+.yarn/unplugged/
+.yarn/build-state.yml
+.yarn/install-state.gz
+
+# TypeScript
+*.tsbuildinfo
+
+# Vite
+vite.svg
+
+# ============================================================
+# Frontend local env / local overrides
+# ============================================================
 *.local
 
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
-.DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
+# ============================================================
+# Temporary files
+# ============================================================
+tmp/
+temp/
+*.tmp
+*.temp
 
-.venv
-.venv.*
+# ============================================================
+# Binary / compiled artifacts
+# ============================================================
+*.exe
+*.dll
+*.so
+*.dylib
+*.o
+*.obj
+*.a
+*.lib
 
-venv
-venv.*
+# ============================================================
+# Archives
+# ============================================================
+*.7z
+*.gz
+*.zip
+*.tar
+*.tgz
+*.bz2
+*.rar
 
-node_modules/*
-node_modules
-node_modules.*
+# ============================================================
+# Documentation generated artifacts
+# Keep source docs, ignore export artifacts if generated
+# ============================================================
+documentation/_build/
+documentation/build/
+documentation/site/
 
-Lib/
-Lib.*
-Lib_pa
+# Common office temporary files
+~$*.docx
+~$*.xlsx
+~$*.pptx
+
+# ============================================================
+# Data / runtime artifacts
+# Adjust later depending on what you want versioned
+# ============================================================
+data/cache/
+data/temporary/
+data/sessions/
+
+# Optional:
+# If trained models or heavy binaries should not be versioned,
+# uncomment these lines later.
+# data/models/
+# data/embeddings/
+
+# ============================================================
+# Hardware / embedded temporary outputs
+# ============================================================
+*.bin
+*.hex
+*.elf
+*.map
+
+# Serial / capture dumps
+captures/
+recordings/
+dumps/
+
+# ============================================================
+# Profiling / diagnostics
+# ============================================================
+.prof
+*.prof
+*.lprof
+.profraw
+.profdata
+
+# ============================================================
+# Test outputs
+# ============================================================
+pytestdebug.log
+nosetests.xml
+coverage.xml
+
+# ============================================================
+# Git keep
+# Keep placeholder files versioned
+# ============================================================
+!.gitkeep
