@@ -1,0 +1,347 @@
+Listado de rutas de carpetas
+El número de serie del volumen es A279-A4DF
+C:.
+|   .env.example
+|   .gitignore
+|   LICENSE
+|   package.json
+|   pyproject.toml
+|   README.md
+|   tree.txt
+|   
++---action
+|   |   .gitkeep
+|   |   
+|   +---face
+|   |       .gitkeep
+|   |       
+|   +---leds
+|   |       .gitkeep
+|   |       
+|   +---notifications
+|   |       .gitkeep
+|   |       
+|   +---screen
+|   |       .gitkeep
+|   |       
+|   +---servos
+|   |       .gitkeep
+|   |       
+|   \---speech
+|           .gitkeep
+|           
++---agents
+|   |   .gitkeep
+|   |   
+|   +---behavior
+|   |       .gitkeep
+|   |       
+|   +---decision
+|   |       .gitkeep
+|   |       
+|   +---dialogue
+|   |       .gitkeep
+|   |       
+|   +---fusion
+|   |       .gitkeep
+|   |       
+|   +---memory
+|   |       .gitkeep
+|   |       
+|   +---orchestration
+|   |       .gitkeep
+|   |       
+|   \---planning
+|           .gitkeep
+|           
++---backend
+|   |   .gitkeep
+|   |   
+|   +---api
+|   |       .gitkeep
+|   |       
+|   +---application
+|   |       .gitkeep
+|   |       
+|   +---jobs
+|   |       .gitkeep
+|   |       
+|   +---persistence
+|   |       .gitkeep
+|   |       
+|   +---repositories
+|   |       .gitkeep
+|   |       
+|   +---services
+|   |       .gitkeep
+|   |       
+|   \---websocket
+|           .gitkeep
+|           
++---core
+|   |   .gitkeep
+|   |   
+|   +---config
+|   |       .gitkeep
+|   |       
+|   +---constants
+|   |       .gitkeep
+|   |       
+|   +---contracts
+|   |       .gitkeep
+|   |       
+|   +---events
+|   |       .gitkeep
+|   |       
+|   +---exceptions
+|   |       .gitkeep
+|   |       
+|   +---logging
+|   |       .gitkeep
+|   |       
+|   +---models
+|   |       .gitkeep
+|   |       
+|   +---state_machine
+|   |       .gitkeep
+|   |       
+|   \---utils
+|           .gitkeep
+|           
++---data
+|   |   .gitkeep
+|   |   
+|   +---cache
+|   |       .gitkeep
+|   |       
+|   +---calibration
+|   |       .gitkeep
+|   |       
+|   +---embeddings
+|   |       .gitkeep
+|   |       
+|   +---memory
+|   |       .gitkeep
+|   |       
+|   +---models
+|   |       .gitkeep
+|   |       
+|   +---sessions
+|   |       .gitkeep
+|   |       
+|   \---temporary
+|           .gitkeep
+|           
++---deployment
+|   |   .gitkeep
+|   |   
+|   +---docker
+|   |       .gitkeep
+|   |       
+|   +---environments
+|   |       .gitkeep
+|   |       
+|   +---raspberry
+|   |       .gitkeep
+|   |       
+|   \---systemd
+|           .gitkeep
+|           
++---documentation
+|   |   .gitkeep
+|   |   
+|   +---agents
+|   |       .gitkeep
+|   |       
+|   +---architecture
+|   |       .gitkeep
+|   |       
+|   +---decisions
+|   |       .gitkeep
+|   |       
+|   +---experiments
+|   |       .gitkeep
+|   |       
+|   +---hardware
+|   |       .gitkeep
+|   |       
+|   +---journal
+|   |       .gitkeep
+|   |       
+|   +---protocols
+|   |       .gitkeep
+|   |       
+|   +---setup
+|   |       .gitkeep
+|   |       
+|   +---software
+|   |       .gitkeep
+|   |       
+|   \---state_machine
+|           .gitkeep
+|           
++---frontend
+|   |   .gitkeep
+|   |   
+|   +---app
+|   |       .gitkeep
+|   |       
+|   +---components
+|   |       .gitkeep
+|   |       
+|   +---hooks
+|   |       .gitkeep
+|   |       
+|   +---pages
+|   |       .gitkeep
+|   |       
+|   +---public
+|   |       .gitkeep
+|   |       
+|   +---services
+|   |       .gitkeep
+|   |       
+|   +---store
+|   |       .gitkeep
+|   |       
+|   \---styles
+|           .gitkeep
+|           
++---hardware
+|   |   .gitkeep
+|   |   
+|   +---actuators
+|   |       .gitkeep
+|   |       
+|   +---audio_devices
+|   |       .gitkeep
+|   |       
+|   +---camera
+|   |       .gitkeep
+|   |       
+|   +---drivers
+|   |       .gitkeep
+|   |       
+|   +---gpio
+|   |       .gitkeep
+|   |       
+|   +---nfc
+|   |       .gitkeep
+|   |       
+|   +---pcb
+|   |       .gitkeep
+|   |       
+|   +---raspberry_pi
+|   |       .gitkeep
+|   |       
+|   \---sensors
+|           .gitkeep
+|           
++---integrations
+|   |   .gitkeep
+|   |   
+|   +---calendar
+|   |       .gitkeep
+|   |       
+|   +---home_automation
+|   |       .gitkeep
+|   |       
+|   +---llm
+|   |       .gitkeep
+|   |       
+|   +---messaging
+|   |       .gitkeep
+|   |       
+|   +---stt
+|   |       .gitkeep
+|   |       
+|   \---tts
+|           .gitkeep
+|           
++---perception
+|   |   .gitkeep
+|   |   
+|   +---audio
+|   |       .gitkeep
+|   |       
+|   +---nfc
+|   |       .gitkeep
+|   |       
+|   +---presence
+|   |       .gitkeep
+|   |       
+|   +---sensor_fusion
+|   |       .gitkeep
+|   |       
+|   \---vision
+|           .gitkeep
+|           
++---scripts
+|   |   .gitkeep
+|   |   
+|   +---calibration
+|   |       .gitkeep
+|   |       
+|   +---demos
+|   |       .gitkeep
+|   |       
+|   +---dev
+|   |       .gitkeep
+|   |       
+|   +---diagnostics
+|   |       .gitkeep
+|   |       
+|   \---setup
+|           .gitkeep
+|           
++---simulators
+|   |   .gitkeep
+|   |   
+|   +---audio
+|   |       .gitkeep
+|   |       
+|   +---nfc
+|   |       .gitkeep
+|   |       
+|   +---presence
+|   |       .gitkeep
+|   |       
+|   +---scheduler
+|   |       .gitkeep
+|   |       
+|   +---virtual_user
+|   |       .gitkeep
+|   |       
+|   \---vision
+|           .gitkeep
+|           
++---tests
+|   |   .gitkeep
+|   |   
+|   +---e2e
+|   |       .gitkeep
+|   |       
+|   +---fixtures
+|   |       .gitkeep
+|   |       
+|   +---hardware
+|   |       .gitkeep
+|   |       
+|   +---integration
+|   |       .gitkeep
+|   |       
+|   \---unit
+|           .gitkeep
+|           
+\---tools
+    |   .gitkeep
+    |   
+    +---codegen
+    |       .gitkeep
+    |       
+    +---maintenance
+    |       .gitkeep
+    |       
+    \---profiling
+            .gitkeep
+            

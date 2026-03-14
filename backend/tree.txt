@@ -1,0 +1,153 @@
+Listado de rutas de carpetas
+El número de serie del volumen es A279-A4DF
+C:.
+|   apps.py
+|   manage.py
+|   requirements.txt
+|   tree.txt
+|   __init__.py
+|   
++---api
+|   |   __init__.py
+|   |   
+|   +---serializers
+|   |   |   auth_serializers.py
+|   |   |   __init__.py
+|   |   |   
+|   |   \---__pycache__
+|   |           auth_serializers.cpython-313.pyc
+|   |           __init__.cpython-313.pyc
+|   |           
+|   +---urls
+|   |   |   auth_urls.py
+|   |   |   events_urls.py
+|   |   |   fsm_urls.py
+|   |   |   __init__.py
+|   |   |   
+|   |   \---__pycache__
+|   |           auth_urls.cpython-313.pyc
+|   |           events_urls.cpython-313.pyc
+|   |           fsm_urls.cpython-313.pyc
+|   |           __init__.cpython-313.pyc
+|   |           
+|   +---views
+|   |   |   auth_views.py
+|   |   |   backend_views.py
+|   |   |   events_views.py
+|   |   |   fsm_views.py
+|   |   |   __init__.py
+|   |   |   
+|   |   \---__pycache__
+|   |           auth_views.cpython-313.pyc
+|   |           backend_views.cpython-313.pyc
+|   |           events_views.cpython-313.pyc
+|   |           fsm_views.cpython-313.pyc
+|   |           __init__.cpython-313.pyc
+|   |           
+|   \---__pycache__
+|           __init__.cpython-313.pyc
+|           
++---application
+|       .gitkeep
+|       __init__.py
+|       
++---jobs
+|       .gitkeep
+|       __init__.py
+|       
++---migrations
+|   |   0001_initial.py
+|   |   __init__.py
+|   |   
+|   \---__pycache__
+|           0001_initial.cpython-313.pyc
+|           __init__.cpython-313.pyc
+|           
++---persistence
+|   |   db.sqlite3
+|   |   __init__.py
+|   |   
+|   +---models
+|   |   |   auth_models.py
+|   |   |   events_models.py
+|   |   |   fsm_models.py
+|   |   |   __init__.py
+|   |   |   
+|   |   \---__pycache__
+|   |           events_models.cpython-313.pyc
+|   |           __init__.cpython-313.pyc
+|   |           
+|   \---__pycache__
+|           __init__.cpython-313.pyc
+|           
++---repositories
+|       .gitkeep
+|       __init__.py
+|       
++---runtime
+|   \---audio
+|           speech_1773238698615_a616556e_af0d4422-5d97-4301-8c9e-1412b112f78f.wav
+|           speech_1773238702120_39f856f1_590e67ce-d68c-4030-b97a-0308c98b5082.wav
+|           speech_1773238705070_b688a9ed_07acaac7-752d-4aab-af8d-e8fb29c51262.wav
+|           speech_1773238708067_b98cb95a_44eadeec-9d0c-4f52-aa04-1a7571c5f604.wav
+|           speech_1773238718767_f4b3f151_7cbce2e6-29f4-43c4-84e9-36ec2790553c.wav
+|           speech_1773238721718_127fc7b5_46a8225d-32c1-4116-b9de-7a8240d9ee63.wav
+|           speech_1773238742982_995474e5_837c1ca9-33b8-478f-a15a-211c0f4a7bcc.wav
+|           speech_1773247188407_d0058336_5c261131-c4f6-4e29-bbb8-48ab629eb8d3.wav
+|           speech_1773247191471_ab0c9a73_948f3d14-4629-4978-ae56-a966a3bc3f78.wav
+|           speech_1773247194381_0f1da489_df989164-2bd5-4018-b44f-db3b1e433aa5.wav
+|           speech_1773247205700_446d7b28_40691533-b240-4e99-ad04-894d1eecf19e.wav
+|           speech_1773247397482_80ec1fdd_50dbcef4-88ff-4dde-819a-21c74d384010.wav
+|           speech_1773247465701_a2fc4274_77f4a60c-4710-4a9d-9869-c3af2ab6b78f.wav
+|           speech_1773247480261_5d08dd2d_9aa66647-bf59-42ba-b940-12e3636a5647.wav
+|           speech_1773247488130_cb9a7940_186845fe-ef03-4574-ada4-089cabc0a10c.wav
+|           speech_1773247504658_d0f1c33d_677978a6-341d-420e-8eb6-6b819ccd9df8.wav
+|           speech_1773250198457_cae167ea_b0c005cb-3125-499d-b1ef-f6ec9da18020.wav
+|           speech_1773250209869_abfbd4b2_0fc0de81-b190-4296-9a9b-6f277a45e2c4.wav
+|           speech_1773250223751_227a63d5_11076acd-cf0d-4a9b-b472-cd90545613a8.wav
+|           speech_1773250226725_dd65c031_0138db70-2e2c-4778-8ccd-0c272914f336.wav
+|           speech_1773250525204_528746fb_95ff7941-8572-49ab-a2e2-068f6913f925.wav
+|           speech_1773253838480_9fe175e8_38e12b2b-dc50-4c43-ab72-f99ea402ccee.wav
+|           speech_1773253851465_e3a104e2_d33d2d03-8834-4a4c-8839-122a59736d98.wav
+|           speech_1773253930001_4398fd66_ed85bc26-af1c-4133-8aec-8a5ab58a9915.wav
+|           speech_1773253950870_a9cbe8db_1dd81eb0-c526-490f-8950-5d7ccadab4b1.wav
+|           speech_1773253999870_74e422c7_51577ea2-3a65-4f19-8ce3-b93f47d187fd.wav
+|           speech_1773254027554_c7aedc67_d2a8f3cd-8593-45ef-9315-770de913c352.wav
+|           speech_1773254030929_489ea65a_c280b05c-d314-48db-85a6-e75812054b5e.wav
+|           speech_1773427299604_c15ba2a7_911796af-5461-4ad1-a65f-42b3670b76e0.wav
+|           
++---server
+|   |   asgi.py
+|   |   backend_urls.py
+|   |   settings.py
+|   |   wsgi.py
+|   |   __init__.py
+|   |   
+|   \---__pycache__
+|           asgi.cpython-313.pyc
+|           backend_urls.cpython-313.pyc
+|           settings.cpython-313.pyc
+|           wsgi.cpython-313.pyc
+|           __init__.cpython-313.pyc
+|           
++---services
+|       .gitkeep
+|       __init__.py
+|       
++---websocket
+|   |   backend_routing.py
+|   |   events_consumers.py
+|   |   events_routing.py
+|   |   fsm_consumers.py
+|   |   fsm_routing.py
+|   |   __init__.py
+|   |   
+|   \---__pycache__
+|           backend_routing.cpython-313.pyc
+|           fsm_consumers.cpython-313.pyc
+|           __init__.cpython-313.pyc
+|           
+\---__pycache__
+        apps.cpython-313.pyc
+        __init__.cpython-313.pyc
+        
