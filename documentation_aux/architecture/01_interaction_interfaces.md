@@ -2,134 +2,174 @@
 
 ## Definition
 
-The **Interaction Interfaces** module defines every human-facing channel through which a person can intentionally communicate with, control, observe, or interrupt NORA.
+The **Interaction Interfaces** module defines the human-facing access layer of NORA.
 
-This module describes the **surfaces of interaction** between the user and the system. It answers a fundamental architectural question:
+This module contains the channels through which a person intentionally exchanges information, control signals, feedback, or interruptions with the system.
 
-**How does a human access NORA in practice?**
+Within the architecture, an interaction interface is not a sensing mechanism and is not an internal reasoning process. It is a **human-system interaction surface**.
 
-NORA is not designed as a purely software-based assistant hidden behind a single chat box or API. It is conceived as a multimodal embodied system that can exist in a physical environment, interact through speech, screen, touch, gesture, and proximity technologies, and also be accessed remotely from external devices. Because of this, interaction cannot be modeled as a single input-output channel. It must be treated as a full architectural domain.
+The module defines the practical forms through which a human accesses NORA as an embodied multimodal system.
 
-The Interaction Interfaces module groups all those channels into one coherent layer so that the rest of the architecture can remain independent from the particular interface being used at any given moment.
+These forms include:
 
----
+* **interaction channel**  
+human-facing medium through which a person communicates with, controls, observes, or interrupts NORA.
 
-## Architectural Purpose
+* **interaction surface**  
+concrete access point where interaction occurs, such as voice, screen, touch, gesture, proximity interface, or remote client.
 
-The purpose of this module is to provide a structured abstraction for all intentional user interaction channels.
+* **interaction event**  
+normalized user-originated act expressed through an interface, such as a command, confirmation, cancellation, selection, or interruption.
 
-This means that the module is responsible for defining:
+* **interaction feedback**  
+human-perceivable output through which NORA exposes state, responses, prompts, or execution status.
 
-* how users initiate interaction with NORA
-* how users receive feedback from NORA
-* how commands, confirmations, interruptions, and selections are expressed
-* how local and remote interaction channels coexist
-* how the system exposes its state and capabilities to humans
+The Interaction Interfaces module groups these elements into a single architectural layer so that the rest of the system remains independent from the specific interface through which the interaction occurs.
 
-At the architectural level, this module does **not** define how raw signals are processed internally. Instead, it defines the **interaction role** of each channel.
-
-For example:
-
-* a spoken sentence belongs here as a user interaction mechanism
-* the acoustic processing of that sentence belongs to perception
-* a gesture used to say “stop” belongs here as an interface command
-* the computer vision model detecting the hand pose belongs to perception
-
-This distinction is essential to avoid mixing user experience design with signal processing and sensing logic.
+NORA is accessed through multiple intentional human-facing channels rather than through a single input-output path. For that reason, interaction is defined as a complete architectural domain.
 
 ---
 
-## Why This Module Is Necessary in NORA
+## Architectural Role
 
-In a conventional application, the interface may be reduced to a web or mobile UI. In NORA, that is not sufficient.
+The Interaction Interfaces module defines the boundary layer between humans and the internal system.
 
-NORA is intended to operate as a persistent intelligent system with:
+It establishes:
+
+* **interaction entry points**  
+the channels through which users initiate or continue interaction with NORA.
+
+* **interaction output surfaces**  
+the channels through which NORA returns feedback, responses, prompts, and visible state to humans.
+
+* **interaction control signals**  
+the human-originated acts that regulate interaction flow, such as confirm, reject, cancel, stop, continue, or select.
+
+* **interaction exposure**  
+the way system state, capabilities, and ongoing activity become accessible to human users or administrators.
+
+This module defines the interaction role of each channel, not the low-level processing of the signal used by that channel.
+
+The architectural distinction is the following:
+
+* spoken language as a user interaction channel belongs to Interaction Interfaces
+* acoustic capture and speech processing belong to Perception
+* gesture as an intentional command belongs to Interaction Interfaces
+* visual detection of body pose belongs to Perception
+
+This separation keeps human-facing interaction architecture distinct from sensing and signal interpretation logic.
+
+## Architectural Necessity
+
+NORA operates as an embodied intelligent system rather than as a single software application accessed through a single interface.
+
+The system includes the following properties:
 
 * physical embodiment
 * multimodal perception
 * conversational dialogue
-* long-lived sessions
-* local and remote control
-* possible access by multiple users with different roles
+* long-lived interaction sessions
+* local and remote access
+* multiple users with distinct roles
 
-Because of that, the system must support multiple ways of interacting depending on the situation.
+Because of these properties, interaction with NORA does not occur through a single interface. The system exposes multiple interaction surfaces adapted to different physical and operational contexts.
 
-Examples:
+Within the architecture, each interaction surface has distinct characteristics, including:
 
-* a person may speak to NORA naturally from across the room
-* a user may touch the robot to interrupt or confirm an action
-* an administrator may monitor NORA remotely through a web dashboard
-* a user may identify themselves using NFC
-* a gesture may serve as a silent command in situations where speaking is inconvenient
+* physical constraints
+* latency characteristics
+* security implications
+* accessibility conditions
+* user experience properties
 
-All of these are interfaces, but they are not equivalent. Each one has different constraints, affordances, security implications, latency expectations, and UX consequences. This module exists to model that diversity cleanly.
+The Interaction Interfaces module exists to model and organize these human-system interaction surfaces as a coherent architectural layer.
 
 ---
 
 ## Scope of the Module
 
-The Interaction Interfaces module includes all channels whose main purpose is **intentional human-system interaction**.
+The Interaction Interfaces module contains all channels whose primary role is **intentional human-system interaction**.
 
-Typical examples include:
+These channels include:
 
-* speaking to NORA
-* listening to spoken responses
-* seeing visual feedback on the robot’s local screen
-* interacting through a browser-based frontend
-* touching buttons or tactile surfaces
-* using NFC or RFID tags for quick identification or activation
-* issuing commands through gestures
-* accessing NORA from remote devices or external terminals
+* spoken interaction channels
+* auditory feedback channels
+* visual feedback surfaces
+* tactile interaction surfaces
+* gesture-based interaction commands
+* short-range identification interfaces
+* remote interaction clients
 
-This module does **not** include:
+These elements represent the surfaces through which humans communicate with, observe, and control the system.
 
-* raw audio capture as a sensing process
-* camera analysis as visual perception
-* intent inference as a semantic processing task
-* hardware execution as an action layer concern
-* authentication and permissions as identity and security concerns
-
-Those belong to other architectural modules.
+The module defines the **interaction role** of these channels within the architecture.
 
 ---
+
+## Exclusions
+
+The Interaction Interfaces module does not include sensing, interpretation, or execution mechanisms.
+
+The following responsibilities belong to other architectural modules:
+
+* acoustic signal capture and speech recognition  
+  Perception of the Environment
+
+* visual sensing and computer vision analysis  
+  Perception of the Environment
+
+* semantic interpretation and intent detection  
+  Planning, Interpretation and Agents
+
+* execution of physical or digital actions  
+  Action and Expression
+
+* identity verification, authentication, and permissions  
+  Identity, Access and Security
 
 ## Architectural Role Within the System
 
-The Interaction Interfaces module acts as the **boundary layer between humans and the rest of NORA**.
+The Interaction Interfaces module forms the boundary layer between humans and the internal subsystems of NORA.
 
-It sits between the user and several internal subsystems, especially:
+Through this layer, human-originated interaction enters the system and system feedback becomes accessible to humans.
 
-* perception
-* the core cognitive system
-* the dialogue and session layer
-* planning and agent selection
-* action and expression
-* backend application services
+The module connects the human environment with several internal architectural domains, including:
 
-Conceptually, the flow is similar to this:
+* Perception of the Environment
+* Cognitive Core
+* Dialogue and Session System
+* Planning, Interpretation and Agents
+* Action and Expression
+* Backend and Application Services
 
-**Human ↔ Interaction Interface ↔ Internal Processing / Decision Layers ↔ Action / Feedback**
+Within the system architecture, interaction follows the general structure:
 
-This means that interaction interfaces are not the intelligence of the system themselves. They are the **entry and exit points** through which intelligence becomes usable.
+Human → Interaction Interface → Internal Processing and Decision Layers → Action and Feedback
 
-Without this layer:
+Interaction interfaces are not responsible for reasoning, perception, or execution. Their role is to expose the entry and exit surfaces through which the system becomes accessible to human users.
 
-* the system would have no structured way to receive intentional human input
-* outputs would not be organized according to user-facing channels
-* local and remote interaction would become mixed with internal logic
-* modality-specific behaviours would be hard to manage and extend
+The module provides:
+
+* structured human input channels
+* structured feedback channels
+* separation between interaction surfaces and internal processing logic
+* a unified abstraction for local and remote interaction mechanisms
+
+Without this architectural layer, human input, internal logic, and feedback mechanisms would become tightly coupled and difficult to extend.
 
 ---
 
-## Core Design Principles
+## Core Architectural Properties
 
-Several design principles should guide the implementation of this module.
+The Interaction Interfaces module exhibits several structural properties within the system architecture.
 
 ### Modality Independence
 
-The rest of the system should not depend on whether the user interacted through voice, touch, gesture, or web interface unless that distinction is explicitly relevant.
+Interaction channels are independent from the internal reasoning and control mechanisms of the system.
 
-This allows NORA to map multiple interfaces to shared internal events such as:
+Different interaction modalities can produce equivalent normalized interaction events.
+
+Examples of normalized interaction events include:
 
 * confirm
 * cancel
@@ -138,120 +178,131 @@ This allows NORA to map multiple interfaces to shared internal events such as:
 * stop_action
 * select_target
 
-A confirmation spoken aloud and a confirmation produced by touching a screen should be able to converge to a common interaction event when appropriate.
+Multiple interaction surfaces may produce the same interaction event. For example, confirmation may originate from spoken language, a touch interaction, or a remote client interface.
 
 ### Multimodal Coexistence
 
-NORA should support several interaction interfaces at the same time.
+The architecture supports simultaneous operation of multiple interaction interfaces.
 
-For example:
+Different interaction modalities may remain active concurrently and contribute to the same interaction session.
 
-* voice may be active while the local screen displays live feedback
-* a remote admin may monitor the system while a local user interacts physically
-* gesture and voice may complement each other during a conversation
+Examples of concurrent modalities include:
 
-The architecture must therefore support simultaneous or overlapping modalities without ambiguity.
+* spoken interaction and visual feedback
+* local user interaction and remote administrative monitoring
+* gesture-based commands combined with spoken dialogue
+
+The system architecture treats these modalities as parallel interaction channels mapped into the same internal interaction framework.
 
 ### Interruptibility
 
-Human-facing systems must always provide clear ways to interrupt, stop, cancel, or override ongoing interaction.
+Interaction channels provide mechanisms through which users can interrupt or override ongoing system activity.
 
-This is especially important in NORA because the system may:
+Interrupt signals may originate from multiple interaction modalities, including:
 
-* speak continuously
-* execute actions in the physical world
-* access hardware
-* run long multi-step plans
+* spoken cancellation
+* gesture-based stop commands
+* physical buttons or tactile controls
+* remote administrative commands
 
-Interfaces must support interruption through multiple modalities such as:
-
-* verbal cancellation
-* stop gesture
-* button press
-* remote admin command
+These interruption signals propagate through the interaction layer into the dialogue, planning, and execution subsystems.
 
 ### Feedback Visibility
 
-Every interface should provide sufficient feedback so the user understands what NORA is doing.
+Interaction interfaces expose system feedback through human-perceivable channels.
 
-Feedback may be:
+Feedback channels include:
 
-* spoken
-* textual
-* visual
-* tactile
-* remote
+* spoken responses
+* textual responses
+* graphical or visual indicators
+* tactile signals
+* remote monitoring interfaces
 
-This principle is critical for trust and usability. A user should be able to tell whether NORA is:
+These channels expose system state and interaction progress to human users.
+
+Observable system states include:
 
 * listening
-* waiting
-* thinking
-* acting
-* blocked
-* requesting confirmation
-* encountering an error
+* waiting for input
+* processing
+* executing actions
+* awaiting confirmation
+* blocked state
+* error state
 
 ### Accessibility and Redundancy
 
-Different users and contexts require different interaction channels.
+The architecture supports multiple interaction paths for similar user intentions.
 
-For that reason, important interaction flows should not depend on a single modality only. When possible, NORA should support equivalent interaction paths such as:
+Equivalent interaction actions may be expressed through different interaction modalities.
 
-* voice or touch
-* local screen or spoken response
-* gesture or verbal command
-* remote control or local control
+Examples include:
 
-This improves accessibility, resilience, and practical usability.
+* spoken commands or tactile interaction
+* visual interface feedback or spoken responses
+* gesture-based commands or verbal commands
+* local interaction or remote interaction
 
-### Channel-Aware Security
+This redundancy increases accessibility and operational resilience.
 
-Although identity and permission logic belong elsewhere, each interaction channel may imply different security and trust constraints.
+### Channel-Aware Security Context
 
-For example:
+Interaction interfaces carry contextual information related to the interaction channel.
 
-* a public touchscreen may require stricter restrictions than a trusted admin terminal
-* a gesture-based command may be acceptable for simple actions but insufficient for sensitive actions
-* NFC-based identification may unlock a profile but still require additional confirmation for dangerous commands
+This context is propagated to downstream security and authorization mechanisms.
 
-Therefore, interfaces must be designed so they can pass enough context to downstream security and authorization layers.
+Interaction context may include:
 
----
+* interaction modality
+* physical proximity
+* device identity
+* interface trust level
+* user identity signals
+
+Security and authorization decisions are performed by the Identity, Access and Security module, but interaction interfaces provide the contextual information required for those decisions.
 
 ## Main Responsibilities
 
-The Interaction Interfaces module is responsible for several architectural functions.
+The Interaction Interfaces module defines the architectural mechanisms through which humans access, control, and observe NORA.
 
-### 1. Interaction Entry Points
+Its responsibilities include the following functions.
 
-It defines how a user begins interacting with NORA.
+### Interaction Entry Points
 
-Examples include:
+The module defines the interaction channels through which human-originated interaction enters the system.
 
-* saying the wake phrase and then speaking
-* tapping a screen element
-* touching the robot
-* scanning an NFC tag
-* opening the web frontend
-* sending a remote command
+Interaction entry points include:
 
-### 2. Interaction Output Surfaces
+* spoken interaction channels
+* tactile interaction surfaces
+* gesture-based command channels
+* proximity identification interfaces
+* local graphical interfaces
+* remote client interfaces
 
-It defines how NORA presents information back to the user.
+These entry points represent the human-facing surfaces through which interaction sessions, commands, and control signals originate.
 
-Examples include:
+### Interaction Output Surfaces
+
+The module defines the surfaces through which the system exposes feedback and information to humans.
+
+Interaction output surfaces include:
 
 * spoken responses
-* screen messages
-* visual states
-* menus
-* notifications
-* dashboards
+* graphical displays
+* visual state indicators
+* interactive menus
+* notifications and alerts
+* remote monitoring dashboards
 
-### 3. Control Signals
+These surfaces expose system responses, operational state, and interaction progress.
 
-It defines how humans express low-level interaction control intentions such as:
+### Control Signals
+
+The module defines the normalized control intentions through which humans regulate interaction flow.
+
+Control signals include:
 
 * confirm
 * deny
@@ -261,761 +312,649 @@ It defines how humans express low-level interaction control intentions such as:
 * stop
 * select
 
-These control signals may appear through several modalities.
+These signals may originate from different interaction modalities but converge to a shared internal interaction event.
 
-### 4. Human-Usable Operational Access
+### Human-Usable Operational Access
 
-It defines how users and administrators can inspect and influence the system from user-facing surfaces.
+The module defines the human-facing surfaces through which users and administrators observe and influence system operation.
 
-Examples include:
+Operational interaction capabilities include:
 
-* viewing current robot state
-* accessing logs through the frontend
-* triggering manual actions
-* switching mode
-* observing active conversation or hardware state
+* inspection of system state
+* access to operational logs
+* triggering of manual commands
+* selection of operating modes
+* observation of active sessions or hardware status
 
-### 5. Channel Normalization
+These capabilities expose operational visibility and manual control through interaction surfaces.
 
-It provides a conceptual bridge between many heterogeneous interfaces and a smaller set of normalized internal interaction events.
+### Channel Normalization
 
-This normalization is key for keeping the architecture modular.
+The module provides a mapping layer between heterogeneous interaction channels and normalized internal interaction events.
+
+Different interaction modalities can produce equivalent normalized events.
+
+This normalization maintains architectural modularity and prevents internal logic from depending on specific interaction modalities.
 
 ---
 
 ## Relationship With Other Modules
 
-The Interaction Interfaces module has strong relationships with several other architectural domains.
+The Interaction Interfaces module interacts with several other architectural domains.
 
-### Relationship With Perception
+### Relationship With Perception of the Environment
 
-Perception detects and analyzes raw signals.
+Perception processes and interprets raw sensory signals.
 
-Interaction Interfaces define the human meaning of those channels.
+Interaction Interfaces define the human interaction role of those channels.
 
-Examples:
+Within the architecture:
 
-* microphone audio processing belongs to perception
-* speaking with NORA belongs to interaction interfaces
-* camera-based gesture recognition belongs to perception
-* using a recognized gesture as a command belongs to interaction interfaces
+* acoustic capture and speech recognition belong to Perception of the Environment
+* spoken interaction commands belong to Interaction Interfaces
+* gesture detection belongs to Perception of the Environment
+* gesture-based commands belong to Interaction Interfaces
 
 ### Relationship With Identity, Access and Security
 
-Interaction channels are often the path through which authentication or access control begins, but the actual trust logic belongs to the identity and security layer.
+Interaction interfaces expose the channels through which identification or authentication procedures may begin.
 
-Examples:
+Identity verification, authentication logic, and permission evaluation belong to the Identity, Access and Security module.
 
-* the web frontend exposes a login page, but login validation belongs to authentication
-* NFC acts as an interaction channel for identification, but access control belongs to authorization
+Interaction interfaces provide the human-facing surfaces through which these mechanisms are accessed.
 
-### Relationship With the Core Cognitive System
+### Relationship With the Cognitive Core
 
-The core decides how NORA should behave operationally.
+The Cognitive Core defines operational reasoning and behavioural decisions.
 
-Interaction interfaces provide the human-visible and human-usable means to start, shape, or interrupt that behaviour.
+Interaction interfaces expose the human-facing mechanisms through which users initiate, influence, or interrupt those behaviours.
 
-### Relationship With Dialogue and Sessions
+### Relationship With Dialogue and Session System
 
-Dialogue and sessions manage conversational continuity.
+The Dialogue and Session System maintains conversational continuity and interaction state.
 
-Interaction interfaces provide the user-facing channels through which that dialogue is actually experienced.
+Interaction interfaces provide the channels through which dialogue exchanges occur.
 
-### Relationship With Planning and Agents
+### Relationship With Planning, Interpretation and Agents
 
-Planning decides what NORA should do.
+Planning and agent selection determine the operational actions of the system.
 
-Interaction interfaces define how a plan may request clarification, confirmation, data input, or user feedback.
+Interaction interfaces expose the mechanisms through which plans request clarification, confirmation, additional input, or user feedback.
 
 ### Relationship With Action and Expression
 
-Action and expression define what NORA does toward the world.
+The Action and Expression module executes physical or digital actions.
 
-Interaction interfaces define the subset of those actions that are experienced as direct human interaction surfaces.
-
-For example, the local screen and spoken output are both interaction interfaces, but they are powered by downstream output and action subsystems.
-
----
+Interaction interfaces represent the subset of those actions that appear as human-facing outputs or interaction surfaces.
 
 ## Internal Organization of the Module
 
-This architectural module is divided into several submodules, each representing a distinct interaction channel.
+The Interaction Interfaces module is composed of several submodules.  
+Each submodule represents a distinct human-facing interaction channel.
 
-* **2.1 Voice as an Interface**
-  Spoken conversational and command-based interaction.
+### 2.1 Voice Interface
+Human interaction through spoken language.  
+This interface supports conversational dialogue and spoken command interaction.
 
-* **2.2 Local Screen**
-  Physical display embedded in the robot.
+### 2.2 Local Screen Interface
+Graphical interaction surface integrated into the physical system.  
+This interface exposes visual feedback, menus, and interactive controls.
 
-* **2.3 Web Frontend**
-  Browser-based remote interface for users and administrators.
+### 2.3 Web Frontend Interface
+Browser-based interaction interface accessible from remote devices.  
+This interface provides operational access for users and administrators.
 
-* **2.4 Touch / Physical Interaction**
-  Direct contact-based interaction through touch surfaces, buttons, or body interaction.
+### 2.4 Touch and Physical Interaction
+Direct physical interaction through tactile surfaces, buttons, or contact with the system body.
 
-* **2.5 NFC / RFID**
-  Proximity-based interface for identification, activation, and profile switching.
+### 2.5 NFC / RFID Interface
+Short-range proximity interface used for identification, activation, and profile association.
 
-* **2.6 Gestures as an Interface**
-  Non-verbal human commands expressed through body movement.
+### 2.6 Gesture Interface
+Human interaction through recognized body movements or hand gestures.
 
-* **2.7 Remote Interfaces**
-  External-device access channels such as mobile apps, tablets, admin terminals, and remote APIs.
+### 2.7 Remote Interfaces
+External-device interaction channels including mobile clients, administrative terminals, and programmatic remote access interfaces.
 
-Each of these submodules represents a different way for humans or human-operated systems to interact with NORA.
+Each of these submodules represents a specific interaction modality through which humans or human-operated systems interact with NORA.
 
 ---
 
-## Common Interaction Patterns Across Interfaces
+## Common Interaction Patterns
 
-Although the channels differ, many interaction patterns are shared across them.
+Although interaction channels differ in modality, they share a set of common interaction patterns.  
+These patterns represent recurring structures of human-system interaction.
 
-### Initiation
+### Interaction Initiation
 
-A user starts interaction.
+Interaction begins through an interaction entry point.  
+This pattern represents the start of a user-system interaction exchange.
 
-Examples:
-
-* speaking to NORA
-* opening a dashboard
-* scanning an NFC tag
-* touching the robot
+Interaction initiation may occur through any supported interaction channel.
 
 ### Query or Command
 
-A user asks for information or requests an action.
+A user expresses a request for information or asks the system to perform an action.
 
-Examples:
-
-* asking a question
-* requesting a task
-* selecting an option on screen
-* making a gesture command
+This pattern represents intentional input directed toward the system's cognitive and planning subsystems.
 
 ### Confirmation or Rejection
 
-A user approves or rejects a proposed action.
+A user accepts or rejects a proposed action, interpretation, or system decision.
 
-Examples:
-
-* saying “yes” or “no”
-* pressing confirm on screen
-* performing a confirmation gesture
+Confirmation and rejection signals regulate decision execution and plan continuation.
 
 ### Interruption
 
-A user stops an ongoing behaviour.
+A user stops or overrides an ongoing system activity.
 
-Examples:
-
-* saying “cancel”
-* pressing an emergency button
-* performing a stop gesture
-* sending a remote override command
+Interruption signals propagate through the interaction layer toward dialogue, planning, and execution subsystems.
 
 ### Follow-Up Interaction
 
-A user continues the exchange across turns.
+A user continues an interaction across multiple exchanges.
 
-Examples:
+This pattern represents interaction continuity within the dialogue and session system.
 
-* continuing a conversation
-* refining a search
-* modifying a command
-* reopening a persistent session remotely
+Follow-up interaction allows refinement of requests, continuation of tasks, and persistence of interaction context across turns.
 
-These patterns help define common semantics across different modalities.
+## Interaction Inputs
 
----
+The Interaction Interfaces module receives human-originated interaction inputs through the available interaction channels.
 
-## Representative Inputs
+These inputs represent intentional human actions directed toward the system.
 
-The Interaction Interfaces module may receive many kinds of human-originated inputs, depending on the active channel.
+Interaction inputs include the following categories.
 
-Representative examples include:
+### Spoken Inputs
 
-* spoken wake phrase
-* spoken free-form request
+Inputs expressed through spoken language.
+
+Examples of spoken inputs include:
+
+* wake phrase activation
+* free-form spoken request
 * spoken confirmation
-* spoken cancellation
-* dictated text
-* touch event
-* button press
-* touchscreen selection
-* emergency stop press
-* NFC tag scan
-* RFID credential scan
-* greeting gesture
-* stop gesture
-* pointing gesture
-* silent confirmation gesture
-* remote browser command
-* admin terminal request
-* external user-facing API request
+* spoken rejection or cancellation
+* dictated text input
 
-These are interface-level inputs. Their lower-level signal extraction may occur in other modules.
+### Tactile Inputs
 
----
+Inputs expressed through direct physical contact with interaction surfaces.
 
-## Representative Outputs
+Tactile inputs include:
 
-The Interaction Interfaces module may expose or trigger many forms of human-facing output.
+* touch events
+* button presses
+* touchscreen selections
+* emergency stop activation
 
-Representative examples include:
+### Proximity Identification Inputs
 
-* spoken reply
-* spoken clarification request
-* local text update
-* image shown on screen
-* live camera preview
-* notification banner
-* menu rendered on local UI
-* dashboard state update
-* visual confirmation prompt
-* remote status update
-* browser alert
+Inputs generated through short-range identification technologies.
+
+These include:
+
+* NFC tag scans
+* RFID credential scans
+
+### Gesture Inputs
+
+Inputs expressed through recognized body movement or hand gesture.
+
+Gesture inputs include:
+
+* greeting gestures
+* stop gestures
+* pointing gestures
+* confirmation gestures
+
+### Remote Interaction Inputs
+
+Inputs originating from remote interaction clients.
+
+These include:
+
+* browser-based commands
+* administrative terminal requests
+* external user-facing API interaction requests
+
+Interaction inputs represent interface-level events.  
+The extraction and interpretation of raw signals associated with these inputs belong to other architectural modules such as Perception of the Environment.
+
+## Interaction Outputs
+
+The Interaction Interfaces module exposes human-perceivable outputs through the available interaction surfaces.
+
+These outputs represent the visible or audible manifestation of internal system responses, system state, or interaction feedback.
+
+Interaction outputs include the following categories.
+
+### Spoken Outputs
+
+Auditory responses generated through spoken language.
+
+These outputs include:
+
+* spoken replies
+* spoken clarification requests
+* spoken confirmations
+* spoken error messages
+
+### Visual Outputs
+
+Graphical or visual information presented through screens or display surfaces.
+
+Visual outputs include:
+
+* textual updates on local display
+* images or video previews
+* graphical status indicators
+* confirmation prompts
+* rendered menus
+* dashboard state updates
+
+### Notification Outputs
+
+Short-form alerts or attention signals directed toward the user.
+
+These include:
+
+* notification banners
+* browser alerts
+* status notifications
+* interaction prompts
+
+### Interaction State Indicators
+
+Visual or auditory indicators representing the current interaction state of the system.
+
+These indicators include:
+
 * interaction mode indicator
 * active listening indicator
-* cancellation acknowledgment
+* processing indicator
+* cancellation acknowledgement
 
-These outputs are the user-visible manifestation of deeper internal processes.
+## Structural Properties of Interaction
 
----
+The Interaction Interfaces module introduces several structural properties related to the coexistence and coordination of multiple interaction channels.
 
-## Architectural Challenges
+### Cross-Modality Consistency
 
-This module introduces several design challenges that should be considered early.
+All interaction interfaces represent access paths to the same underlying system.
 
-### Consistency Across Modalities
+Regardless of the modality used, interaction channels map to a shared internal interaction framework. Commands, confirmations, interruptions, and dialogue exchanges maintain consistent semantics across modalities.
 
-Different interfaces should feel like access paths to the same system, not unrelated subsystems.
+### Multi-Channel Concurrency
 
-### Conflict Resolution
+Interaction events may originate simultaneously from multiple interaction channels.
 
-The system may receive overlapping commands from multiple channels at the same time.
+The architecture supports concurrent interaction events originating from different sources, including:
 
-Examples:
+* local human interaction
+* remote administrative interaction
+* programmatic external interaction clients
 
-* a local user speaks while an admin remotely sends a command
-* a gesture says stop while the touchscreen still shows a pending confirmation
+Concurrent interaction events are propagated through the interaction layer toward downstream subsystems, where arbitration, prioritization, or synchronization mechanisms may be applied.
 
-The architecture must define precedence, arbitration, or synchronization rules.
+### Channel-Specific Latency Characteristics
 
-### Latency Expectations
+Different interaction channels exhibit different response and latency characteristics.
 
-Users expect different response times depending on the channel.
+Examples include:
 
-Examples:
+* conversational voice interaction with rapid turn-taking
+* graphical interfaces with periodic refresh cycles
+* interruption channels requiring immediate propagation
 
-* voice interaction requires fast turn-taking
-* dashboards may tolerate slightly slower refresh cycles
-* emergency interruption must be immediate
+These latency characteristics influence the timing behaviour of dialogue, planning, and execution subsystems.
 
-### Safety and Intentionality
+### Intent Ambiguity Across Modalities
 
-Some channels are inherently more ambiguous than others.
+Interaction modalities produce input signals with different levels of intentional clarity.
 
-For example, gestures or touch events may be harder to interpret than explicit typed or spoken input. The architecture should allow different confidence thresholds and confirmation policies depending on the interaction channel.
+Certain modalities produce highly explicit inputs, while others produce signals that require additional interpretation.
 
-### Local vs Remote Priority
+The interaction layer preserves channel context so that downstream subsystems can apply appropriate interpretation thresholds, confirmation policies, or safety checks.
 
-NORA may need policies defining whether local human interaction has priority over remote commands, especially for embodied actions.
+### Local and Remote Interaction Context
 
----
+Interaction events may originate from local human presence or from remote interaction clients.
 
-## Design Implications for Implementation
-
-Even though this section is architectural rather than implementation-specific, it implies several practical design choices.
-
-The system will likely need:
-
-* channel-specific adapters or handlers
-* a normalized interaction event schema
-* modality-aware feedback policies
-* interrupt and cancel semantics shared across channels
-* synchronization between local and remote interfaces
-* user-presence-aware interaction routing
-* per-channel trust or safety metadata
-
-These ideas can later be reflected in backend services, event models, FSM transitions, frontend states, and hardware control rules.
+The architecture preserves the origin context of interaction events so that downstream subsystems can apply operational policies related to physical presence, authority level, or safety constraints.
 
 ---
 
-## Summary
+## Architectural Implications
 
-The **Interaction Interfaces** module defines the complete set of human-facing channels through which NORA can be used.
+The structural properties of interaction interfaces influence several architectural mechanisms within the system.
 
-It includes spoken interaction, local visual interfaces, web-based control surfaces, physical touch, proximity-based identification, gesture commands, and remote access paths.
+The architecture includes mechanisms for:
 
-Its architectural value is that it separates **how humans interact with NORA** from:
+* channel-specific interface adapters
+* normalization of heterogeneous interaction events
+* modality-aware feedback generation
+* shared interruption and cancellation semantics
+* coordination between local and remote interaction channels
+* interaction routing based on user presence or interaction origin
+* propagation of channel-related trust or safety metadata
 
-* how signals are sensed
-* how meanings are inferred
-* how decisions are made
-* how actions are executed internally
+These mechanisms integrate with other architectural layers including backend services, event dispatch systems, dialogue management, planning subsystems, and hardware control logic.
 
-By modeling interaction interfaces as a dedicated module, the architecture becomes clearer, more extensible, more multimodal, and better aligned with the real nature of NORA as an embodied cognitive system.
-
-# 2.1 Voice as an Interface
+# 2.1 Voice Interface
 
 ## Definition
 
-**Voice as an Interface** refers to the use of spoken language as a primary human interaction channel with NORA. Through voice, users can communicate intentions, ask questions, issue commands, confirm actions, interrupt ongoing processes, and maintain natural conversations with the system.
+The Voice Interface represents the spoken language interaction channel through which humans communicate with the NORA system.
 
-Unlike traditional graphical interfaces that rely on screens, keyboards, or touch inputs, voice interaction allows users to interact with NORA in a **natural, hands-free, and context-aware manner**. This makes voice one of the most important interaction modalities for an embodied cognitive system.
+Through this interface, users generate interaction events using speech. These events may include requests, commands, confirmations, interruptions, and conversational dialogue exchanges.
 
-In the architecture of NORA, voice is treated as an **interaction interface**, not as a raw sensory signal. The acoustic processing required to detect and interpret speech (microphone capture, speech recognition, wakeword detection, etc.) belongs to the **Perception module**. The present module focuses instead on the **role of voice as a communication medium between humans and the system**.
+Within the system architecture, spoken interaction is treated as an interaction modality rather than as a sensory process.
+
+The acquisition and interpretation of acoustic signals — including microphone capture, wake phrase detection, voice activity detection, and speech recognition — belong to the Perception of the Environment module.
+
+The Voice Interface therefore defines the human interaction role of spoken language as a communication medium between humans and the system.
 
 ---
 
 ## Architectural Role
 
-The Voice Interface serves as the **primary conversational gateway** between users and NORA. It allows the system to function as a spoken assistant capable of natural dialogue and interactive collaboration.
+Within the system architecture, the Voice Interface functions as the primary conversational interaction channel.
 
-Through this interface, users can:
+Through this interface, spoken interaction events enter the interaction layer and propagate toward dialogue management, planning subsystems, and execution mechanisms.
 
-* initiate interaction with the system
-* request information
-* instruct NORA to perform actions
-* engage in multi-turn conversations
-* confirm or reject system proposals
-* interrupt ongoing activities
-* request clarifications
-* dictate text
-* practice language learning or tutoring activities
+The interface supports several categories of interaction:
 
-For NORA, spoken interaction also allows **situational awareness** in environments where visual or touch interfaces are impractical.
+* spoken interaction initiation
+* spoken information requests
+* spoken command input
+* conversational dialogue exchanges
+* spoken confirmations and rejections
+* spoken interruption signals
+* clarification requests expressed through speech
+* dictated textual input
+
+These spoken interaction events are normalized within the interaction layer and mapped to internal interaction events shared across other interaction modalities.
 
 ---
 
 ## Interaction Model
 
-Voice interaction in NORA generally follows a conversational cycle composed of several stages:
+Spoken interaction follows a conversational interaction cycle composed of several stages.
 
-1. **Activation**
+1. A user produces spoken input directed at the system.
+2. The perception subsystem captures and interprets the acoustic signal.
+3. The recognized speech content is converted into a normalized interaction event.
+4. The interaction event is propagated to dialogue management and planning subsystems.
+5. The system determines the appropriate response or action.
+6. The response is delivered to the user through spoken output.
 
-   The user initiates interaction, typically by addressing the system using a wake phrase or direct speech input.
-
-2. **Listening Phase**
-
-   NORA captures spoken input from the user while indicating that it is actively listening.
-
-3. **Interpretation Phase**
-
-   The spoken input is processed by downstream modules (perception, semantic interpretation, and planning).
-
-4. **Response Generation**
-
-   The system prepares a response or decides on a course of action.
-
-5. **Spoken Output**
-
-   NORA delivers feedback, answers, or requests clarification through synthesized speech.
-
-6. **Continuation or Termination**
-
-   The conversation may continue through follow-up turns or terminate if the interaction concludes.
-
-This interaction loop enables **natural conversational exchanges** between humans and the system.
+This cycle defines the conversational interaction structure associated with the Voice Interface.
 
 ---
 
 ## Core Responsibilities
 
-The Voice Interface module is responsible for enabling several forms of spoken interaction.
+The Voice Interface defines the spoken interaction mechanisms through which users communicate with the system.
 
 ### Conversational Interaction
 
-Users can speak freely with NORA in a natural conversational manner.
+Spoken language supports conversational dialogue exchanges between humans and the system.
 
-Examples:
+These exchanges may involve information requests, explanations, topic discussion, and dialogue continuation across multiple turns.
 
-* asking general questions
-* discussing topics
-* requesting explanations
-* engaging in tutoring or learning sessions
+### Command Interaction
 
-### Command-Based Interaction
+Spoken language may express commands directed toward the system.
 
-Voice can be used to issue direct commands.
-
-Examples:
-
-* "Turn on the lights"
-* "Show me the camera"
-* "Start a new project"
-* "Take a picture"
+Command interaction produces normalized internal interaction events corresponding to requested actions or tasks.
 
 ### Confirmation and Rejection
 
-Voice allows users to confirm or reject actions proposed by the system.
-
-Examples:
-
-* "Yes"
-* "No"
-* "Correct"
-* "That's wrong"
+Spoken input may represent confirmation or rejection signals regulating plan continuation or execution approval.
 
 ### Interruption and Cancellation
 
-Users must be able to interrupt the system quickly through speech.
-
-Examples:
-
-* "Stop"
-* "Cancel"
-* "Wait"
-* "That's enough"
+Spoken interaction supports interruption signals capable of stopping or modifying ongoing system behaviour.
 
 ### Dictation
 
-The system can capture spoken content intended to be transcribed.
+Spoken input may represent textual content intended for transcription.
 
-Examples:
+### Guided Dialogue Interaction
 
-* writing messages
-* drafting documents
-* capturing notes
-
-### Guided Learning and Practice
-
-Voice interaction allows NORA to act as a conversational tutor.
-
-Examples:
-
-* language learning practice
-* pronunciation training
-* interview simulation
-* educational dialogue
+Spoken interaction may support structured dialogue flows used in tutoring, training, or guided conversational activities.
 
 ---
 
-## Possible Capabilities
+## Interaction Surfaces
 
-Typical capabilities supported through voice interaction include:
+Voice interaction occurs through acoustic communication between the user and the system.
 
-* speaking with NORA
-* receiving spoken responses
-* issuing commands
-* confirming or rejecting actions
-* interrupting system behaviour
-* dictating text
-* practicing languages
-* conversational tutoring
-* roleplay or scenario simulation
+Interaction surfaces include:
 
-These capabilities make voice the **most natural interface for long-form interaction**.
+* spoken language directed at the system
+* wake phrases or spoken address signals
+* conversational dialogue turns
+
+These acoustic signals are captured by the perception subsystem and converted into normalized interaction events.
 
 ---
 
-## Example User Inputs
+## Interaction Events
 
-The Voice Interface may receive various forms of spoken input.
+The Voice Interface produces several categories of spoken interaction events.
 
-Examples include:
+These include:
 
-* wake phrase ("NORA")
-* natural questions
-* task requests
-* confirmations
-* rejections
-* cancellations
-* corrections
-* clarifications
-* dictated text
-* conversational statements
+* interaction initiation events
+* information request events
+* command events
+* confirmation signals
+* rejection signals
+* interruption signals
+* clarification requests
+* correction signals
+* dictated text events
+* conversational dialogue turns
 
-Examples:
-
-* "NORA, what's the weather today?"
-* "Turn on the living room lights"
-* "Yes"
-* "No"
-* "Stop"
-* "Repeat that"
-* "Explain it again"
+These events are integrated with events originating from other interaction modalities.
 
 ---
 
-## Example System Outputs
+## Interaction Outputs
 
-NORA may produce several types of spoken responses through the voice interface.
+The Voice Interface exposes spoken outputs produced by the system.
 
-Examples include:
+These outputs represent audible manifestations of internal responses, system state communication, or dialogue continuation.
 
-* answering questions
-* confirming actions
-* requesting clarification
-* providing instructions
-* narrating information
-* reading text aloud
-* guiding learning exercises
+Spoken outputs include:
 
-Examples:
-
-* "The temperature today is 18 degrees."
-* "Do you want me to turn on the lights?"
-* "I didn't understand that. Could you repeat it?"
-* "Let's practice English pronunciation."
-
----
-
-## Feedback and Interaction Signals
-
-To support smooth conversation, the system should provide clear feedback signals during voice interaction.
-
-Examples:
-
-* listening indicators
-* thinking or processing indicators
-* speech playback indicators
-* interruption acknowledgement
-* timeout warnings
-
-These signals may be expressed through **speech, screen indicators, LEDs, or other visual cues**.
+* responses to information requests
+* confirmations of system actions
+* clarification prompts
+* spoken instructions
+* narrative information delivery
+* reading of textual content
+* dialogue prompts
 
 ---
 
 ## Relationship With Other Modules
 
-### Perception
+### Perception of the Environment
 
-Perception processes raw audio signals captured by the microphone.
+The perception subsystem processes raw acoustic signals captured by microphones and converts them into recognized speech.
 
-It handles tasks such as:
+### Dialogue and Session System
 
-* audio capture
-* wakeword detection
-* voice activity detection
-* speech-to-text
+Spoken interaction events participate in dialogue exchanges managed by the dialogue subsystem.
 
-The Voice Interface then uses the resulting interpreted speech as **human interaction input**.
+### Planning, Interpretation and Agents
 
-### Dialogue and Sessions
-
-Spoken interactions are typically integrated into longer conversational sessions managed by the dialogue system.
-
-### Planning and Agents
-
-Spoken requests are interpreted and converted into intentions that the planning system and specialized agents execute.
+Spoken interaction events propagate to planning subsystems and specialized agents responsible for determining system behaviour.
 
 ### Action and Expression
 
-Spoken output is produced through text-to-speech engines defined in the Action and Expression module.
+Spoken outputs are produced through speech synthesis mechanisms defined in the Action and Expression module.
 
 ---
 
-## Design Considerations
+## Structural Properties of Spoken Interaction
 
-### Naturalness
+### Conversational Interaction Structure
 
-The voice interface should prioritize conversational naturalness and fluid turn-taking.
+Voice interaction follows a turn-based conversational structure in which human input and system responses alternate across dialogue turns.
 
-### Responsiveness
+### Low-Latency Interaction
 
-Speech interaction requires low latency to maintain the illusion of natural dialogue.
+Spoken interaction requires short response latency to maintain natural conversational flow.
 
-### Interruptibility
+### Interruptible Interaction
 
-Users must always be able to interrupt the system verbally.
+Spoken interaction supports interruption signals capable of modifying or stopping ongoing system behaviour.
 
-### Error Recovery
+### Dialogue-Based Error Recovery
 
-The system must handle misunderstandings gracefully by asking clarifying questions.
+Misinterpretation or incomplete input may produce clarification interactions handled through the dialogue system.
 
-### Multilingual Support
+### Multilingual Interaction Context
 
-NORA may support multiple languages and switch dynamically depending on the user context.
+Voice interaction may occur in multiple languages, and the interaction layer preserves language context for downstream subsystems.
 
 ---
 
-## Summary
-
-The **Voice as an Interface** module enables natural spoken interaction between users and NORA.
-
-It allows users to communicate with the system through conversation, commands, confirmations, and dictation, while receiving spoken feedback and guidance in return.
-
-Although the technical processing of speech belongs to perception and other modules, voice remains the **most direct and human-centered interface** through which users interact with NORA.
-
-# 2.2 Local Screen
+# 2.2 Local Screen Interface
 
 ## Definition
 
-**Local Screen** refers to the physical display integrated into the NORA robot and used to provide visual feedback, contextual information, and interactive elements to users present near the system.
+The Local Screen Interface represents the visual interaction surface integrated into the physical NORA system.
 
-While voice interaction allows natural spoken communication, the local screen complements this interaction by providing **visual support, structured information, and interactive controls**. It serves as the main visual surface through which NORA can display its state, responses, and interface elements in the physical environment.
+Through this interface, the system exposes graphical feedback, structured information, and visual interaction elements to users located near the robot.
 
-The Local Screen therefore acts as a **visual interaction surface directly embedded in the robot**, enabling users to both observe and interact with NORA without requiring external devices.
+Within the architecture, the local screen constitutes a human-facing visual surface embedded in the robot. It presents system responses, interaction state, and operational information through graphical output.
+
+The Local Screen Interface therefore defines the visual interaction role of the on-device display within the interaction layer.
 
 ---
 
 ## Architectural Role
 
-Within the architecture of NORA, the Local Screen functions as the **primary on-device visual interface**.
+Within the system architecture, the Local Screen Interface functions as the primary visual interaction surface integrated into the device.
 
-Its purpose is to:
+Through this interface, the system exposes visual representations of internal state, interaction progress, and system behaviour.
 
-* present information generated by the system
-* support spoken interactions with visual context
-* expose system status and feedback
-* allow optional direct user interaction through graphical elements
-* reinforce NORA’s expressive behaviour
+The interface supports several categories of interaction:
 
-Because NORA is designed as an embodied system, the screen becomes an important part of the user experience. It allows the robot to communicate not only through sound but also through visual cues and structured information.
+* visual feedback related to interaction state
+* presentation of structured information
+* graphical representation of system responses
+* graphical interaction elements when touch interaction is available
+* visual expression of system behaviour
 
-This interface is especially useful in situations where:
-
-* spoken output is insufficient or ambiguous
-* detailed information must be presented
-* visual confirmation is helpful
-* the user prefers non-verbal interaction
+Visual outputs presented on the screen originate from downstream reasoning, dialogue, or execution subsystems.
 
 ---
 
 ## Interaction Model
 
-The Local Screen typically participates in interactions in combination with other modalities, especially voice.
+The Local Screen Interface participates in multimodal interaction flows.
 
-A typical interaction pattern may look like this:
+Visual outputs displayed on the screen may accompany interaction events originating from other modalities, including spoken interaction, gesture interaction, touch interaction, or remote commands.
 
-1. The user asks a question through voice.
-2. NORA processes the request.
-3. The spoken response is delivered.
-4. Supporting information is shown on the screen.
+Typical interaction flow may include:
 
-For example:
+1. An interaction event occurs through another modality.
+2. Internal subsystems determine the corresponding system response.
+3. Visual output representing the response or system state is generated.
+4. The visual output is rendered on the local screen.
 
-User: "Show me the route to the university."
-
-NORA may:
-
-* describe the route verbally
-* display the map and directions on the screen
-
-The screen may also be used independently when users interact through touch or when administrators monitor the system locally.
+The screen may also function as a direct interaction surface when graphical interaction elements are enabled.
 
 ---
 
 ## Core Responsibilities
 
-The Local Screen module supports several key visual interaction capabilities.
+The Local Screen Interface defines several categories of visual interaction capabilities.
 
-### Visual Feedback
+### Visual Interaction Feedback
 
-The screen communicates system feedback visually so users can understand what NORA is doing.
+The screen exposes visual indicators representing the interaction state of the system.
 
-Examples include:
+These indicators communicate internal activity and interaction progress.
 
-* listening indicators
-* processing indicators
-* confirmation prompts
-* warnings or errors
+### Structured Information Display
 
-### Information Display
+The screen presents structured information that benefits from visual representation.
 
-The screen allows NORA to present structured information that is difficult to communicate verbally.
+These outputs include textual information, images, graphical representations, and contextual displays.
 
-Examples include:
+### Graphical Interaction Controls
 
-* text explanations
-* images
-* charts
-* navigation maps
-* camera previews
+When touch interaction is enabled, the screen exposes graphical user interface elements capable of generating interaction events.
 
-### Interaction UI
+These elements include menus, buttons, selectable options, and configuration panels.
 
-When touch interaction is enabled, the screen may provide graphical interface elements.
+### Expressive Visual Output
 
-Examples include:
+The screen may present visual elements representing expressive system behaviour or personality.
 
-* menus
-* buttons
-* selectable options
-* configuration panels
+### Contextual Interaction Information
 
-### Emotional and Expressive Output
-
-The screen can also display visual representations of NORA’s emotional state or personality.
-
-Examples include:
-
-* facial expressions
-* animated avatars
-* emotional indicators
-
-### Contextual Interaction Support
-
-The screen may reinforce ongoing tasks by showing context.
-
-Examples include:
-
-* current conversation topic
-* selected project
-* system status
+The screen may display contextual information related to ongoing system activity or interaction sessions.
 
 ---
 
-## Possible Capabilities
+## Interaction Surfaces
 
-Typical visual capabilities of the Local Screen include:
+Visual interaction occurs through the integrated display surface of the robot.
 
-* displaying text
-* displaying images
-* displaying video
-* showing camera feed
-* presenting menus
-* showing notifications
-* rendering animations
-* displaying system status
-* presenting project information
-* displaying QR codes
-* showing navigation routes
+Interaction surfaces include:
 
-These capabilities help NORA provide **rich multimodal interaction**.
+* graphical display panels
+* visual notification areas
+* graphical interface elements
+* animated visual regions
+
+These surfaces render visual outputs generated by system subsystems.
 
 ---
 
-## Example Outputs
+## Interaction Events
 
-The Local Screen may display different types of content depending on the interaction context.
+When touch capability is available, the Local Screen Interface may generate interaction events originating from graphical interface elements.
 
 Examples include:
 
-* welcome messages
-* active listening indicators
-* transcribed speech
-* task results
-* navigation instructions
-* camera preview
-* alerts and warnings
-* system diagnostics
+* menu selection events
+* button activation events
+* option selection events
+* configuration change events
 
-Example visual responses:
-
-* "Listening…"
-* "Processing request…"
-* "Do you want to start a new project?"
-* map visualization
-* QR code for sharing information
+These events are propagated to backend subsystems responsible for processing user interaction.
 
 ---
 
-## Feedback and System State Indicators
+## Interaction Outputs
 
-Visual indicators on the screen may represent internal system states.
+The Local Screen Interface exposes visual outputs representing system responses, system state, and interaction context.
 
-Examples include:
+These outputs include:
 
-* listening
-* speaking
-* thinking
-* waiting for confirmation
-* executing an action
-* encountering an error
+* textual information displays
+* image rendering
+* video rendering
+* camera feed visualization
+* graphical menus and interface elements
+* notification displays
+* animated visual elements
+* system status panels
+* project or task information displays
+* machine-readable codes such as QR codes
+* navigation or route visualizations
 
-Displaying these states improves transparency and user trust.
+These outputs contribute to multimodal interaction by complementing spoken interaction and other interaction modalities.
 
 ---
 
@@ -1023,253 +962,169 @@ Displaying these states improves transparency and user trust.
 
 ### Interaction Interfaces
 
-The Local Screen is one of several interaction interfaces available in the system.
+The Local Screen Interface represents the visual interaction surface embedded in the physical system within the Interaction Interfaces module.
 
-### Dialogue and Sessions
+### Dialogue and Session System
 
-The screen may show contextual information related to ongoing conversations or active sessions.
+The screen may display contextual information associated with ongoing dialogue exchanges or interaction sessions.
 
 ### Action and Expression
 
-Visual outputs displayed on the screen are typically generated by the action and expression subsystem.
+Visual outputs rendered on the screen originate from the Action and Expression module responsible for generating graphical system responses.
 
-### Backend and Frontend Systems
+### Frontend and Visualization
 
-The Local Screen may share components with the frontend architecture or reuse UI elements designed for web interfaces.
-
----
-
-## Design Considerations
-
-### Readability
-
-Information shown on the screen should be readable from typical interaction distances.
-
-### Minimal Cognitive Load
-
-The screen should support spoken interaction rather than overwhelm the user with unnecessary information.
-
-### Synchronization With Voice
-
-Visual output should remain synchronized with spoken responses to avoid confusion.
-
-### Interaction Safety
-
-Touch-based controls should be designed carefully to prevent accidental activation.
-
-### Expressiveness
-
-Visual design should reinforce NORA’s personality and emotional expression without distracting from the main interaction.
+Graphical components, rendering logic, and interface definitions may be shared with frontend systems defined in the Frontend and Visualization module.
 
 ---
 
-## Summary
+## Structural Properties of Visual Interaction
 
-The **Local Screen** module provides the primary visual interface embedded in the NORA robot.
+### Readability Across Interaction Distance
 
-It complements voice interaction by displaying information, supporting user interaction, and visualizing system state. Through text, images, animations, and graphical UI elements, the Local Screen enables richer and clearer communication between users and the system.
+Visual information presented on the screen is designed for interpretation at typical interaction distances between users and the robot.
 
-By combining visual and spoken interaction, NORA can deliver a more intuitive and transparent user experience.
+### Multimodal Interaction Support
 
-# 2.3 Web Frontend
+Visual outputs complement other interaction modalities, especially spoken interaction.
+
+### Synchronization With Spoken Interaction
+
+Visual outputs remain coordinated with spoken responses generated through the Voice Interface.
+
+### Safe Interaction Controls
+
+Graphical interaction controls are structured to reduce accidental activation and maintain predictable system behaviour.
+
+### Expressive Visual Behaviour
+
+The screen may present visual elements representing expressive system behaviour.
+
+---
+
+# 2.3 Web Frontend Interface
 
 ## Definition
 
-**Web Frontend** refers to the browser-based interface that allows users and administrators to interact with, monitor, and control NORA remotely through a standard web browser.
+The Web Frontend Interface represents the browser-based remote interaction surface through which users and administrators access the NORA system from external devices.
 
-Unlike the Local Screen, which is physically embedded in the robot, the Web Frontend exists outside the robot and can be accessed from computers, tablets, or other network-connected devices.
+Through this interface, the system exposes remote conversational access, operational information, system state, and administrative capabilities through graphical user interfaces accessible via standard web browsers.
 
-The Web Frontend provides a **remote visual and operational interface** that exposes system state, conversations, projects, and administrative capabilities. It allows users to observe NORA’s behaviour, interact with the system conversationally, configure settings, and perform management tasks without being physically present near the robot.
+Unlike the Local Screen Interface, which is embedded in the physical system, the Web Frontend Interface operates as an external interaction surface accessible through network-connected devices.
+
+Within the Interaction Interfaces module, the Web Frontend Interface defines the primary browser-based visual and operational interaction channel available outside the robot body.
 
 ---
 
 ## Architectural Role
 
-Within the architecture of NORA, the Web Frontend functions as the **primary remote interaction interface**.
+Within the system architecture, the Web Frontend Interface functions as the primary browser-based remote interaction channel.
 
-It allows humans to:
+Through this interface, users and administrators interact with the system without requiring physical proximity to the robot.
 
-* access NORA from outside the physical environment
-* observe the internal state of the system
-* interact with conversations and projects
-* monitor system behaviour
-* perform configuration and administrative actions
+The interface supports several categories of interaction:
 
-This interface is particularly important for:
+* remote conversational interaction
+* visualization of system state
+* monitoring of sessions and operational activity
+* administrative and configuration interaction
+* observability and diagnostics access
 
-* remote usage
-* development and debugging
-* system administration
-* monitoring long-running sessions
-* inspecting system behaviour and logs
-
-Because NORA is designed as a persistent intelligent system, the Web Frontend acts as a **control and observability surface** that complements the embodied interfaces of the robot.
+The Web Frontend Interface complements the local interaction surfaces embedded in the robot and extends system access to external computing devices.
 
 ---
 
 ## Interaction Model
 
-Interaction through the Web Frontend typically follows a client–server model.
+Interaction through the Web Frontend Interface follows a client–server interaction structure.
 
-1. The user opens the NORA Web Frontend in a browser.
-2. The frontend authenticates the user through the identity and access module.
-3. The interface communicates with backend services through HTTP APIs and realtime channels.
-4. The user interacts with NORA through visual dashboards, chat interfaces, or control panels.
-5. Backend services relay commands, events, and updates to the cognitive core and other subsystems.
+1. A user accesses the web client through a browser-based interface.
+2. Authentication and authorization mechanisms validate access through the Identity, Access and Security module.
+3. The web client exchanges requests, commands, or queries with backend services.
+4. Backend services process the interaction event and propagate it toward internal subsystems.
+5. Responses, state updates, or event streams are returned to the client interface.
 
-In addition to standard request-response communication, the Web Frontend may rely on **realtime channels** (such as WebSockets) to receive live updates about system state and events.
+This interaction model supports both request–response communication and realtime event propagation.
 
 ---
 
 ## Core Responsibilities
 
-The Web Frontend module enables several major capabilities.
+The Web Frontend Interface supports several categories of browser-based remote interaction.
 
-### User Interaction
+### Remote Conversational Interaction
 
-Users can interact with NORA through a browser-based interface.
-
-Examples include:
-
-* sending chat messages
-* interacting with projects
-* reviewing conversation history
-* issuing commands
+The interface exposes browser-based communication surfaces through which users exchange messages, requests, and dialogue turns with the system.
 
 ### System Monitoring
 
-The frontend allows users to observe the internal state of the system.
+The interface exposes visual representations of system state, session status, operational context, and hardware-related information.
 
-Examples include:
+### Administrative Interaction
 
-* current FSM state
-* active sessions
-* active user
-* sensor status
-* system health
+The interface exposes management and configuration surfaces through which authorized users interact with administrative system functions.
 
-### Administrative Control
+### Observability Access
 
-Administrators may use the Web Frontend to perform maintenance or configuration tasks.
+The interface exposes operational information associated with logs, telemetry, metrics, and event traces generated by backend subsystems.
 
-Examples include:
+### Remote Command Execution
 
-* user management
-* permission configuration
-* system configuration
-* restarting modules
-
-### Observability and Debugging
-
-The interface may provide tools for inspecting internal behaviour of the system.
-
-Examples include:
-
-* event streams
-* logs
-* telemetry
-* performance metrics
-
-### Remote Control
-
-The Web Frontend may allow remote triggering of actions or commands.
-
-Examples include:
-
-* starting or stopping sessions
-* triggering system actions
-* controlling hardware functions
+The interface produces remote interaction events capable of triggering system behaviour, configuration changes, or operational actions.
 
 ---
 
-## Typical Interface Components
+## Interaction Surfaces
 
-The Web Frontend may include several main views or panels.
+The Web Frontend Interface exposes several categories of browser-based interaction surfaces.
 
-### Dashboard
+These include:
 
-The dashboard provides a summary of the system status.
+* system dashboard surfaces
+* conversational chat surfaces
+* project and task management surfaces
+* administration panels
+* monitoring and diagnostics views
+* configuration views
 
-Possible elements:
-
-* current robot state
-* active user
-* session overview
-* hardware status
-
-### Conversation Interface
-
-A chat-style interface allowing users to communicate with NORA.
-
-Possible elements:
-
-* message history
-* system responses
-* input field
-
-### Project Management
-
-Users may manage conversational projects or tasks.
-
-Possible elements:
-
-* project list
-* project context
-* project history
-
-### Administration Panel
-
-Administrative tools for system configuration.
-
-Possible elements:
-
-* user management
-* role configuration
-* system settings
-
-### System Monitoring
-
-Observability tools showing internal system behaviour.
-
-Possible elements:
-
-* FSM transition history
-* event logs
-* hardware telemetry
+Each of these surfaces presents graphical interaction elements through which users observe the system or generate remote interaction events.
 
 ---
 
-## Example Inputs
+## Interaction Events
 
-The Web Frontend may generate several types of input events.
+The Web Frontend Interface produces several categories of browser-originated interaction events.
 
-Examples include:
+These include:
 
-* login request
-* chat message
-* command request
-* configuration change
-* project creation
-* project selection
-* admin command
-* hardware control request
+* authentication requests
+* conversational interaction events
+* command requests
+* configuration change events
+* project management events
+* administrative commands
+* system inspection requests
+* hardware-related control requests
 
-These inputs are typically transmitted to backend services through APIs.
+These events are transmitted to backend services responsible for processing remote interaction and coordinating subsystem behaviour.
 
 ---
 
-## Example Outputs
+## Interaction Outputs
 
-The Web Frontend may display various outputs generated by the system.
+The Web Frontend Interface exposes graphical outputs representing system responses, system state, and operational information.
 
-Examples include:
+These outputs include:
 
-* system responses
-* session information
-* project status
-* hardware telemetry
+* system responses to user interaction
+* session and conversation information
+* project or task status
+* hardware telemetry and operational state
 * alerts and notifications
-* logs and metrics
+* logs, metrics, and diagnostics views
+* confirmation prompts and configuration feedback
+
+These outputs allow users and administrators to observe and influence the system through a remote graphical interaction surface.
 
 ---
 
@@ -1277,208 +1132,172 @@ Examples include:
 
 ### Identity, Access and Security
 
-The Web Frontend relies on authentication and authorization mechanisms defined in the identity and access module.
+Authentication and authorization procedures governing browser-based access are defined by the Identity, Access and Security module.
 
-### Backend and Application Layer
+### Backend and Application Services
 
-The frontend communicates with backend services through APIs and realtime communication channels.
+The Web Frontend Interface communicates with backend services responsible for processing interaction events, managing system state, and orchestrating subsystem behaviour.
 
-### Core Cognitive System
+### Cognitive Core
 
-User commands and interactions received through the frontend ultimately influence the behaviour of the cognitive core and FSM.
+Interaction events originating from the web client propagate toward the cognitive core, where they influence reasoning, decision processes, and system behaviour.
 
-### Dialogue and Sessions
+### Dialogue and Session System
 
-Chat-based interaction with NORA through the frontend integrates with the dialogue and session management modules.
+Conversational interaction through the web client integrates with dialogue management and session tracking mechanisms.
+
+### Action and Expression
+
+System behaviour triggered through browser-based interaction may result in physical or digital actions executed by downstream subsystems.
 
 ### Observability
 
-The frontend visualizes logs, metrics, and state information produced by the observability subsystem.
+The interface exposes logs, metrics, and state information generated by observability-related backend mechanisms.
 
 ---
 
-## Design Considerations
+## Structural Properties of Browser-Based Remote Interaction
 
-### Responsiveness
+### Network Dependency
 
-The interface should remain responsive even when the system performs complex tasks.
+Interaction requires network connectivity between the browser-based client and backend services.
 
-### Real-Time Updates
+### Distributed Access
 
-The frontend should support live updates for system state, events, and conversation streams.
+Multiple users or client devices may access the interface from different locations.
 
-### Usability
+### Remote Operational Visibility
 
-The interface should present complex system information in a clear and structured manner.
+The interface exposes operational state and system behaviour without requiring physical presence near the robot.
 
-### Security
+### Realtime Update Capability
 
-Administrative capabilities must be restricted to authorized users.
+The interaction model supports propagation of live state changes, event streams, and telemetry updates.
 
-### Remote Accessibility
+### Authorization-Scoped Access
 
-The Web Frontend should be accessible across multiple devices and network environments.
+Administrative and operational capabilities exposed through the interface are constrained by authentication and authorization mechanisms.
 
 ---
-
-## Summary
-
-The **Web Frontend** module provides a browser-based interface for remote interaction with NORA.
-
-It allows users and administrators to communicate with the system, monitor its behaviour, configure settings, and control operations from outside the physical robot environment.
-
-By providing remote access and observability, the Web Frontend complements the embodied interaction interfaces of NORA and enables effective management and supervision of the system.
 
 # 2.4 Touch / Physical Interaction
 
 ## Definition
 
-**Touch / Physical Interaction** refers to direct contact-based interaction between humans and the NORA robot through tactile sensors, buttons, touch surfaces, or body-contact detection.
+Touch / Physical Interaction refers to direct contact-based interaction between humans and the NORA system through tactile sensors, physical buttons, touch-sensitive surfaces, or body-contact detection mechanisms.
 
-Unlike voice or visual interfaces, this interaction modality is based on **physical proximity and intentional contact with the robot's body or control elements**. It enables users to communicate with NORA through simple, immediate actions such as pressing a button, touching a sensor, or interacting with a touchscreen.
+This interaction modality relies on physical proximity and intentional contact with the robot body or control elements. Through physical contact, users generate interaction events that the system interprets as commands, confirmations, interruptions, or social signals.
 
-Because NORA is designed as an embodied system that exists in a physical environment, physical interaction becomes an important channel for intuitive control, safety overrides, and socially expressive interaction.
+Within the Interaction Interfaces module, Touch / Physical Interaction represents the primary tactile interaction surface available to users physically present near the system.
 
 ---
 
 ## Architectural Role
 
-Within the architecture of NORA, Touch / Physical Interaction acts as a **direct local control interface**.
+Within the system architecture, Touch / Physical Interaction functions as a direct local control interface.
 
-It allows users who are physically near the robot to:
+Through this interface, users located near the robot generate interaction events through physical contact with the device.
 
-* initiate or interrupt interaction
-* confirm or cancel system behaviour
-* trigger immediate actions
-* interact without using voice
-* communicate through simple tactile gestures
+The interface supports several categories of interaction:
 
-This interface is particularly important for situations where:
+* initiation of interaction
+* confirmation or cancellation of actions
+* triggering of predefined system behaviours
+* interruption of ongoing operations
+* tactile social interaction with the embodied system
 
-* voice interaction is not appropriate
-* the environment is noisy
-* immediate control is required
-* users prefer simple physical controls
-
-Because of its immediacy and reliability, physical interaction is also a key mechanism for **safety-critical actions**, such as emergency stops.
+Due to the deterministic nature of contact events, this interface provides a reliable and immediate interaction mechanism for both routine control and safety-critical intervention.
 
 ---
 
 ## Interaction Model
 
-Physical interaction generally follows a **direct stimulus–response model**.
+Touch-based interaction follows a stimulus–event–response interaction structure.
 
-1. A user touches or presses a physical interface element.
-2. Sensors detect the physical contact.
-3. The event is forwarded to the system through the perception layer.
-4. The event is interpreted as a user interaction command.
-5. The cognitive core decides how the system should respond.
+1. A user performs physical contact with a tactile surface or control element.
+2. Sensors detect the contact event.
+3. The perception subsystem captures the signal produced by the tactile hardware.
+4. The event is transformed into a normalized interaction event.
+5. The event is propagated to the cognitive core and related subsystems.
 
-Examples:
-
-* pressing a button to start interaction
-* touching a sensor to confirm an action
-* pressing an emergency button to interrupt activity
-
-Because physical interaction produces **discrete and unambiguous events**, it can serve as a reliable control mechanism.
+Because tactile interaction produces discrete hardware-level signals, interaction events originating from this interface are typically unambiguous and rapidly processed.
 
 ---
 
 ## Core Responsibilities
 
-The Touch / Physical Interaction module supports several types of interaction.
+The Touch / Physical Interaction interface supports several categories of tactile interaction.
 
-### Control Input
+### Direct Control
 
-Users can perform direct control actions through physical inputs.
+Users generate direct control commands through physical contact with control elements.
 
-Examples:
+These commands may initiate interaction, confirm actions, cancel operations, or trigger predefined system behaviours.
 
-* pressing a start button
-* confirming an action
-* cancelling an operation
+### Social Contact Interaction
 
-### Social Interaction
+Tactile interaction may also represent social signals between humans and the embodied system.
 
-Touch may also be used as part of human–robot social interaction.
-
-Examples:
-
-* touching the robot's head
-* tapping a hand sensor
-* performing a friendly gesture
-
-These interactions can influence NORA's emotional state or behavioural responses.
+Physical contact events occurring on designated surfaces of the robot body may influence expressive behaviour or interaction state.
 
 ### Safety Overrides
 
-Physical controls provide immediate ways to interrupt system behaviour.
+Physical interaction mechanisms provide immediate safety intervention capabilities.
 
-Examples:
+These mechanisms include dedicated controls capable of interrupting system behaviour or halting ongoing physical operations.
 
-* emergency stop button
-* hardware kill switch
+### Alternative Interaction Channel
 
-These mechanisms ensure that humans can always regain control of the system if necessary.
-
-### Alternative Input Channel
-
-Physical interaction provides an alternative interface when voice or gesture interaction is unavailable or inconvenient.
+Touch interaction provides an alternative interaction channel when voice, gesture, or remote interfaces are unavailable or unsuitable.
 
 ---
 
-## Possible Interaction Mechanisms
+## Interaction Surfaces
 
-Typical physical interaction mechanisms may include:
+The Touch / Physical Interaction interface may expose several categories of tactile interaction surfaces.
 
-* hardware buttons
+These include:
+
+* physical hardware buttons
 * capacitive touch sensors
-* pressure sensors
-* touchscreen input
-* contact sensors on the robot body
+* pressure-sensitive surfaces
+* touchscreen surfaces
+* body-mounted contact sensors
 * emergency stop controls
 
-Examples of touch points on the robot may include:
-
-* head touch sensor
-* hand touch sensor
-* torso control button
+Each tactile surface generates hardware-level signals that are interpreted by the perception subsystem as interaction events.
 
 ---
 
-## Example Inputs
+## Interaction Events
 
-Examples of physical interaction events include:
+The Touch / Physical Interaction interface produces several categories of interaction events.
 
-* button pressed
-* touchscreen tap
-* head touch detected
-* hand touch detected
-* emergency stop activated
+Examples include:
 
-Examples:
+* button press events
+* touchscreen interaction events
+* body-contact detection events
+* tactile gesture events
+* emergency stop activation events
 
-* pressing a "start interaction" button
-* touching the robot's head to attract attention
-* pressing an emergency stop during movement
+These events are propagated to backend subsystems responsible for interpreting interaction commands and determining appropriate system responses.
 
 ---
 
-## Example Outputs
+## Interaction Outputs
 
-Physical interaction may trigger system responses such as:
+Touch-based interaction events may trigger several categories of system responses.
 
-* starting interaction
-* confirming an action
-* cancelling an operation
-* interrupting system behaviour
-* triggering a safety shutdown
+These responses may include:
 
-The system may also provide feedback through other channels such as:
+* initiation of interaction sessions
+* confirmation or cancellation of actions
+* interruption of system behaviour
+* execution of predefined commands
+* activation of safety mechanisms
 
-* spoken responses
-* screen messages
-* LED indicators
+Feedback related to tactile interaction may be expressed through other system output channels such as speech synthesis, visual indicators, screen messages, or robotic motion.
 
 ---
 
@@ -1486,214 +1305,173 @@ The system may also provide feedback through other channels such as:
 
 ### Perception
 
-Physical sensors detect contact events and forward them to the system.
+The perception subsystem processes raw signals generated by tactile sensors and converts them into normalized interaction events.
 
-### Core Cognitive System
+### Cognitive Core
 
-Touch events are interpreted as interaction commands and processed by the FSM and planning modules.
+Interaction events generated through tactile input propagate toward the cognitive core, where they influence system state, reasoning processes, and behaviour planning.
 
 ### Action and Expression
 
-The system may respond to physical interaction through speech, movement, visual feedback, or emotional expression.
+System responses triggered by tactile interaction may be expressed through speech output, movement, visual indicators, or other expressive behaviours.
 
-### Identity and Security
+### Identity, Access and Security
 
-Certain physical controls may require authorization depending on system configuration.
-
----
-
-## Design Considerations
-
-### Reliability
-
-Physical controls must operate reliably and consistently.
-
-### Accessibility
-
-Controls should be easy to reach and clearly identifiable.
-
-### Safety
-
-Emergency controls must always be available and responsive.
-
-### Intentionality
-
-The system should minimize accidental activation caused by unintended contact.
-
-### Feedback
-
-Users should receive immediate feedback after interacting physically with the robot.
+Certain tactile controls may be subject to authorization policies depending on system configuration and safety requirements.
 
 ---
 
-## Summary
+## Structural Properties of Physical Interaction
 
-The **Touch / Physical Interaction** module enables direct tactile interaction between humans and the NORA robot.
+The Touch / Physical Interaction interface exhibits several structural properties associated with embodied systems.
 
-Through buttons, sensors, and touch surfaces, users can control the system, interrupt behaviour, and engage in embodied interaction without relying on voice or remote interfaces.
+### Physical Proximity Requirement
 
-By providing reliable and immediate input mechanisms, this module plays an important role in usability, accessibility, and operational safety.
+Interaction requires the presence of a user physically near the robot.
 
-# 2.5 NFC / RFID
+### Deterministic Event Generation
+
+Tactile hardware generates discrete interaction signals that produce well-defined interaction events.
+
+### Immediate Response Capability
+
+Physical interaction enables rapid user control of the system due to direct hardware signal generation.
+
+### Safety-Critical Control Path
+
+Certain tactile interaction surfaces provide direct mechanisms for interrupting or halting system behaviour.
+
+---
+
+# 2.5 NFC / RFID Interface
 
 ## Definition
 
-**NFC / RFID Interaction** refers to proximity-based interaction between users and the NORA system through Near Field Communication (NFC) or Radio Frequency Identification (RFID) tags, cards, or wearable devices.
+NFC / RFID Interaction refers to proximity-based interaction between users and the NORA system through Near Field Communication (NFC) or Radio Frequency Identification (RFID) tags, cards, badges, or wearable devices.
 
-This interaction modality allows users to identify themselves, activate the system, trigger predefined behaviours, or switch operational contexts simply by bringing a compatible device close to an NFC or RFID reader integrated into NORA.
+Through short-range wireless identification, users generate interaction events by bringing a compatible device close to an NFC or RFID reader integrated into the robot.
 
-Unlike voice, screen, or touch interfaces, NFC/RFID interaction does not rely on speech, visual interfaces, or explicit manual input. Instead, it operates through **short-range wireless identification**, making it a fast and frictionless interaction mechanism.
+Unlike voice, screen, or touch interfaces, this interaction modality does not require speech, visual interfaces, or manual input. Interaction occurs through proximity detection and tag identification.
 
-Within the architecture of NORA, NFC/RFID acts as a **proximity-based interaction channel** that bridges the domains of interaction, identity, and system context.
+Within the Interaction Interfaces module, NFC / RFID Interaction represents the primary proximity-based identification interface available to users physically present near the system.
 
 ---
 
 ## Architectural Role
 
-The NFC/RFID interface provides a **fast identification and activation mechanism** for users physically present near the robot.
+Within the system architecture, the NFC / RFID interface functions as a proximity-based identification and activation mechanism.
 
-Through this interface, NORA can:
+Through this interface, the system can associate detected tags with identities, profiles, permissions, or predefined actions.
 
-* identify a user
-* load a user profile
-* activate or unlock the system
-* switch operational modes
-* trigger predefined actions
+The interface supports several categories of interaction:
 
-Because the interaction requires physical proximity, NFC/RFID provides a useful balance between convenience and contextual awareness. It allows the system to recognize users without requiring them to speak, log in, or navigate menus.
+* user identification
+* loading of user context or profile
+* activation of interaction sessions
+* switching of operational modes
+* triggering of predefined system behaviours
 
-This makes NFC/RFID particularly useful in environments where:
-
-* multiple users interact with the same robot
-* quick identification is required
-* interaction must remain simple and intuitive
+Because NFC / RFID interaction requires physical proximity, it provides a fast and low-friction mechanism for identifying users and activating system functionality.
 
 ---
 
 ## Interaction Model
 
-The NFC/RFID interaction model is based on **proximity detection**.
+NFC / RFID interaction follows a proximity detection interaction structure.
 
-1. A user presents a tag, card, or wearable device near the NFC/RFID reader.
+1. A user presents a tag, card, badge, or compatible device near the NFC / RFID reader.
 2. The reader detects the device and retrieves its identifier.
-3. The identifier is transmitted to the system.
-4. The identity or action associated with the tag is resolved.
-5. NORA performs the corresponding behaviour.
+3. The perception subsystem captures the identifier provided by the reader hardware.
+4. The identifier is converted into a normalized interaction event.
+5. The system resolves the identifier to an associated identity, permission level, or predefined command.
 
-This interaction is typically **instantaneous** and requires minimal user effort.
+Once resolved, the corresponding system behaviour or context transition is triggered.
 
-Examples:
-
-* a user taps a personal NFC card to identify themselves
-* an administrator scans a tag to unlock advanced controls
-* a guest card activates a temporary interaction mode
+Because tag detection is hardware-driven, these events typically occur rapidly and require minimal user effort.
 
 ---
 
 ## Core Responsibilities
 
-The NFC/RFID interface supports several major functions.
+The NFC / RFID interface supports several categories of proximity-based interaction.
 
 ### User Identification
 
-Tags may be associated with specific users.
+Detected tags may be associated with registered user identities.
 
-When a tag is scanned, the system can:
+When a tag is detected, the system may retrieve the identity associated with the identifier and load user-specific interaction context.
 
-* identify the user
-* load user preferences
-* activate a personalized interaction context
+### Profile Context Loading
 
-### Profile Switching
+Tag detection may trigger the loading of user preferences or interaction parameters associated with the detected identity.
 
-NORA may switch behavioural parameters depending on the identified user.
-
-Examples include:
-
-* language preferences
-* voice settings
-* access permissions
+These parameters may influence language settings, permissions, or personalized behaviour.
 
 ### System Activation
 
-NFC tags may be used to activate or unlock the robot.
+Tag detection may activate the system or initiate interaction sessions.
 
-Examples:
-
-* waking the system
-* enabling interaction
+Activation mechanisms allow users to begin interaction without requiring voice commands or manual interface navigation.
 
 ### Access Control
 
-Certain tags may grant or restrict access to system capabilities.
+Certain tags may correspond to authorization credentials.
 
-Examples:
+Detection of these credentials may grant or restrict access to administrative capabilities or restricted operational modes.
 
-* administrator access
-* restricted operational modes
+### Triggered Behaviour
 
-### Triggered Actions
+Specific identifiers may be mapped to predefined system commands or actions.
 
-Specific tags may correspond to predefined commands.
-
-Examples:
-
-* starting a learning session
-* opening a project
-* activating a specific application
+Detection of these identifiers triggers execution of the associated behaviour.
 
 ---
 
-## Possible Interaction Mechanisms
+## Interaction Surfaces
 
-Typical NFC/RFID mechanisms include:
+The NFC / RFID interface exposes proximity-based interaction surfaces associated with hardware readers integrated into the robot.
+
+Typical mechanisms include:
 
 * NFC cards
 * RFID badges
 * NFC stickers
 * wearable NFC devices
-* smartphone NFC interactions
+* smartphone NFC interaction
 
-Possible placement of readers on NORA may include:
-
-* torso panel
-* front interface area
-* base station
+Readers may be integrated into designated areas of the robot body where proximity-based interaction occurs.
 
 ---
 
-## Example Inputs
+## Interaction Events
 
-Examples of NFC/RFID interaction events include:
+The NFC / RFID interface produces several categories of interaction events.
 
-* known user tag detected
+Examples include:
+
+* known tag detected
 * unknown tag detected
-* administrator tag scanned
-* guest tag scanned
+* authorized credential detected
+* restricted credential detected
+* tag removal or absence event
 
-Example actions:
-
-* loading a user profile
-* unlocking system functions
-* activating a learning mode
+These events are propagated to backend subsystems responsible for resolving identifiers and determining the appropriate system response.
 
 ---
 
-## Example Outputs
+## Interaction Outputs
 
-System responses may include:
+Detection of NFC / RFID events may trigger several categories of system responses.
 
-* user profile loaded
-* session started
-* system unlocked
-* access denied
-* confirmation message
+These responses may include:
 
-Feedback may be delivered through:
+* loading of a user profile
+* activation of a session
+* switching of operational context
+* authorization approval or denial
+* execution of predefined commands
 
-* voice
-* screen
-* LED indicators
+Feedback related to tag detection may be communicated through other system output channels such as speech synthesis, visual indicators, screen messages, or LED signals.
 
 ---
 
@@ -1701,436 +1479,344 @@ Feedback may be delivered through:
 
 ### Identity, Access and Security
 
-NFC/RFID identifiers may be mapped to user identities managed by the identity and access module.
+Identifiers detected through NFC / RFID readers may be mapped to user identities or authorization credentials managed by the identity and access subsystem.
 
-### Core Cognitive System
+### Perception
 
-The system determines how the scanned tag affects system behaviour or operational state.
+The perception subsystem processes signals generated by NFC or RFID reader hardware and converts them into normalized interaction events.
+
+### Cognitive Core
+
+Resolved identifiers influence system behaviour, operational context, and decision processes.
 
 ### Dialogue and Sessions
 
-Scanning a tag may start or resume a conversational session associated with a user.
+Tag detection may initiate or resume conversational sessions associated with identified users.
 
 ### Action and Expression
 
-The robot may respond to tag detection through speech, visual indicators, or other feedback mechanisms.
+The system may respond to tag detection events through speech output, visual indicators, or other expressive behaviours.
 
 ---
 
-## Design Considerations
+## Structural Properties of Proximity Interaction
 
-### Security
+The NFC / RFID interface exhibits several structural properties related to proximity-based interaction.
 
-Tag identifiers should not grant unrestricted access without validation.
+### Proximity Requirement
 
-### Reliability
+Interaction occurs only when a compatible tag is placed within the detection range of the reader.
 
-The reader must detect tags consistently and quickly.
+### Deterministic Identifier Detection
 
-### Privacy
+Hardware readers generate discrete identifier signals corresponding to detected tags.
 
-User identity information should be handled securely.
+### Rapid Interaction Trigger
 
-### Simplicity
+Tag detection enables immediate activation of system behaviour or context transitions.
 
-Interaction through NFC/RFID should remain simple and intuitive.
+### Identity-Linked Interaction
 
-### Context Awareness
-
-The system should consider the current operational state when responding to tag scans.
+Interaction events generated through NFC / RFID interfaces are commonly associated with user identity or authorization credentials.
 
 ---
-
-## Summary
-
-The **NFC/RFID** module enables proximity-based interaction between users and the NORA robot.
-
-Through tags, cards, or wearable devices, users can quickly identify themselves, activate system functions, switch contexts, or trigger predefined actions.
-
-By combining convenience with contextual awareness, NFC/RFID provides a fast and intuitive way to interact with NORA in multi-user environments.
 
 # 2.6 Gestures as an Interface
 
 ## Definition
 
-**Gestures as an Interface** refers to the use of human body movements—such as hand gestures, arm movements, posture cues, or simple physical signals—as intentional commands directed at NORA.
+Gestures as an Interface refers to interaction between humans and the NORA system through intentional human body movements such as hand gestures, arm movements, posture signals, or other visible physical cues.
 
-In this interaction modality, the user communicates with the system through **non‑verbal physical movements** that are interpreted as interaction commands.
+Through this modality, users generate interaction events by performing recognizable movements that are interpreted by the system as commands, confirmations, interruptions, or attention signals.
 
-Unlike voice interaction, gestures allow users to communicate with NORA **silently and at a distance**, which can be useful in environments where speech is inconvenient, undesirable, or impossible.
+Unlike voice interaction, gesture interaction allows users to communicate with the system silently and without physical contact, enabling distance-based interaction within the robot's visual perception range.
 
-Within the architecture of NORA, gestures are treated as an **intentional human interface modality**, distinct from the perception systems that technically detect those gestures.
-
----
-
-## Distinction from Vision Perception
-
-It is important to distinguish between two architectural roles:
-
-**Gesture detection (Perception layer)**
-
-* camera capture
-* pose estimation
-* hand tracking
-* gesture classification
-
-These belong to the **Perception → Vision module**.
-
-**Gesture interaction (Interaction Interfaces layer)**
-
-* interpreting a gesture as a command
-* triggering interaction events
-* affecting system behaviour
-
-These belong to the **Interaction Interfaces module**.
-
-This separation ensures that perception algorithms remain independent from interaction semantics.
+Within the Interaction Interfaces module, the Gesture Interface represents the primary non-verbal visual interaction surface available to users within the observable environment of the system.
 
 ---
 
 ## Architectural Role
 
-Gestures provide an additional interaction channel that complements voice, touch, and screen interfaces.
+Within the system architecture, the Gesture Interface functions as a visual non-verbal interaction channel.
 
-The main advantages of gesture interaction include:
+Through this interface, the system interprets recognized body movements as interaction events that influence system behaviour.
 
-* silent communication
-* distance-based control
-* natural human–robot interaction
-* accessibility for certain users
+The interface supports several categories of interaction:
 
-In the architecture of NORA, gesture interaction enables users to:
+* attention signals directed at the system
+* non-verbal command input
+* confirmation or rejection gestures
+* interruption of ongoing system behaviour
+* non-verbal interaction in shared environments
 
-* attract the robot's attention
-* interrupt actions
-* confirm or reject system proposals
-* request interaction without speaking
-
-Because gestures can be perceived visually at a distance, they allow NORA to react to **human body language in shared environments**.
+Gesture interaction complements other interaction interfaces such as voice, touch, and screen-based interaction, providing an alternative communication mechanism when speech or direct contact is not suitable.
 
 ---
 
 ## Interaction Model
 
-Gesture-based interaction typically follows this sequence:
+Gesture-based interaction follows a perception–event–response interaction structure.
 
-1. The user performs a gesture within the robot's field of view.
-2. The vision perception module detects and classifies the gesture.
-3. The classified gesture is converted into an interaction event.
-4. The event is processed by the cognitive core (FSM, planning, etc.).
-5. NORA responds through voice, movement, screen output, or other feedback.
+1. A user performs a gesture within the observable environment of the robot.
+2. The vision perception subsystem detects and classifies the gesture.
+3. The classified gesture is converted into a normalized interaction event.
+4. The interaction event is propagated to the cognitive core and related subsystems.
+5. The system determines the corresponding response or behaviour.
 
-This process allows gestures to function as **implicit commands directed at the system**.
+Because gesture interaction depends on visual detection and classification, interaction events are generated only after successful perception and gesture recognition.
 
 ---
 
 ## Core Responsibilities
 
-The Gesture Interface module supports several types of interaction.
+The Gesture Interface supports several categories of non-verbal interaction.
 
-### Attention Request
+### Attention Signalling
 
-Users may use gestures to attract the robot's attention.
+Users may perform gestures intended to attract the system's attention.
 
-Examples:
-
-* waving a hand
-* raising a hand
+These signals indicate the presence of a user attempting to initiate interaction.
 
 ### Command Input
 
-Gestures may represent direct commands.
+Certain gestures correspond to predefined command events interpreted by the system.
 
-Examples:
+These commands influence system behaviour or trigger specific actions.
 
-* stop gesture
-* pointing gesture
-* calling gesture
+### Confirmation Gestures
 
-### Confirmation
+Gestures may represent confirmation signals used to approve proposed actions or system requests.
 
-Gestures may be used to confirm system requests.
+### Cancellation and Interruption
 
-Examples:
+Specific gestures may signal cancellation or interruption of ongoing system behaviour.
 
-* thumbs up
-* nod-like hand gesture
+### Non-Verbal Interaction
 
-### Cancellation
+Gesture interaction allows communication with the system without spoken language or physical contact.
 
-Gestures may cancel ongoing actions.
-
-Examples:
-
-* "stop" hand signal
-* dismissive motion
-
-### Non-verbal Interaction
-
-Gestures allow interaction without spoken language.
-
-This can be useful in:
-
-* noisy environments
-* silent spaces
-* accessibility contexts
+This interaction modality is useful in environments where speech is impractical or undesirable.
 
 ---
 
-## Possible Gesture Commands
+## Interaction Surfaces
 
-Example gesture commands that NORA may support include:
+Gesture interaction occurs within the visual observation space of the robot.
 
-* greeting gesture
-* stop gesture
-* confirm gesture
-* cancel gesture
-* call gesture
-* pointing gesture
-* silence gesture
+Interaction surfaces include:
 
-Each gesture may correspond to a **normalized interaction event** that can be processed by the system.
+* hand gestures
+* arm movements
+* posture-based signals
+* directional pointing gestures
+* body movement signals
+
+These visual signals are captured by the perception subsystem and interpreted as interaction events.
 
 ---
 
-## Example Inputs
+## Interaction Events
 
-Example gesture interaction events include:
+The Gesture Interface produces several categories of interaction events.
+
+Examples include:
 
 * greeting gesture detected
 * stop gesture detected
 * pointing gesture detected
-* confirm gesture detected
+* confirmation gesture detected
+* cancellation gesture detected
 
-These events are generated after gesture recognition in the perception layer.
+These events are generated after gesture recognition by the perception subsystem and propagated to backend subsystems responsible for behavioural interpretation.
 
 ---
 
-## Example Outputs
+## Interaction Outputs
 
-Possible system responses to gesture interaction include:
+Gesture interaction events may trigger several categories of system responses.
 
-* acknowledging the user
-* stopping an action
-* confirming a command
-* focusing attention on the user
+These responses may include:
 
-Feedback may be provided through:
+* acknowledgement of user presence
+* interruption of current behaviour
+* confirmation of commands
+* attention focusing toward the user
+* execution of gesture-triggered commands
 
-* spoken response
-* head movement
-* screen output
-* LED signals
+Feedback related to gesture interaction may be expressed through speech synthesis, robot movement, visual indicators, or screen-based feedback.
 
 ---
 
 ## Relationship With Other Modules
 
-### Vision Perception
+### Perception – Vision
 
-Gesture recognition is implemented in the vision perception subsystem.
+The perception subsystem performs gesture detection, pose estimation, and gesture classification.
 
-### Core Cognitive System
+Recognized gestures are converted into normalized interaction events that are consumed by the Gesture Interface.
 
-Gesture commands are processed as interaction events by the FSM and planning modules.
+### Cognitive Core
+
+Interaction events generated through gestures influence system state, reasoning processes, and behavioural planning.
 
 ### Action and Expression
 
-NORA may respond to gestures with movements, speech, or visual indicators.
+The system may respond to gesture interaction through movement, speech output, visual indicators, or other expressive behaviours.
 
-### Dialogue and Sessions
+### Dialogue and Session System
 
-Gesture commands may start or influence conversational interactions.
-
----
-
-## Design Considerations
-
-### Recognition Accuracy
-
-Gesture detection must be reliable enough to avoid accidental commands.
-
-### Ambiguity
-
-Some gestures may be ambiguous and require confirmation.
-
-### Visibility
-
-Gestures must occur within the robot's visual field.
-
-### Cultural Variation
-
-Gestures may have different meanings across cultures.
-
-### Safety
-
-Critical commands triggered by gestures may require confirmation.
+Gesture interaction may initiate or influence conversational sessions between users and the system.
 
 ---
 
-## Summary
+## Structural Properties of Gesture Interaction
 
-The **Gestures as an Interface** module enables non-verbal interaction between users and NORA through body movements interpreted as commands.
+The Gesture Interface exhibits several structural properties associated with visual non-verbal interaction.
 
-By complementing voice, touch, and visual interfaces, gesture interaction expands the ways in which humans can communicate with the system, making NORA more natural and adaptable in real-world environments.
+### Visual Field Dependency
+
+Gestures must occur within the observable visual field of the robot's perception sensors.
+
+### Perception-Dependent Event Generation
+
+Interaction events are generated only after gesture recognition by the perception subsystem.
+
+### Distance-Based Interaction
+
+Gesture interaction allows users to communicate with the system without direct contact or speech.
+
+### Non-Verbal Communication Channel
+
+Gestures provide a communication channel independent of spoken language.
+
+---
 
 # 2.7 Remote Interfaces
 
 ## Definition
 
-**Remote Interfaces** refer to interaction channels that allow users or external systems to communicate with, observe, or control NORA from devices that are not physically integrated into the robot.
+Remote Interfaces refer to interaction channels that allow users or external systems to communicate with, observe, or control the NORA system from devices that are not physically integrated into the robot.
 
-Unlike the Local Screen or Touch Interaction modules, which require physical proximity to the robot, remote interfaces allow interaction through **network-connected devices** such as computers, tablets, mobile phones, wearable devices, or other external systems.
+Through network-connected devices, interaction events may be generated and transmitted to the system without requiring physical proximity to the robot.
 
-This interaction modality extends NORA beyond its physical embodiment and enables the robot to operate as part of a broader digital ecosystem.
+Unlike local interfaces such as the Local Screen or Touch Interaction surfaces, remote interfaces operate through network communication and distributed client devices.
 
-Within the architecture, Remote Interfaces represent **external entry points into the system**, enabling distributed interaction and remote supervision.
+Within the Interaction Interfaces module, Remote Interfaces represent external interaction entry points through which the system may be accessed from outside the robot's physical environment.
 
 ---
 
 ## Architectural Role
 
-The Remote Interfaces module enables NORA to be accessed and controlled from outside its immediate physical environment.
+Within the system architecture, Remote Interfaces function as network-based interaction channels that extend the reach of the system beyond its embodied hardware.
 
-Through remote interfaces, users can:
+Through these interfaces, users or external systems may interact with the robot from remote locations.
 
-* communicate with NORA from another location
-* observe the robot's current state
-* trigger commands
-* receive notifications
-* monitor ongoing tasks
+The interface supports several categories of interaction:
 
-This capability is essential for several scenarios:
+* remote user communication with the system
+* remote observation of system state
+* remote command execution
+* reception of system notifications
+* integration with external digital services
 
-* remote supervision of the system
-* interaction through personal devices
-* integration with external services
-* administration and debugging
-
-Remote interfaces transform NORA from an isolated robotic system into a **connected intelligent platform**.
+Remote Interfaces allow the system to operate as part of a distributed computing environment rather than as an isolated robotic device.
 
 ---
 
 ## Interaction Model
 
-Remote interaction typically follows a network-based communication model.
+Remote interaction follows a network-mediated interaction structure.
 
-1. A remote device or system sends a request or command.
-2. The request is transmitted through a network interface.
-3. Backend services receive and process the request.
-4. The system generates events or commands internally.
-5. Responses or state updates are sent back to the remote interface.
+1. A remote device or external system generates a request, command, or query.
+2. The request is transmitted through a network communication channel.
+3. Backend services receive and process the incoming interaction event.
+4. The system generates internal events or behavioural commands.
+5. Responses or state updates are transmitted back to the remote interface.
 
-Depending on the use case, communication may occur through:
-
-* HTTP APIs
-* realtime channels (WebSockets)
-* messaging systems
-
-This architecture allows both **request-response interaction** and **event-driven communication**.
+Communication may occur through multiple interaction patterns including request–response communication and event-driven messaging.
 
 ---
 
 ## Core Responsibilities
 
-The Remote Interfaces module enables several types of interaction.
+The Remote Interfaces module supports several categories of distributed interaction.
 
 ### Remote User Interaction
 
-Users may interact with NORA through devices that are not physically connected to the robot.
+Users may interact with the system from external devices that are not physically connected to the robot.
 
-Examples include:
-
-* mobile phone interaction
-* tablet interaction
-* laptop interaction
+These interactions may include conversational communication, command input, or status requests.
 
 ### Remote Monitoring
 
-External devices may observe the internal state of the system.
+Remote interfaces may expose information describing the internal state and operational behaviour of the system.
 
-Examples include:
-
-* system state
-* active sessions
-* hardware status
+This information may include system state, active sessions, or hardware status.
 
 ### Remote Command Execution
 
-Remote users may trigger system actions.
+Interaction events originating from remote devices may trigger commands executed by the system.
 
-Examples include:
-
-* starting a session
-* issuing commands
-* controlling hardware functions
+These commands may influence system behaviour or initiate specific operations.
 
 ### System Notifications
 
-NORA may send notifications or alerts to remote devices.
+The system may generate outbound communication directed toward remote interfaces in order to report events or system state changes.
 
-Examples include:
+### External System Integration
 
-* reminders
-* warnings
-* system status updates
+External digital systems may interact with NORA through defined remote interfaces.
 
-### Integration with External Systems
-
-External services may interact with NORA through defined interfaces.
-
-Examples include:
-
-* smart home systems
-* scheduling services
-* messaging platforms
+These integrations allow the robot to participate in larger digital ecosystems.
 
 ---
 
-## Possible Remote Interfaces
+## Interaction Surfaces
 
-Typical remote interaction devices may include:
+Remote interaction may occur through several categories of external client interfaces.
+
+These include:
 
 * mobile applications
-* smartwatches
-* tablets
-* remote web browsers
+* tablet interfaces
+* remote web clients
 * administrative terminals
-* external APIs
+* wearable devices
+* external service clients
 
-These interfaces may provide different levels of functionality depending on user roles and permissions.
-
----
-
-## Example Inputs
-
-Examples of remote interaction events include:
-
-* command received from mobile device
-* request received from web client
-* admin instruction received
-* API request from external service
-
-Examples:
-
-* remote command to start interaction
-* request for system status
-* remote configuration update
+Each client interface communicates with backend services responsible for processing remote interaction events.
 
 ---
 
-## Example Outputs
+## Interaction Events
 
-NORA may produce several outputs directed toward remote devices.
+The Remote Interfaces module produces several categories of interaction events.
 
 Examples include:
 
-* system notifications
-* task completion alerts
-* conversation responses
-* status updates
+* remote command events
+* remote status requests
+* configuration change events
+* administrative commands
+* external API requests
 
-These outputs allow users to stay informed about system activity even when they are not physically present near the robot.
+These interaction events are transmitted through network communication channels and processed by backend subsystems.
+
+---
+
+## Interaction Outputs
+
+Remote Interfaces expose outputs that communicate system responses or operational information to remote devices.
+
+These outputs may include:
+
+* system notifications
+* status updates
+* responses to remote commands
+* task completion events
+* conversation responses
+
+These outputs allow users and external systems to observe and interact with the robot without being physically present.
 
 ---
 
@@ -2138,54 +1824,166 @@ These outputs allow users to stay informed about system activity even when they 
 
 ### Backend and Application Layer
 
-Remote interfaces communicate with backend services through APIs and realtime communication channels.
+Remote Interfaces communicate with backend services responsible for processing interaction events, managing system state, and coordinating subsystem behaviour.
 
-### Identity and Access Control
+### Identity, Access and Security
 
-Remote access must respect authentication and authorization policies defined in the identity module.
+Authentication and authorization policies determine which remote entities may access specific system capabilities.
 
-### Core Cognitive System
+### Cognitive Core
 
-Commands received through remote interfaces may influence the behaviour of the cognitive core.
+Interaction events originating from remote interfaces influence system reasoning, decision-making, and behavioural planning.
 
-### Dialogue and Sessions
+### Dialogue and Session System
 
 Remote users may initiate or participate in conversational sessions with the system.
 
 ### Action and Expression
 
-Commands triggered remotely may result in actions performed by the robot or responses returned through remote channels.
+Commands originating from remote interfaces may trigger actions executed by the robot or generate responses returned through remote communication channels.
 
 ---
 
-## Design Considerations
+## Structural Properties of Remote Interaction
 
-### Security
+The Remote Interfaces module exhibits several structural properties associated with distributed system interaction.
 
-Remote interfaces must enforce strong authentication and authorization controls.
+### Network Dependency
 
-### Network Reliability
+Interaction requires network connectivity between remote clients and backend services.
 
-The system should handle network delays or disconnections gracefully.
+### Distributed Interaction
 
-### Synchronization
+Multiple remote clients may interact with the system concurrently from different locations.
 
-State changes must remain synchronized across local and remote interfaces.
+### Asynchronous Communication
 
-### Latency
+Certain interaction flows may occur asynchronously through event-driven communication channels.
 
-Remote interaction should remain responsive enough for practical use.
+### External System Participation
 
-### Device Diversity
-
-Interfaces should support multiple device types and screen sizes.
+Remote interfaces allow external digital systems to interact with the robot as part of a larger distributed ecosystem.
 
 ---
 
-## Summary
+## Internal Architecture Overview
 
-The **Remote Interfaces** module enables NORA to interact with users and external systems beyond its physical embodiment.
+The **Interaction Interfaces** module defines the set of human–system interaction channels through which users communicate with the NORA system.
 
-Through network-connected devices and services, remote interfaces allow users to communicate with, monitor, and control the robot from anywhere.
+These interfaces represent the boundary layer between human users and the internal cognitive architecture. Through these interfaces, interaction events generated by humans enter the system and system responses are exposed through human‑perceivable channels.
 
-This capability transforms NORA into a connected intelligent system that can operate within a broader technological ecosystem.
+The module organizes multiple complementary interaction modalities that together support multimodal interaction with the system.
+
+---
+
+## Architectural Structure
+
+```
+Interaction Interfaces
+│
+├── Voice Interface
+│ ├── spoken interaction channel
+│ ├── conversational dialogue interaction
+│ ├── spoken command input
+│ ├── confirmation and rejection signals
+│ ├── interruption and cancellation signals
+│ ├── dictated text input
+│ ├── voice interaction events
+│ ├── spoken responses
+│ ├── interaction feedback signals
+│ ├── multilingual interaction context
+│ ├── voice interaction inputs
+│ └── voice interaction outputs
+│
+├── Local Screen Interface
+│ ├── visual interaction surface
+│ ├── graphical feedback indicators
+│ ├── structured information display
+│ ├── graphical interface controls
+│ ├── expressive visual output
+│ ├── contextual interaction information
+│ ├── visual interaction events
+│ ├── visual interaction outputs
+│ ├── system state indicators
+│ ├── screen interaction inputs
+│ └── screen interaction outputs
+│
+├── Web Frontend Interface
+│ ├── browser‑based interaction surface
+│ ├── remote conversational interaction
+│ ├── system dashboards
+│ ├── monitoring and diagnostics views
+│ ├── administration panels
+│ ├── project and task management views
+│ ├── configuration interfaces
+│ ├── browser interaction events
+│ ├── web interface outputs
+│ ├── remote system monitoring
+│ ├── web interaction inputs
+│ └── web interaction outputs
+│
+├── Touch / Physical Interaction
+│ ├── tactile interaction mechanisms
+│ ├── hardware buttons
+│ ├── capacitive touch sensors
+│ ├── pressure sensors
+│ ├── body contact sensors
+│ ├── emergency stop controls
+│ ├── tactile interaction events
+│ ├── safety override signals
+│ ├── physical interaction inputs
+│ └── physical interaction outputs
+│
+├── NFC / RFID Interface
+│ ├── proximity interaction channel
+│ ├── tag identification
+│ ├── user identification through tags
+│ ├── profile switching
+│ ├── system activation
+│ ├── access control through tags
+│ ├── triggered system actions
+│ ├── NFC interaction events
+│ ├── proximity interaction inputs
+│ └── proximity interaction outputs
+│
+├── Gesture Interface
+│ ├── gesture‑based interaction channel
+│ ├── attention request gestures
+│ ├── command gestures
+│ ├── confirmation gestures
+│ ├── cancellation gestures
+│ ├── non‑verbal interaction signals
+│ ├── gesture interaction events
+│ ├── gesture interaction responses
+│ ├── gesture interaction inputs
+│ └── gesture interaction outputs
+│
+└── Remote Interfaces
+  ├── remote device interaction
+  ├── mobile device interfaces
+  ├── tablet interfaces
+  ├── remote web clients
+  ├── external service interfaces
+  ├── remote monitoring interfaces
+  ├── remote command execution
+  ├── system notifications
+  ├── remote interaction events
+  ├── remote interaction inputs
+  └── remote interaction outputs
+```
+
+---
+
+## Architectural Layers
+
+The Interaction Interfaces module operates through several complementary layers that structure how human interaction enters and exits the system.
+
+| Layer                             | Responsibility                                                                 |
+| --------------------------------- | ------------------------------------------------------------------------------ |
+| **Interaction Channel Layer**     | Defines the modalities through which humans communicate with the system        |
+| **Interaction Surface Layer**     | Provides the physical or digital surfaces where interaction occurs             |
+| **Interaction Event Layer**       | Normalizes interaction inputs into structured system events                    |
+| **Interaction Feedback Layer**    | Communicates system state and responses back to users                          |
+| **Multimodal Coordination Layer** | Ensures consistent behaviour across multiple simultaneous interaction channels |
+
+Together, these layers establish the **human–system interaction boundary of the NORA architecture**, ensuring that user actions can be interpreted consistently regardless of the interface used while maintaining coherent multimodal interaction across the system.
