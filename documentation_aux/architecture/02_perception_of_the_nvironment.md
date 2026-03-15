@@ -2,147 +2,291 @@
 
 ## Definition
 
-The **Perception System** is the subsystem responsible for allowing NORA to observe, interpret, and understand the external world. It transforms raw sensor signals into structured information that can be used by the rest of the architecture for reasoning, planning, dialogue, and action.
+The **Perception System** is the architectural subsystem that transforms physical-world signals into structured internal representations.
 
-Perception acts as the primary information gateway between the physical environment and the internal cognitive processes of the system.
+Its role is to provide NORA with a formal sensory layer through which the system acquires information about users, objects, environmental conditions, and relevant events occurring around it.
 
-Through perception, NORA can detect people, interpret speech, understand gestures, analyze images, recognize environmental context, and monitor the state of the surrounding world.
+In architectural terms, perception is the boundary between:
 
-Without a perception layer, NORA would operate blindly, unable to react to user presence, understand commands, or interpret events in its environment.
+* the **external world**, where physical signals exist
+* the **internal system**, where those signals become usable computational information
+
+The Perception System receives raw signals from sensing hardware and produces structured outputs that can be consumed by the rest of the architecture.
+
+These outputs are used by:
+
+* the Dialogue and Session System
+* the Cognitive Core
+* the Planning, Interpretation and Agents layer
+* the Action and Expression layer
+* the Persistence and Memory layer
+
+Without the Perception System, NORA has no architectural mechanism for acquiring information from the external environment.
 
 ---
 
 ## Architectural Role
 
-The Perception System serves as the **sensory interface** of NORA.
+The Perception System is the **sensory input layer** of NORA.
 
-Its primary responsibility is to convert **raw sensory data** into **structured perceptual events** that can be consumed by higher-level subsystems such as:
+Its architectural role is to:
 
-* Dialogue and Language Understanding
-* Planning and Decision Making
-* Action and Motor Control
-* Context Awareness
-* Memory Systems
+* acquire physical signals from sensors
+* preprocess those signals into usable internal data
+* extract relevant features
+* interpret the sensed input
+* generate structured perception results
+* forward those results to downstream modules
 
-The perception pipeline generally follows several stages:
+The perception pipeline is organized into the following stages:
 
-1. Sensor acquisition
-2. Signal preprocessing
-3. Feature extraction
-4. Recognition or interpretation
-5. Event generation
+1. **Sensor acquisition**
+   raw signals are captured from hardware devices
 
-This layered structure ensures that low-level sensor operations remain separated from high-level interpretation logic.
+2. **Signal preprocessing**
+   raw signals are cleaned, normalized, aligned, or filtered
+
+3. **Feature extraction**
+   informative signal patterns are extracted from the preprocessed input
+
+4. **Recognition or interpretation**
+   extracted features are mapped to meaningful perceptual results
+
+5. **Event generation**
+   interpreted results are transformed into structured outputs consumable by other modules
+
+This layered structure separates:
+
+* low-level signal access
+* signal processing
+* perceptual interpretation
+* system-level event production
+
+---
+
+## Core Perceptual Concepts
+
+To keep the architecture explicit, the Perception System is defined through several core concepts.
+
+* **raw sensory signal**
+  unprocessed physical input captured by a sensing device
+
+* **preprocessed signal**
+  normalized or filtered version of a raw sensory signal prepared for analysis
+
+* **perceptual feature**
+  extracted property or pattern used to interpret a signal
+
+* **perceptual result**
+  structured interpretation produced from one perception pipeline
+
+* **perception event**
+  normalized system-level output generated from a perceptual result
+
+* **sensor abstraction layer**
+  architectural layer that standardizes access to heterogeneous sensor devices
+
+These concepts define what perception produces and how it is separated from the rest of the system.
 
 ---
 
 ## Perception Modalities
 
-Because NORA is a multimodal system, perception may occur through several sensory channels.
+The Perception System is multimodal.
 
-Typical modalities include:
+A **perception modality** is a distinct channel through which NORA acquires and interprets information from the environment.
 
-* audio perception
-* visual perception
-* proximity sensing
-* tactile sensing
-* environmental sensing
+The architecture defines the following perception modalities:
 
-Each modality processes a different type of signal and contributes complementary information about the environment.
+* **audio perception**
+  perception based on acoustic signals captured from microphones or equivalent audio devices
+
+* **visual perception**
+  perception based on image or video signals captured from cameras or equivalent visual devices
+
+* **proximity perception**
+  perception based on the detection of nearby objects, bodies, or distances relative to the system
+
+* **tactile perception**
+  perception based on physical contact, touch, pressure, or direct interaction with the system body
+
+* **environmental perception**
+  perception based on ambient physical conditions such as light, temperature, humidity, or motion in the surrounding environment
+
+Each modality processes a different class of physical signal and produces a different class of perceptual result.
+
+Together, these modalities define the full sensing surface of NORA.
 
 ---
 
 ## Audio Perception
 
-Audio perception allows NORA to capture and interpret acoustic signals from the environment.
+**Audio Perception** is the modality that processes acoustic signals.
 
-This includes:
+It transforms raw audio captured from the environment into structured outputs related to speech, speakers, and relevant sound events.
 
-* wake word detection
-* speech recognition
-* speaker identification
-* voice biometrics
-* environmental sound detection
+The architecture includes the following audio perception capabilities:
 
-Audio processing typically begins with raw microphone input and progresses through stages such as:
+* **wake word detection**
+  detection of a predefined activation phrase
+
+* **speech recognition**
+  conversion of spoken language into textual or structured linguistic output
+
+* **speaker identification**
+  estimation of which known speaker produced the audio
+
+* **voice biometrics**
+  use of voice characteristics for identity-related verification
+
+* **environmental sound detection**
+  detection of relevant non-speech sounds present in the environment
+
+The audio perception pipeline includes:
 
 * audio capture
 * noise reduction
 * voice activity detection
 * speech segmentation
 * speech-to-text processing
+* speaker analysis
+* sound event interpretation
 
-The result of this process is usually a **transcribed utterance** together with metadata such as speaker identity, timestamp, and confidence level.
+The output of audio perception includes structured results such as:
+
+* transcribed utterance
+* detected wake word
+* identified speaker
+* voice-based identity signal
+* environmental sound event
+* timestamp
+* confidence score
 
 ---
 
 ## Visual Perception
 
-Visual perception enables NORA to interpret visual information using camera systems.
+**Visual Perception** is the modality that processes image-based input.
 
-Examples of visual perception capabilities include:
+It transforms visual data captured from cameras into structured outputs related to people, gestures, objects, and scene context.
 
-* face detection
-* facial recognition
-* gesture recognition
-* human pose estimation
-* object detection
-* scene understanding
+The architecture includes the following visual perception capabilities:
 
-Visual processing pipelines often involve:
+* **face detection**
+  localization of human faces in an image or video frame
+
+* **facial recognition**
+  matching of a detected face to a known identity representation
+
+* **gesture recognition**
+  interpretation of body or hand movements as structured visual interaction signals
+
+* **human pose estimation**
+  estimation of body joint positions or body configuration
+
+* **object detection**
+  identification and localization of objects in the visual field
+
+* **scene understanding**
+  structured interpretation of the visual environment as a whole
+
+The visual perception pipeline includes:
 
 * image acquisition
 * image preprocessing
 * feature extraction
 * model inference
-* object or person identification
+* visual interpretation
+* structured output generation
 
-These capabilities allow the system to detect users, interpret gestures, and understand visual context in the environment.
+The output of visual perception includes structured results such as:
+
+* detected face
+* identified user
+* recognized gesture
+* pose representation
+* detected object list
+* scene interpretation result
+* timestamp
+* confidence score
 
 ---
 
 ## Environmental Perception
 
-Environmental perception refers to sensing the physical state of the surrounding environment.
+**Environmental Perception** is the modality that processes ambient physical conditions around the system.
 
-Examples include:
+It transforms sensor readings describing the environment into structured information about the external physical context.
 
-* temperature sensors
-* light sensors
-* motion detectors
-* proximity sensors
-* distance sensors
-* humidity sensors
+The architecture includes sensing of conditions such as:
 
-These signals allow the system to detect environmental changes and adjust behaviour accordingly.
+* temperature
+* light level
+* motion
+* proximity
+* distance
+* humidity
 
-For example, the system may detect that a user has entered the room or that lighting conditions have changed.
+An **environmental signal** is a measurement describing a physical condition in the space where NORA operates.
+
+An **environmental perceptual result** is the structured interpretation of one or more such measurements.
+
+The output of environmental perception includes structured results such as:
+
+* presence detected
+* motion detected
+* ambient light state
+* temperature state
+* distance threshold reached
+* humidity condition
+* timestamp
+* confidence or validity metadata when applicable
+
+Environmental perception provides the system with architectural awareness of surrounding physical conditions.
 
 ---
 
 ## Sensor Abstraction
 
-Sensors are often heterogeneous devices with different interfaces and sampling characteristics.
+The Perception System includes a **Sensor Abstraction Layer**.
 
-To simplify system architecture, the Perception System provides a **sensor abstraction layer** that standardizes access to sensor data.
+A sensor abstraction layer is the architectural mechanism that standardizes access to heterogeneous sensing hardware.
 
-This abstraction layer ensures that higher-level modules do not need to know the details of specific hardware devices.
+Its purpose is to separate:
 
-Typical responsibilities include:
+* hardware-specific device details
+* higher-level perception logic
 
-* device drivers
+The Sensor Abstraction Layer defines a common internal interface for sensors with different:
+
+* hardware protocols
+* sampling rates
+* data formats
+* synchronization requirements
+* calibration properties
+
+This layer includes:
+
+* device driver integration
 * signal buffering
 * sampling synchronization
 * timestamp alignment
 * calibration handling
+* standardized sensor output formatting
+
+Through this layer, perception pipelines consume sensor data through a uniform architectural interface rather than through device-specific logic.
 
 ---
 
 ## Event Generation
 
-Once perception processes have interpreted sensory data, the results are transformed into **perception events**.
+The final output stage of the Perception System is **Perception Event Generation**.
 
-Examples of perception events include:
+A **perception event** is a normalized system-level representation of a perceptual result.
+
+Perception events are the mechanism through which perception becomes operationally usable by the rest of NORA.
+
+The architecture includes events such as:
 
 * user detected
 * wake word detected
@@ -150,43 +294,74 @@ Examples of perception events include:
 * gesture recognized
 * face identified
 * motion detected
+* object detected
+* environmental state changed
 
-These events are then forwarded to the system's **event dispatcher or state machine**, which determines how the system should react.
+Each perception event contains structured information describing:
+
+* the detected event type
+* the source modality
+* the interpreted content
+* the timestamp
+* the confidence level when applicable
+* the originating sensor or pipeline when relevant
+
+Perception events are forwarded to downstream architectural components such as:
+
+* the event dispatcher
+* the Cognitive Core
+* the Dialogue and Session System
+* the Planning, Interpretation and Agents layer
 
 ---
 
-## Real-Time Considerations
+## Real-Time Role
 
-Perception systems often operate under real-time constraints.
+The Perception System operates as a runtime-sensitive subsystem.
 
-Certain perceptual events must be detected with minimal delay, such as:
+A **real-time perceptual requirement** is a perception requirement in which detection latency directly affects system behaviour.
+
+The architecture includes low-latency perception requirements for events such as:
 
 * wake word detection
-* obstacle detection
+* obstacle or proximity detection
 * gesture recognition
-* emergency signals
+* emergency signal detection
 
-To meet these requirements, perception pipelines may rely on:
+To satisfy these runtime requirements, the Perception System is architecturally coupled to:
 
-* streaming processing
-* hardware acceleration
-* lightweight models
-* asynchronous processing
+* streaming processing pipelines
+* asynchronous processing flows
+* hardware-aware optimization
+* lightweight inference paths where required
+
+This does not define optional behaviour. It defines the runtime role of perception inside the system.
 
 ---
 
-## Privacy Considerations
+## Privacy Role
 
-Because perception systems may capture sensitive information such as voices, images, or behavioural data, the architecture must include safeguards to protect user privacy.
+The Perception System processes potentially sensitive inputs.
 
-Typical protections include:
+These inputs include:
 
-* limiting sensor activation
-* restricting access to raw sensor data
-* anonymizing stored information
-* requiring authorization for certain sensors
+* voice data
+* image data
+* biometric data
+* behavioural data
+* environmental presence information
 
-These protections ensure that perceptual capabilities do not compromise user trust.
+For that reason, the Perception System is architecturally subject to privacy constraints.
+
+These constraints include:
+
+* controlled sensor activation
+* controlled access to raw sensor data
+* authorization-aware access to sensitive perceptual outputs
+* constrained persistence of raw perceptual data
+* privacy-aware handling of biometric information
+
+Privacy enforcement is not defined inside the Perception System itself, but it is an explicit architectural condition governing how perception operates.
 
 ---
 
@@ -194,395 +369,522 @@ These protections ensure that perceptual capabilities do not compromise user tru
 
 The Perception System interacts with multiple architectural components.
 
-**Dialogue System**
-Consumes speech recognition outputs and wake word events.
+**Dialogue and Session System**
+Consumes speech recognition outputs and perception-derived interaction signals.
 
-**Authentication System**
-Uses biometric signals such as face recognition or voice biometrics.
+**Identity, Access and Security**
+Consumes biometric and presence-related perception outputs for identity-related operations and controlled access decisions.
 
-**Planning and Agents**
-Receives environmental events that may trigger actions.
+**Cognitive Core**
+Consumes perception events as part of operational state interpretation.
 
-**Action and Hardware Control**
-Uses sensor data to adjust motor behaviour or device control.
+**Planning, Interpretation and Agents**
+Consumes perceptual results and events that influence reasoning, decision-making, and action selection.
 
-**Memory System**
-Stores relevant perceptual information when needed.
+**Action and Expression**
+Consumes perception-derived information required for adaptive physical or digital response.
+
+**Persistence and Memory**
+Stores selected perceptual information, summaries, or derived events when required by other system behaviours.
 
 ---
 
 ## Submodules
 
-The Perception System is divided into several specialized submodules.
+The Perception System is divided into the following specialized submodules.
 
 * **3.1 Audio Perception**
-  Responsible for capturing and interpreting acoustic signals.
+  Submodule responsible for processing acoustic signals and producing structured audio-related perceptual results.
 
 * **3.2 Visual Perception**
-  Responsible for interpreting visual data from cameras.
+  Submodule responsible for processing image-based input and producing structured visual perceptual results.
 
 * **3.3 Environmental Sensors**
-  Responsible for monitoring environmental conditions.
+  Submodule responsible for processing ambient environmental signals and producing structured environmental perceptual results.
 
 * **3.4 Sensor Fusion**
-  Combines information from multiple perception modalities.
+  Submodule responsible for combining results from multiple perception modalities into unified perceptual interpretations.
 
 * **3.5 Perception Event Processing**
-  Converts perceptual results into structured system events.
+  Submodule responsible for normalizing perceptual results into structured system-level perception events.
 
-These components together allow NORA to observe and interpret the surrounding world in a multimodal manner.
+Together, these submodules define the full architectural sensing layer of NORA.
 
 # 3.1 Audio Perception
 
 ## Definition
 
-The **Audio Perception** submodule is responsible for capturing, processing, and interpreting acoustic signals from the environment. It enables NORA to understand spoken language, detect relevant audio events, and recognize the presence or identity of speakers.
+The **Audio Perception** submodule processes acoustic signals captured from the environment and converts them into structured perceptual results related to speech, speakers, and relevant sound events.
 
-Audio perception is one of the most critical modalities for human–robot interaction because spoken language represents the most natural communication channel for users interacting with an embodied system.
+Audio perception is the architectural mechanism through which NORA interprets spoken interaction and acoustic context.
 
-Through this subsystem, NORA can detect when someone is speaking, recognize commands or questions, identify speakers, and detect environmental sounds that may influence system behaviour.
+The submodule receives audio signals from microphone devices and produces structured outputs that represent interpreted acoustic information.
+
+These outputs are consumed by other architectural components including:
+
+* the Dialogue and Session System
+* the Identity, Access and Security module
+* the Planning, Interpretation and Agents layer
+* the Event Dispatcher
+* the Persistence and Memory layer
+
+Audio Perception is responsible for transforming continuous acoustic input into discrete, structured perceptual results.
 
 ---
 
-## Role in the Architecture
+## Architectural Role
 
-Within the overall Perception System, the Audio Perception module acts as the **primary interface for verbal interaction**.
+Within the Perception System, Audio Perception is the modality responsible for processing **acoustic signals**.
 
-It transforms raw microphone signals into structured linguistic and contextual information that can be used by higher-level modules.
+The architectural responsibilities of the submodule are:
 
-Typical outputs of this subsystem include:
+* acquisition of audio signals from microphone devices
+* preprocessing and conditioning of acoustic signals
+* detection of speech segments
+* recognition of spoken language
+* analysis of speaker characteristics
+* detection of relevant environmental sounds
+* generation of structured perception events derived from acoustic input
 
-* recognized speech transcripts
-* wake-word detection events
-* speaker identity information
-* voice biometric authentication signals
-* detected environmental sound events
+The outputs generated by the submodule represent interpreted acoustic information that can be consumed by dialogue management, identity mechanisms, planning systems, and event processing components.
 
-These outputs are forwarded to components such as the Dialogue System, Authentication mechanisms, and the Event Dispatcher.
+---
+
+## Core Concepts
+
+The Audio Perception architecture is defined through several explicit concepts.
+
+* **acoustic signal**
+  physical sound waves captured by microphone hardware and converted into digital audio data
+
+* **audio stream**
+  continuous sequence of digital audio samples representing sound captured from the environment
+
+* **speech segment**
+  portion of an audio stream identified as containing human speech
+
+* **wake word**
+  predefined activation phrase used to trigger spoken interaction with the system
+
+* **speech transcript**
+  textual representation of recognized spoken language
+
+* **speaker profile**
+  stored representation of voice characteristics associated with a known identity
+
+* **voice biometric signal**
+  identity-related information derived from voice characteristics
+
+* **audio perception event**
+  structured system-level event generated from interpreted acoustic input
+
+These concepts define the elements produced and manipulated by the Audio Perception submodule.
 
 ---
 
 ## Audio Processing Pipeline
 
-Audio perception generally follows a multi-stage processing pipeline.
+Audio Perception operates through a structured processing pipeline.
 
-1. **Audio Acquisition**
-   Microphones capture analog acoustic signals from the environment and convert them into digital audio streams.
+The pipeline transforms continuous acoustic input into structured perceptual outputs.
 
-2. **Preprocessing**
-   Initial signal conditioning is performed, including operations such as noise reduction, normalization, and filtering.
+### 1 Audio Acquisition
 
-3. **Voice Activity Detection (VAD)**
-   The system determines whether a segment of audio contains speech or background noise.
+Microphone devices capture acoustic signals from the environment and convert them into digital audio streams.
 
-4. **Wake Word Detection**
-   Lightweight models continuously monitor audio streams for specific activation phrases.
+### 2 Signal Preprocessing
 
-5. **Speech Recognition**
-   Speech segments are processed by automatic speech recognition (ASR) systems that convert spoken language into text.
+Acoustic signals are conditioned through operations including:
 
-6. **Speaker Analysis**
-   Acoustic characteristics of the speaker may be analyzed to determine identity or speaker attributes.
+* noise reduction
+* signal normalization
+* filtering
+* channel synchronization when multiple microphones are present
 
-7. **Event Generation**
-   Structured events are produced and forwarded to other modules in the architecture.
+### 3 Voice Activity Detection
 
-This pipeline allows the system to transform continuous audio input into discrete, meaningful events.
+Voice Activity Detection identifies segments of the audio stream that contain human speech.
+
+The result of this stage is a segmentation of the audio stream into:
+
+* speech segments
+* non‑speech segments
+
+### 4 Wake Word Detection
+
+Wake word detection continuously analyzes the audio stream to detect predefined activation phrases.
+
+Detection of a wake word produces a **wake word perception event**.
+
+This event signals that spoken interaction with the system has been initiated.
+
+### 5 Speech Recognition
+
+Speech recognition converts speech segments into textual representations.
+
+This stage produces structured results including:
+
+* speech transcript
+* timestamps
+* confidence score
+
+### 6 Speaker Analysis
+
+Speaker analysis extracts voice characteristics from speech segments.
+
+These characteristics are used to:
+
+* compare against stored speaker profiles
+* generate speaker identity estimates
+* produce voice biometric signals
+
+### 7 Event Generation
+
+Interpreted audio results are converted into structured **audio perception events**.
+
+These events are forwarded to downstream modules such as the Dialogue System, identity mechanisms, and the system event dispatcher.
 
 ---
 
 ## Wake Word Detection
 
-Wake word detection allows the system to remain in a passive listening mode until a specific activation phrase is detected.
+Wake word detection identifies a predefined activation phrase used to initiate spoken interaction with the system.
 
-This mechanism prevents continuous full speech processing and reduces computational load.
+A wake word detection result produces the following structured output:
 
-Typical characteristics of wake word detection include:
+* detected activation phrase
+* detection timestamp
+* confidence score
 
-* low-latency inference
-* lightweight neural network models
-* continuous audio monitoring
-
-When the wake word is detected, the system may trigger actions such as:
-
-* activating the dialogue subsystem
-* enabling full speech recognition
-* starting an interaction session
-
-Wake word detection therefore acts as the **activation mechanism for voice interaction**.
+Wake word detection acts as the trigger that activates spoken interaction processing.
 
 ---
 
 ## Speech Recognition
 
-Speech recognition converts spoken language into textual representations.
+Speech recognition converts spoken language into textual representation.
 
-Automatic Speech Recognition (ASR) systems analyze acoustic features extracted from audio signals and infer the most probable sequence of words.
+The output of speech recognition contains:
 
-Typical processing stages include:
-
-* acoustic feature extraction
-* acoustic model inference
-* language model decoding
-
-The output of speech recognition generally includes:
-
-* the transcribed sentence
-* confidence scores
+* recognized text
 * timestamps
+* confidence scores
 
-These transcripts are then passed to natural language understanding modules for semantic interpretation.
+These transcripts are forwarded to the Dialogue and Session System and the Planning, Interpretation and Agents layer for semantic interpretation.
 
 ---
 
 ## Speaker Identification
 
-Speaker identification determines which user is speaking based on characteristics of the voice signal.
+Speaker identification determines which known speaker produced a speech segment.
 
-The system may compare extracted voice features with previously stored voice profiles.
+The system compares extracted voice features with stored speaker profiles.
 
-Speaker identification enables capabilities such as:
+Speaker identification produces structured results including:
 
-* automatic user recognition
-* personalized interaction
-* voice-based access control
+* estimated speaker identity
+* similarity score
+* timestamp
 
-Unlike speech recognition, which focuses on the words spoken, speaker identification focuses on **who is speaking**.
+This information supports identity‑aware interaction and personalized system behaviour.
 
 ---
 
 ## Voice Biometrics
 
-Voice biometrics is a security mechanism that uses distinctive characteristics of a user's voice to authenticate identity.
+Voice biometrics derives identity‑related signals from the acoustic characteristics of a voice.
 
-Features used in voice biometrics may include:
+Voice biometric signals represent features such as:
 
-* pitch patterns
 * spectral characteristics
-* vocal tract features
-* speaking style
+* vocal tract signatures
+* pitch patterns
+* temporal voice dynamics
 
-Voice biometric verification may be used for sensitive operations where additional identity confirmation is required.
+Voice biometric signals may be consumed by the Identity, Access and Security module for identity verification operations.
 
 ---
 
 ## Environmental Sound Detection
 
-Not all audio signals correspond to human speech.
+Audio Perception also interprets non‑speech acoustic events.
 
-The system may also detect environmental sounds that provide contextual information about the environment.
+Environmental sound detection identifies sound patterns corresponding to relevant environmental events.
 
-Examples include:
+Examples of detectable sound categories include:
 
-* alarms
+* alarm signals
 * knocks
 * glass breaking
-* door opening
+* door movement
 * footsteps
 
-Environmental sound detection can help the system respond to important events even when no user is speaking.
+Environmental sound detection produces structured events describing the detected sound category and associated metadata.
 
 ---
 
-## Real-Time Constraints
+## Real‑Time Role
 
-Audio perception systems must operate with minimal latency to enable natural interaction.
+Audio Perception operates as a runtime‑sensitive subsystem.
 
-Key timing requirements include:
+The perception pipeline processes streaming audio input and produces perceptual results with minimal latency.
 
-* fast wake word detection
-* low delay in speech recognition
-* real-time event delivery
+Low‑latency detection is required for events including:
 
-To achieve these constraints, the system may use:
+* wake word detection
+* speech recognition
+* urgent acoustic events
 
-* streaming audio processing
-* optimized inference models
-* hardware acceleration
+The architecture supports real‑time audio perception through streaming processing and asynchronous event propagation.
 
 ---
 
-## Privacy Considerations
+## Privacy Role
 
-Audio data may contain sensitive personal information.
+Audio signals may contain sensitive personal information.
 
-The architecture must therefore include safeguards to ensure responsible handling of acoustic data.
+For this reason, audio perception operates under privacy constraints defined by the system architecture.
 
-Typical privacy protections include:
+These constraints include:
 
-* limiting storage of raw audio recordings
-* restricting access to microphone streams
-* requiring explicit permissions for recording
-* anonymizing stored speech data when possible
+* controlled access to microphone devices
+* controlled access to raw audio data
+* restricted persistence of audio recordings
+* authorization‑aware handling of biometric voice information
 
-These mechanisms help ensure that the audio perception system respects user privacy.
+Privacy enforcement mechanisms are implemented by the Identity, Access and Security module.
 
 ---
 
-## Possible Inputs
+## Inputs
 
-Inputs processed by the Audio Perception module may include:
+The Audio Perception submodule receives acoustic input from sensing devices.
+
+Inputs include:
 
 * microphone audio streams
-* multi-microphone arrays
-* external audio devices
-* audio buffers from remote interfaces
+* multi‑microphone array signals
+* external audio capture devices
+* audio streams forwarded from remote system interfaces
 
 ---
 
-## Possible Outputs
+## Outputs
 
-Outputs generated by this subsystem may include:
+The Audio Perception submodule produces structured perceptual outputs derived from acoustic input.
 
-* wake word detected event
-* speech transcript
-* speaker identity estimate
-* voice biometric authentication signal
-* detected environmental sound event
+Outputs include:
 
-These outputs are structured and forwarded to other modules for further processing.
+* wake word detection events
+* speech transcript results
+* speaker identity estimates
+* voice biometric signals
+* environmental sound detection events
+
+These outputs are forwarded to downstream architectural modules.
 
 ---
 
 ## Interaction With Other Modules
 
-The Audio Perception module interacts with several architectural components.
+The Audio Perception submodule interacts with several architectural components.
 
-**Dialogue System**
-Receives speech transcripts and conversational input.
+**Dialogue and Session System**
+Consumes speech transcripts and spoken interaction signals.
 
-**Authentication**
-Uses voice biometrics or speaker identification for identity verification.
+**Identity, Access and Security**
+Consumes speaker identification and voice biometric signals.
 
-**Event Dispatcher / State Machine**
-Receives wake word and audio events to trigger system actions.
+**Planning, Interpretation and Agents**
+Consumes spoken requests and acoustic events that influence system behaviour.
 
-**Security Module**
-Controls permissions for microphone access and recording.
+**Event Dispatcher**
+Receives wake word and acoustic perception events.
 
-**Memory System**
-Stores selected audio-derived information when needed.
+**Persistence and Memory**
+Stores selected audio‑derived information when required by system behaviour.
 
 ---
 
 ## Architectural Importance
 
-Audio perception is one of the central interaction mechanisms in NORA.
+Audio Perception provides the acoustic sensing capability required for spoken interaction and acoustic situational awareness.
 
-It enables natural communication between humans and the system and provides a continuous awareness of acoustic events in the environment.
+The submodule converts environmental sound and spoken language into structured perceptual information that can be interpreted by the rest of the architecture.
 
-Without audio perception, NORA would lose its primary conversational interface and many of its contextual awareness capabil
+Through this mechanism, the system obtains information about:
+
+* spoken user interaction
+* speaker identity
+* relevant environmental acoustic events
+
+These capabilities support conversational interaction, identity‑aware behaviour, and contextual awareness of acoustic activity in the environment.
 
 # 3.2 Visual Perception
 
 ## Definition
 
-The **Visual Perception** submodule is responsible for capturing and interpreting visual information from the environment through camera-based sensing systems. It allows NORA to perceive users, objects, gestures, and spatial context using computer vision techniques.
+The **Visual Perception** submodule processes image-based signals captured from camera devices and converts them into structured perceptual results related to people, gestures, objects, and spatial context.
 
-Visual perception is a fundamental component of embodied intelligence because it enables the system to understand the physical world and interact with users in a natural and context-aware manner.
+Visual perception is the architectural mechanism through which NORA interprets visual information from the surrounding environment.
 
-Through this module, NORA can detect the presence of people, recognize individuals, interpret gestures, track body movement, and analyze objects and scenes within its surroundings.
+The submodule receives visual signals from camera systems and produces structured outputs that describe detected entities, human presence, body movement, and elements of the surrounding scene.
+
+These outputs are consumed by other architectural components including:
+
+* the Dialogue and Session System
+* the Identity, Access and Security module
+* the Planning, Interpretation and Agents layer
+* the Action and Expression layer
+* the Event Dispatcher
+* the Persistence and Memory layer
+
+Visual Perception converts continuous visual input into discrete perceptual results that describe the observed environment.
 
 ---
 
-## Role in the Architecture
+## Architectural Role
 
-Within the Perception System, the Visual Perception module acts as the **primary visual sensing interface**.
+Within the Perception System, Visual Perception is the modality responsible for processing **image-based signals**.
 
-It transforms raw image streams from cameras into structured information that can be used by higher-level modules.
+The architectural responsibilities of the submodule are:
 
-Typical outputs generated by this module include:
+* acquisition of image streams from camera devices
+* preprocessing of image frames
+* extraction of visual features
+* detection of people, objects, and gestures
+* estimation of human body configuration
+* interpretation of visual scene elements
+* generation of structured perception events derived from visual input
 
-* detected faces
-* identified users
-* recognized gestures
-* body pose estimations
-* detected objects
-* spatial context information
+The results produced by the submodule represent interpreted visual information that can be consumed by dialogue management, identity mechanisms, planning systems, and action execution components.
 
-These outputs are used by several other components of the system, including dialogue interaction, authentication mechanisms, safety monitoring, and physical action planning.
+---
+
+## Core Concepts
+
+The Visual Perception architecture is defined through several explicit concepts.
+
+* **image frame**
+  digital image captured by a camera at a specific point in time
+
+* **video stream**
+  ordered sequence of image frames captured continuously from a camera device
+
+* **visual feature**
+  extracted property of an image used for recognition or interpretation
+
+* **detected entity**
+  visual element identified within an image, such as a face, person, object, or gesture
+
+* **visual embedding**
+  numerical representation of visual characteristics used for recognition or comparison tasks
+
+* **pose representation**
+  structured description of the spatial configuration of a human body
+
+* **visual perception result**
+  structured interpretation produced by a visual perception pipeline
+
+* **visual perception event**
+  normalized system-level event generated from a visual perception result
+
+These concepts define the elements produced and manipulated by the Visual Perception submodule.
 
 ---
 
 ## Visual Processing Pipeline
 
-Visual perception typically follows a structured processing pipeline.
+Visual Perception operates through a structured processing pipeline.
 
-1. **Image Acquisition**
-   Cameras capture frames of the environment and convert optical signals into digital images.
+The pipeline transforms visual input streams into structured perceptual outputs.
 
-2. **Preprocessing**
-   Images may be normalized, resized, or filtered to improve robustness and model performance.
+### 1 Image Acquisition
 
-3. **Feature Extraction**
-   Computer vision algorithms or neural networks extract meaningful visual features from the image.
+Camera devices capture optical signals from the environment and convert them into digital image frames.
 
-4. **Model Inference**
-   Vision models analyze extracted features to detect objects, faces, gestures, or poses.
+### 2 Image Preprocessing
 
-5. **Interpretation**
-   Detected elements are interpreted as structured perceptual results.
+Image frames are conditioned through operations including:
 
-6. **Event Generation**
-   Visual events are produced and forwarded to other system modules.
+* normalization
+* resizing
+* noise reduction
+* color space conversion
 
-This pipeline allows the system to convert continuous video streams into discrete, meaningful perception events.
+### 3 Feature Extraction
+
+Computer vision algorithms or neural network encoders extract visual features from image frames.
+
+These features represent visual patterns relevant for recognition and interpretation tasks.
+
+### 4 Model Inference
+
+Vision models analyze extracted features to detect entities such as:
+
+* faces
+* persons
+* gestures
+* objects
+* body poses
+
+### 5 Visual Interpretation
+
+Detected visual entities are interpreted as structured perceptual results describing the observed scene.
+
+### 6 Event Generation
+
+Visual interpretation results are converted into structured **visual perception events**.
+
+These events are forwarded to downstream modules such as the Dialogue System, identity mechanisms, planning subsystems, and the system event dispatcher.
 
 ---
 
 ## Face Detection
 
-Face detection identifies regions of an image that correspond to human faces.
+Face detection identifies image regions corresponding to human faces.
 
-This capability allows the system to detect when a person is present in front of the robot.
-
-Face detection typically outputs:
+A face detection result contains structured information including:
 
 * bounding box coordinates
-* detection confidence
-* facial landmarks
+* facial landmark positions
+* detection confidence score
 
-This information can be used for downstream tasks such as facial recognition, gaze estimation, or emotion analysis.
+Face detection provides the visual indication that a human user is present in the camera field of view.
 
 ---
 
 ## Facial Recognition
 
-Facial recognition attempts to determine the identity of a detected face.
+Facial recognition determines the identity associated with a detected face.
 
-The system compares extracted facial features with stored identity representations associated with known users.
+The system compares extracted facial embeddings with stored identity representations.
 
-Facial recognition enables several capabilities within NORA:
+Facial recognition produces structured outputs including:
 
-* automatic user identification
-* personalized interaction
-* biometric authentication
-* user presence tracking
+* estimated user identity
+* similarity score
+* timestamp
 
-Recognition systems usually rely on learned facial embeddings generated by deep neural networks.
+This information supports identity-aware interaction and biometric authentication mechanisms.
 
 ---
 
 ## Gesture Recognition
 
-Gesture recognition allows the system to interpret human hand movements or body gestures as commands or interaction signals.
+Gesture recognition interprets body movements or hand signals as structured visual interaction signals.
 
-Examples of gestures that may be recognized include:
+Gesture recognition produces structured outputs describing the detected gesture category and associated metadata.
 
-* waving
-* pointing
-* stop gestures
-* hand signals
-
-Gesture recognition enables natural non-verbal interaction between users and the system.
+Recognized gestures represent non-verbal interaction signals that can influence dialogue, planning, or execution subsystems.
 
 ---
 
 ## Human Pose Estimation
 
-Pose estimation analyzes the spatial configuration of a person's body to estimate the positions of key body joints.
+Human pose estimation produces a structured representation of the spatial configuration of a person's body.
 
-Typical pose models estimate landmarks such as:
+The output of pose estimation includes a set of body joint coordinates describing landmarks such as:
 
 * head
 * shoulders
@@ -592,180 +894,221 @@ Typical pose models estimate landmarks such as:
 * knees
 * ankles
 
-Pose estimation enables capabilities such as:
-
-* body movement tracking
-* gesture interpretation
-* activity recognition
-* safety monitoring
+Pose representations support activity interpretation, gesture recognition, and motion analysis.
 
 ---
 
 ## Object Detection
 
-Object detection identifies and localizes objects within an image.
+Object detection identifies and localizes physical objects present in an image frame.
 
-Vision models classify objects and determine their positions within the frame.
+Each detection result contains structured information including:
 
-Examples of detectable objects may include:
+* object category
+* bounding box location
+* detection confidence score
 
-* tools
-* household devices
-* furniture
-* personal items
-
-Object detection allows the system to understand the physical environment and interact with objects when required.
+Object detection provides the system with structured knowledge about the objects present in the environment.
 
 ---
 
-## Scene Understanding
+## Scene Interpretation
 
-Scene understanding refers to higher-level interpretation of visual context.
+Scene interpretation produces higher-level structured descriptions of the visual environment.
 
-Instead of detecting isolated elements, the system interprets the structure and meaning of the environment.
+Scene interpretation aggregates detected entities and spatial relationships to produce contextual information describing the observed scene.
 
-Examples include:
+Scene interpretation results may include:
 
-* recognizing a room type
-* detecting obstacles
-* identifying activity zones
-* estimating spatial relationships
-
-Scene understanding helps the system reason about its surroundings and plan actions safely.
+* spatial relationships between objects
+* obstacle presence
+* activity regions
+* contextual environment classification
 
 ---
 
-## Real-Time Constraints
+## Real-Time Role
 
-Visual perception often operates under real-time constraints, especially in interactive or robotic systems.
+Visual Perception operates as a runtime-sensitive subsystem.
 
-Key requirements include:
+The perception pipeline processes video streams and produces perceptual results under timing constraints required by interactive and robotic behaviour.
 
-* low latency processing
-* stable frame rates
-* robust detection under varying lighting conditions
+Low-latency detection is required for events including:
 
-To achieve these requirements, visual perception systems may use:
+* human presence detection
+* gesture recognition
+* obstacle detection
+* activity interpretation
 
-* GPU acceleration
-* optimized neural network models
-* asynchronous processing pipelines
-
----
-
-## Privacy Considerations
-
-Visual data may include sensitive personal information, particularly when cameras capture identifiable individuals.
-
-The architecture must therefore enforce safeguards such as:
-
-* limiting camera activation
-* restricting storage of raw images
-* protecting biometric data
-* requiring authorization for video recording
-
-These safeguards help maintain user trust and protect personal privacy.
+The architecture supports real-time visual perception through streaming processing and asynchronous event propagation.
 
 ---
 
-## Possible Inputs
+## Privacy Role
 
-Inputs processed by the Visual Perception module may include:
+Visual perception processes image data that may contain identifiable individuals and sensitive contextual information.
+
+For this reason, visual perception operates under privacy constraints defined by the system architecture.
+
+These constraints include:
+
+* controlled access to camera devices
+* restricted storage of raw image data
+* protection of biometric facial data
+* authorization-aware use of video recording
+
+Privacy enforcement mechanisms are implemented by the Identity, Access and Security module.
+
+---
+
+## Inputs
+
+The Visual Perception submodule receives visual signals from sensing devices.
+
+Inputs include:
 
 * camera video streams
-* single-frame images
-* stereo camera inputs
-* depth camera data
+* single-frame image captures
+* stereo camera streams
+* depth camera signals
 
 ---
 
-## Possible Outputs
+## Outputs
 
-Outputs generated by this subsystem may include:
+The Visual Perception submodule produces structured perceptual outputs derived from visual input.
+
+Outputs include:
 
 * face detection events
-* user identification events
-* gesture recognition results
-* pose estimation data
+* user identification results
+* gesture recognition events
+* human pose representations
 * detected object lists
-* scene interpretation events
+* scene interpretation results
 
-These outputs are forwarded to other modules for reasoning and action.
+These outputs are forwarded to downstream architectural modules.
 
 ---
 
 ## Interaction With Other Modules
 
-The Visual Perception module interacts with multiple architectural components.
+The Visual Perception submodule interacts with several architectural components.
 
-**Authentication**
-Uses facial recognition for biometric identity verification.
+**Dialogue and Session System**
+Consumes visual interaction signals such as gestures and user presence.
 
-**Dialogue System**
-Uses visual cues such as user presence and gestures during interaction.
+**Identity, Access and Security**
+Consumes facial recognition results for biometric identity verification.
 
-**Planning and Agents**
-Receives visual information about objects and environment state.
+**Planning, Interpretation and Agents**
+Consumes visual information describing objects, human activity, and environmental context.
 
-**Action and Motor Control**
-Uses visual feedback to guide movement or manipulation.
+**Action and Expression**
+Consumes visual feedback required for motion control, interaction positioning, or manipulation tasks.
 
-**Security Module**
-Controls camera access and recording permissions.
+**Event Dispatcher**
+Receives visual perception events produced by the perception pipeline.
+
+**Persistence and Memory**
+Stores selected visual perception results when required by system behaviour.
 
 ---
 
 ## Architectural Importance
 
-Visual perception provides NORA with awareness of its physical environment and the people interacting with it.
+Visual Perception provides the system with structured awareness of people, objects, and spatial context in the surrounding environment.
 
-By combining face detection, gesture recognition, pose estimation, and object detection, the system can interpret visual context and support natural human–robot interaction.
+The submodule converts visual input into perceptual information describing:
 
-Without visual perception, the system would lack situational awareness and would be unable to recognize users or interpret non-verbal interaction cues.
+* user presence
+* identity signals
+* gestures and body movement
+* objects in the environment
+* spatial context
+
+These capabilities enable identity-aware interaction, gesture-based communication, environmental awareness, and visually informed system behaviour.
 
 # 3.3 Environmental Sensors
 
 ## Definition
 
-The **Environmental Sensors** submodule is responsible for monitoring the physical conditions of the environment surrounding NORA. It collects data from various physical sensors and transforms these signals into structured information about the state of the environment.
+The **Environmental Sensors** submodule processes signals describing the physical conditions of the environment surrounding NORA.
 
-Unlike audio and visual perception, which primarily focus on human interaction and semantic interpretation, environmental sensing focuses on **physical context awareness**. This includes detecting environmental changes, measuring ambient conditions, and identifying events that may affect the system's operation.
+Environmental sensing converts measurements obtained from physical sensors into structured perceptual results describing ambient conditions, nearby activity, spatial proximity, and the physical state of the system's environment.
 
-Through this subsystem, NORA can monitor environmental parameters such as light levels, temperature, motion, distance, and spatial proximity.
+The submodule receives measurements from environmental sensing devices and produces structured outputs describing environmental state changes and contextual physical conditions.
 
----
+These outputs are consumed by other architectural components including:
 
-## Role in the Architecture
+* the Planning, Interpretation and Agents layer
+* the Action and Expression layer
+* the Identity, Access and Security module
+* the Event Dispatcher
+* the Persistence and Memory layer
 
-Within the Perception System, Environmental Sensors provide **situational awareness about the physical environment** in which the system operates.
-
-The information collected by this module can influence multiple aspects of system behaviour, including:
-
-* safety monitoring
-* energy management
-* adaptive interaction
-* physical navigation
-* context-aware decision making
-
-For example, the system may detect that a user has entered the room, that lighting conditions have changed, or that an obstacle is present near the robot.
+Environmental Sensors provide structured awareness of ambient physical conditions in the environment where the system operates.
 
 ---
 
-## Sensor Types
+## Architectural Role
 
-Environmental sensing may involve several different classes of sensors. Each sensor type measures a specific physical property of the environment.
+Within the Perception System, Environmental Sensors are responsible for processing **ambient physical signals** that describe environmental conditions and spatial context.
+
+The architectural responsibilities of the submodule are:
+
+* acquisition of measurements from environmental sensing devices
+* normalization of heterogeneous sensor readings
+* filtering and stabilization of sensor measurements
+* detection of environmental state changes
+* interpretation of physical conditions in the environment
+* generation of structured environmental perception events
+
+The results produced by the submodule represent interpreted environmental state information that can influence planning, action execution, safety behaviour, and system monitoring.
+
+---
+
+## Core Concepts
+
+The Environmental Sensors architecture is defined through several explicit concepts.
+
+* **sensor measurement**
+  numerical value produced by a physical sensor describing a property of the environment
+
+* **environmental signal**
+  continuous stream or sequence of sensor measurements describing an environmental variable
+
+* **environmental condition**
+  interpreted state of the environment derived from sensor measurements
+
+* **environmental threshold**
+  predefined boundary used to determine significant environmental state changes
+
+* **environmental perception result**
+  structured interpretation produced from one or more environmental signals
+
+* **environmental perception event**
+  normalized system-level event generated from an environmental perception result
+
+These concepts define the elements produced and processed by the Environmental Sensors submodule.
+
+---
+
+## Environmental Sensor Categories
+
+Environmental sensing includes several categories of physical sensors that measure properties of the surrounding environment.
 
 ### Temperature Sensors
 
-Temperature sensors measure the ambient temperature around the system.
+Temperature sensors measure the ambient thermal conditions of the environment.
 
-These measurements may be used for:
+Temperature measurements produce structured results describing the thermal state of the surrounding environment.
 
-* monitoring device operating conditions
-* detecting environmental changes
-* adjusting cooling or ventilation systems
+Temperature sensing supports:
 
-Temperature monitoring can also help detect abnormal conditions that could affect hardware reliability.
+* monitoring environmental thermal conditions
+* detection of abnormal thermal states
+* protection of system hardware from overheating
 
 ---
 
@@ -773,77 +1116,65 @@ Temperature monitoring can also help detect abnormal conditions that could affec
 
 Light sensors measure ambient illumination levels.
 
-These sensors allow the system to adapt to changes in lighting conditions.
+Light measurements produce structured results describing environmental brightness conditions.
 
-Examples of use include:
+Light sensing supports:
 
-* adjusting camera exposure
-* activating lighting systems
-* switching between day and night modes
-
-Light information may also improve visual perception by helping camera systems adapt to environmental brightness.
+* adaptation of visual perception systems
+* adjustment of lighting or display systems
+* detection of environmental lighting state changes
 
 ---
 
 ### Motion Sensors
 
-Motion sensors detect movement within the surrounding environment.
+Motion sensors detect movement occurring in the environment surrounding the system.
 
-Common motion sensing technologies include:
+Motion sensing produces structured results describing detected movement activity.
 
-* passive infrared (PIR) sensors
-* radar-based motion detectors
-* camera-based motion analysis
+Motion sensing supports:
 
-Motion detection can be used to:
-
-* detect user presence
-* activate interaction systems
-* trigger security monitoring
+* detection of human presence
+* detection of activity in the environment
+* triggering of interaction readiness
 
 ---
 
 ### Proximity Sensors
 
-Proximity sensors detect the presence of nearby objects without physical contact.
+Proximity sensors detect the presence of nearby objects without requiring physical contact.
 
-Typical technologies include:
+Proximity sensing produces structured results describing the presence of nearby entities within a defined detection range.
 
-* infrared proximity sensors
-* ultrasonic sensors
-* capacitive sensors
+Proximity sensing supports:
 
-These sensors help the system detect objects or users approaching the robot.
-
-Proximity sensing may be used for:
-
-* collision avoidance
 * interaction detection
 * safety monitoring
+* collision avoidance
 
 ---
 
 ### Distance Sensors
 
-Distance sensors measure the distance between the robot and surrounding objects.
+Distance sensors measure the spatial distance between the system and surrounding objects.
 
-Examples include:
+Distance sensing produces structured results describing spatial separation between the system and environmental elements.
 
-* ultrasonic range sensors
-* time-of-flight sensors
-* LiDAR-based distance measurements
+Distance sensing supports:
 
-Distance sensing enables the system to understand spatial relationships and avoid obstacles.
+* obstacle detection
+* spatial awareness
+* safe navigation and movement
 
 ---
 
 ### Humidity Sensors
 
-Humidity sensors measure the moisture content of the air.
+Humidity sensors measure the moisture content of the surrounding air.
 
-These sensors may help monitor environmental comfort conditions and detect environmental changes.
+Humidity measurements produce structured results describing environmental moisture conditions.
 
-Humidity data may also influence environmental monitoring or smart-home integrations.
+Humidity sensing supports monitoring of environmental comfort conditions and detection of environmental changes.
 
 ---
 
@@ -851,593 +1182,761 @@ Humidity data may also influence environmental monitoring or smart-home integrat
 
 Inertial sensors measure motion and orientation of the system itself.
 
-Typical inertial measurement units (IMUs) include:
+Inertial sensing produces structured results describing acceleration, rotation, and orientation changes affecting the system.
 
-* accelerometers
-* gyroscopes
-* magnetometers
+Inertial sensing supports:
 
-These sensors allow the system to detect movement, orientation changes, or vibrations affecting the robot.
+* detection of system movement
+* monitoring of system orientation
+* vibration or motion detection affecting the system body
 
 ---
 
 ## Sensor Abstraction Layer
 
-Environmental sensors often rely on heterogeneous hardware interfaces.
+Environmental Sensors operate through a **Sensor Abstraction Layer** that standardizes access to heterogeneous sensing hardware.
 
-To simplify integration, the system implements a **sensor abstraction layer** that standardizes access to sensor data.
+The abstraction layer separates hardware-specific sensor interfaces from perception processing logic.
 
-This layer is responsible for:
+The Sensor Abstraction Layer performs the following architectural functions:
 
-* communicating with hardware drivers
-* synchronizing sensor readings
-* timestamping measurements
-* normalizing sensor values
+* integration with hardware device drivers
+* synchronization of sensor measurements
+* timestamp alignment of sensor readings
+* normalization of sensor value formats
+* calibration handling
 
-By abstracting hardware details, higher-level modules can operate on standardized sensor data structures.
+Through this abstraction layer, environmental perception pipelines consume sensor data through a unified interface.
 
 ---
 
 ## Event Generation
 
-Raw sensor readings are often continuous numerical values.
+Environmental sensor measurements are continuous numerical values.
 
-To make them usable for higher-level modules, the system may convert these signals into **environmental events**.
+The Environmental Sensors submodule converts interpreted measurements into structured **environmental perception events**.
 
-Examples include:
+Environmental perception events include results such as:
 
 * motion detected
-* user presence detected
-* obstacle detected
-* low light detected
-* high temperature detected
+* presence detected
+* obstacle proximity detected
+* environmental threshold exceeded
+* environmental state change detected
 
-These events allow the system to react to environmental changes without continuously analyzing raw sensor streams.
+Each event contains structured information describing:
+
+* event category
+* originating sensor type
+* measured value
+* timestamp
+
+These events are forwarded to the system event dispatcher and downstream architectural modules.
 
 ---
 
-## Real-Time Considerations
+## Real-Time Role
 
-Environmental sensing may require real-time responsiveness depending on the type of sensor.
+Environmental sensing operates as a runtime-sensitive subsystem.
 
-For example:
+Environmental perception pipelines process sensor measurements and generate perception results under timing constraints required for safe and responsive system behaviour.
 
-* obstacle detection must be immediate
-* motion detection should respond quickly to user presence
-* safety conditions must trigger rapid responses
+Low-latency detection is required for events including:
 
-To meet these requirements, sensor readings may be processed through:
+* obstacle proximity detection
+* motion detection
+* abnormal environmental condition detection
 
-* periodic polling
-* interrupt-driven hardware events
-* asynchronous sensor pipelines
+Environmental sensing pipelines support real-time operation through sensor polling, interrupt-driven events, and asynchronous event propagation.
 
 ---
 
 ## Reliability and Calibration
 
-Environmental sensors may suffer from measurement noise, drift, or calibration issues.
+Environmental sensors may exhibit measurement noise, drift, or calibration variation.
 
-To ensure reliable operation, the system may implement mechanisms such as:
+The architecture includes mechanisms that maintain reliable sensor interpretation, including:
 
 * sensor calibration procedures
-* filtering techniques
-* anomaly detection
-* redundant sensing
+* measurement filtering
+* anomaly detection in sensor signals
+* cross-sensor consistency checks
 
-These techniques help maintain reliable environmental awareness over time.
+These mechanisms maintain stable environmental perception results over time.
 
 ---
 
-## Possible Inputs
+## Inputs
 
-Inputs processed by the Environmental Sensors module may include:
+The Environmental Sensors submodule receives measurements from environmental sensing devices.
 
-* temperature readings
+Inputs include:
+
+* temperature measurements
 * ambient light measurements
 * motion detection signals
-* proximity sensor readings
+* proximity readings
 * distance measurements
-* humidity levels
-* inertial sensor data
+* humidity measurements
+* inertial measurement signals
 
 ---
 
-## Possible Outputs
+## Outputs
 
-Outputs generated by this subsystem may include:
+The Environmental Sensors submodule produces structured environmental perception results.
 
-* motion detected event
-* obstacle proximity warning
+Outputs include:
+
+* motion detection events
 * environmental condition updates
-* orientation or movement signals
-* environmental alerts
+* proximity alerts
+* obstacle detection signals
+* environmental threshold events
+* orientation and movement signals
 
-These outputs are forwarded to other modules for interpretation and decision making.
+These outputs are forwarded to downstream architectural modules.
 
 ---
 
 ## Interaction With Other Modules
 
-The Environmental Sensors module interacts with several architectural components.
+The Environmental Sensors submodule interacts with several architectural components.
 
-**Planning and Agents**
-Uses environmental information for decision making and context awareness.
+**Planning, Interpretation and Agents**
+Consumes environmental perception results to influence decision making and behaviour planning.
 
-**Action and Motor Control**
-Uses proximity and distance information for safe movement and hardware control.
+**Action and Expression**
+Consumes proximity and spatial awareness information for safe motion and hardware control.
 
-**Security Module**
-May use motion sensors for monitoring or safety conditions.
+**Identity, Access and Security**
+Consumes environmental signals when required for safety monitoring and system protection.
 
-**Energy Management Systems**
-May adjust behaviour based on environmental conditions.
+**Event Dispatcher**
+Receives environmental perception events produced by the perception pipeline.
 
-**Perception Event Processing**
-Receives sensor signals and converts them into structured system events.
+**Persistence and Memory**
+Stores selected environmental perception results when required by system behaviour.
 
 ---
 
 ## Architectural Importance
 
-Environmental sensors provide critical awareness of the physical context in which NORA operates.
+Environmental Sensors provide structured awareness of ambient physical conditions and spatial context surrounding the system.
 
-By continuously monitoring environmental conditions, the system can adapt its behaviour, maintain operational safety, and respond to events occurring in the surrounding environment.
+The submodule converts environmental measurements into perceptual information describing:
 
-Without environmental sensing, NORA would lack important situational awareness necessary for reliable operation in real-world environments.
+* environmental conditions
+* nearby movement or presence
+* spatial proximity of surrounding objects
+* physical state changes in the environment
 
+These capabilities support safe operation, context-aware system behaviour, and environmental monitoring.
 # 3.4 Sensor Fusion
 
 ## Definition
 
-The **Sensor Fusion** submodule is responsible for combining information from multiple perception modalities in order to produce a coherent and reliable representation of the environment.
+The **Sensor Fusion** submodule combines perceptual results produced by multiple perception modalities in order to generate coherent and reliable interpretations of the environment.
 
-In complex systems such as NORA, different sensors observe the world from different perspectives. Cameras capture visual information, microphones capture acoustic signals, and environmental sensors measure physical properties such as motion, light, or distance. Individually, each sensor provides only partial information about the environment.
+Sensor fusion integrates outputs produced by the Audio Perception, Visual Perception, and Environmental Sensors submodules. These outputs are correlated, aligned, and evaluated to produce unified perceptual results describing entities, actions, presence, and environmental state.
 
-Sensor fusion integrates these heterogeneous signals to improve robustness, reduce uncertainty, and generate higher-level perceptual understanding.
-
-By combining multiple sources of information, the system can resolve ambiguities, increase reliability, and maintain situational awareness even when individual sensors are noisy or partially unavailable.
+The submodule transforms heterogeneous perceptual signals into consolidated perception results that can be consumed by reasoning, dialogue, planning, and action subsystems.
 
 ---
 
-## Role in the Architecture
+## Architectural Role
 
-Within the Perception System, Sensor Fusion acts as the **integration layer** between low-level perception modules and higher-level reasoning systems.
+Within the Perception System, Sensor Fusion acts as the **integration layer** that merges perception outputs originating from different sensing modalities.
 
-It receives perceptual outputs from:
+The architectural responsibilities of the submodule are:
+
+* reception of perception results produced by modality-specific perception modules
+* temporal alignment of perception signals
+* spatial alignment of sensor observations when required
+* correlation of multimodal perception signals
+* evaluation of signal reliability and confidence
+* consolidation of multimodal perception results
+* generation of unified perception events
+
+The fused perception results produced by the module represent a coherent description of the environment that can be used by higher-level system components.
+
+---
+
+## Core Concepts
+
+The Sensor Fusion architecture is defined through several explicit concepts.
+
+* **perception modality**
+  category of perception subsystem that observes the environment through a specific sensing mechanism
+
+* **perception signal**
+  structured output produced by a perception module
+
+* **multimodal observation**
+  group of perception signals that correspond to the same real-world phenomenon
+
+* **temporal correlation window**
+  time interval used to determine whether perception signals refer to the same event
+
+* **fusion rule**
+  mechanism used to combine perception signals into a unified interpretation
+
+* **fusion confidence**
+  reliability estimate associated with a fused perception result
+
+* **fused perception result**
+  consolidated interpretation generated from multiple perception signals
+
+* **fused perception event**
+  normalized system-level event generated from a fused perception result
+
+These concepts define the elements manipulated by the Sensor Fusion submodule.
+
+---
+
+## Fusion Pipeline
+
+Sensor Fusion operates through a structured multimodal integration pipeline.
+
+### 1 Signal Reception
+
+Perception signals produced by modality-specific perception modules are received by the Sensor Fusion subsystem.
+
+Signals may originate from:
 
 * Audio Perception
 * Visual Perception
 * Environmental Sensors
 
-The module then merges these signals to create unified perceptual interpretations that can be used by:
+### 2 Temporal Alignment
 
-* the Dialogue System
-* the Planning and Decision modules
-* the Action subsystem
-* the State Machine and Event Dispatcher
+Received signals are aligned according to timestamps.
 
-This integration allows the system to reason about the environment in a holistic way rather than relying on isolated sensor signals.
+Temporal alignment determines whether multiple perception signals correspond to the same real-world event.
 
----
+### 3 Spatial Alignment
 
-## Motivation for Sensor Fusion
+When required, spatial references from different sensors are aligned to a common coordinate representation.
 
-Single sensors are often limited or unreliable under certain conditions.
+Spatial alignment allows the system to determine whether signals originate from the same physical location.
 
-Examples include:
+### 4 Signal Correlation
 
-* cameras may fail in low lighting conditions
-* microphones may be affected by background noise
-* motion sensors may produce false positives
+Perception signals are evaluated to determine relationships between observations originating from different modalities.
 
-Sensor fusion mitigates these limitations by cross-validating information between modalities.
+Correlation mechanisms determine whether signals represent the same entity, action, or environmental condition.
 
-For example:
+### 5 Confidence Evaluation
 
-* a detected voice combined with a detected face may confirm user presence
-* motion detection combined with visual tracking may reduce false alarms
-* gesture recognition combined with speech input may improve command interpretation
+Each perception signal may contain an associated confidence value.
 
-By combining signals, the system increases the reliability of perceptual decisions.
+The fusion subsystem evaluates these values to determine the reliability of each observation and compute the confidence of fused results.
+
+### 6 Result Consolidation
+
+Correlated perception signals are combined into a single fused perception result.
+
+### 7 Event Generation
+
+Fused perception results are converted into structured fused perception events that are forwarded to downstream system components.
 
 ---
 
 ## Fusion Strategies
 
-Sensor fusion can occur at different levels of the perception pipeline.
+Sensor fusion may combine perception information at different stages of the perception pipeline.
 
 ### Early Fusion
 
-Early fusion combines raw or low-level sensor signals before interpretation.
+Early fusion combines raw sensor measurements or low-level signals before interpretation occurs.
 
-Examples include:
+Early fusion is applied when multiple sensors observe the same physical phenomenon from different viewpoints.
 
-* combining multiple camera streams
-* merging data from multiple microphones
-* synchronizing stereo vision inputs
-
-Early fusion is useful when sensors observe the same phenomenon from different viewpoints.
+Examples include combining multiple camera streams or synchronizing signals from multiple microphones.
 
 ---
 
 ### Intermediate Fusion
 
-Intermediate fusion occurs after feature extraction but before final interpretation.
+Intermediate fusion combines features extracted from multiple perception modalities.
 
-In this approach, features extracted from different sensors are combined into a shared representation.
-
-Examples include:
-
-* combining facial detection with voice localization
-* merging pose estimation with depth sensing
-
-Intermediate fusion is often used in multimodal machine learning systems.
+Feature representations produced by different perception pipelines are merged into a shared multimodal representation used for interpretation.
 
 ---
 
 ### Late Fusion
 
-Late fusion combines high-level results generated independently by different perception modules.
+Late fusion combines high-level perception results produced independently by perception modules.
 
-Examples include:
+Late fusion evaluates the consistency of perception results and consolidates them into unified system interpretations.
 
-* combining a speech recognition result with a gesture recognition result
-* confirming user presence using both motion detection and face detection
-
-Late fusion is simpler to implement and often sufficient for event-driven systems.
+Late fusion is commonly used in event-driven perception architectures.
 
 ---
 
-## Temporal Synchronization
+## Confidence Evaluation
 
-Sensor signals often arrive at different times or with different sampling frequencies.
+Perception modules may produce outputs containing confidence estimates describing the reliability of the produced observation.
 
-Sensor fusion therefore requires mechanisms for **temporal alignment**.
+The Sensor Fusion subsystem evaluates these confidence values when consolidating signals from multiple modalities.
 
-This may include:
-
-* timestamp synchronization
-* buffering of sensor events
-* temporal correlation windows
-
-These mechanisms allow the system to determine whether multiple sensor events correspond to the same real-world event.
-
----
-
-## Spatial Alignment
-
-In systems with multiple spatial sensors, fusion may require **coordinate alignment** between different sensor frames.
-
-Examples include:
-
-* aligning camera coordinates with depth sensors
-* correlating microphone direction with visual detection
-
-Spatial alignment ensures that sensor measurements refer to the same physical locations in the environment.
-
----
-
-## Confidence Estimation
-
-Each perception module may produce outputs with associated confidence scores.
-
-Sensor fusion mechanisms may use these confidence values to determine the reliability of different signals.
-
-For example:
-
-* a face recognition result with high confidence may override uncertain motion detection
-* multiple weak signals may combine to produce a stronger overall confidence
-
-Confidence estimation helps the system make more reliable decisions.
+Fusion mechanisms may use confidence weighting, signal consistency evaluation, and temporal persistence to compute the reliability of fused perception results.
 
 ---
 
 ## Conflict Resolution
 
-Sensors may sometimes produce contradictory information.
+Multimodal perception signals may occasionally produce contradictory observations.
 
-Examples include:
+The fusion subsystem includes mechanisms for resolving these conflicts.
 
-* motion detected but no visual confirmation
-* speech detected without a visible speaker
+Conflict resolution mechanisms include:
 
-The fusion module may resolve these conflicts using rules such as:
+* confidence-based signal weighting
+* contextual evaluation
+* temporal persistence analysis
 
-* confidence weighting
-* contextual reasoning
-* temporal persistence
-
-These mechanisms help prevent unstable or inconsistent interpretations of the environment.
+These mechanisms prevent inconsistent or unstable interpretations of the environment.
 
 ---
 
 ## Event Consolidation
 
-One of the primary outputs of the Sensor Fusion module is the creation of **consolidated perception events**.
+One of the primary responsibilities of the Sensor Fusion module is the generation of consolidated perception events.
 
-Instead of forwarding raw sensor events, the system produces higher-level events such as:
+Instead of forwarding isolated perception signals, the subsystem produces higher-level perceptual events derived from multiple modalities.
 
-* user present
-* user speaking
-* user gesture command detected
-* obstacle detected
+Consolidated events may represent interpreted situations such as:
 
-These consolidated events provide a simplified and reliable interface for the rest of the system.
+* user presence detected
+* user speaking detected
+* multimodal command detected
+* obstacle presence detected
+
+These consolidated events provide a simplified interface for downstream system modules.
 
 ---
 
-## Possible Inputs
+## Inputs
 
-Inputs to the Sensor Fusion module may include:
+The Sensor Fusion submodule receives perception signals from perception subsystems.
 
-* wake word detection events
+Inputs include:
+
 * speech recognition results
+* wake word detection events
 * detected faces
 * gesture recognition outputs
-* motion sensor events
-* proximity sensor readings
-* environmental condition signals
+* motion detection events
+* proximity detection signals
+* environmental condition updates
 
 ---
 
-## Possible Outputs
+## Outputs
 
-Outputs generated by the Sensor Fusion module may include:
+The Sensor Fusion submodule produces fused perception results and consolidated perception events.
 
-* unified user presence detection
-* multimodal interaction events
+Outputs include:
+
+* multimodal presence detection
+* fused interaction signals
 * validated gesture commands
-* contextual environment state
-* fused perception events
+* fused environmental state descriptions
+* consolidated perception events
 
-These outputs are typically forwarded to the **Perception Event Processing** module or directly to the system event dispatcher.
+These outputs are forwarded to downstream system components.
 
 ---
 
 ## Interaction With Other Modules
 
-The Sensor Fusion module interacts with several architectural components.
+The Sensor Fusion submodule interacts with several architectural components.
 
 **Audio Perception**
-Provides speech and voice-related events.
+Provides speech and acoustic perception signals.
 
 **Visual Perception**
-Provides visual detection and tracking information.
+Provides visual perception signals including face detection and gesture recognition.
 
 **Environmental Sensors**
-Provide environmental context signals.
+Provide environmental measurement signals.
 
 **Perception Event Processing**
-Receives fused results and converts them into system events.
+Receives fused perception results and converts them into normalized system events.
 
-**Planning and Agents**
-Uses fused perception data to guide decisions and actions.
+**Planning, Interpretation and Agents**
+Consumes fused perception information for decision making and behaviour planning.
+
+**Action and Expression**
+Consumes fused perception information when executing actions that depend on environmental context.
 
 ---
 
 ## Architectural Importance
 
-Sensor fusion allows NORA to move from isolated perception signals to a coherent understanding of its environment.
+Sensor Fusion allows the perception system to produce coherent environmental interpretations derived from multiple sensing modalities.
 
-By integrating multiple sensory modalities, the system becomes more robust, reliable, and capable of interpreting complex real-world situations.
+The subsystem integrates perception results from audio, visual, and environmental sensing pipelines and converts them into unified perceptual information describing:
 
-Without sensor fusion, the system would rely on fragmented sensor signals and would be more vulnerable to noise, ambiguity, and incorrect interpretations.
+* human presence and interaction
+* environmental conditions
+* spatial context
+* multimodal events
+
+These capabilities allow the system to reason about its environment using correlated multimodal perception rather than isolated sensor signals.
 
 # 3.5 Perception Event Processing
 
 ## Definition
 
-The **Perception Event Processing** submodule is responsible for transforming perceptual outputs generated by the perception pipeline into structured system events that can be consumed by other architectural components.
+The **Perception Event Processing** submodule converts perceptual results produced by perception subsystems into standardized system events that can be consumed by cognitive and control components of the architecture.
 
-While individual perception modules detect signals such as speech, faces, motion, or environmental conditions, these signals are not directly suitable for driving system behaviour. The Perception Event Processing layer interprets, validates, filters, and converts perceptual signals into standardized events that can be processed by the rest of the system.
+Perception modules produce structured perception results describing observations such as detected speech, faces, gestures, motion, or environmental conditions. These results must be interpreted, validated, and normalized before they can influence system behaviour.
 
-This module therefore acts as the **bridge between perception and cognition**, enabling the system to react to events occurring in the environment.
+The Perception Event Processing submodule performs this transformation by converting perception results into **normalized perception events** that conform to the system event model.
+
+This module therefore forms the **interface between the perception layer and the cognitive layer of the architecture**.
 
 ---
 
-## Role in the Architecture
+## Architectural Role
 
 Within the Perception System, Perception Event Processing represents the **final stage of the perception pipeline**.
 
-It receives outputs from the following modules:
+The submodule receives perception results from the following components:
 
 * Audio Perception
 * Visual Perception
 * Environmental Sensors
 * Sensor Fusion
 
-These perceptual signals are then interpreted and converted into **system-level events** that can be forwarded to components such as:
+These perception results are interpreted and converted into normalized system events that can be consumed by higher-level architectural modules.
 
-* the Dialogue System
-* the State Machine
-* Planning and Decision modules
-* Action and Hardware Control
+The architectural responsibilities of the submodule include:
 
-This design ensures that the rest of the architecture interacts with perception through a unified event interface rather than raw sensor data.
+* reception of perception results
+* interpretation of perception outputs
+* filtering of unstable or redundant signals
+* validation of perception events
+* prioritization of system events
+* normalization of event structures
+* forwarding of perception events to system event infrastructure
 
 ---
 
-## Event Abstraction
+## Core Concepts
 
-Perceptual signals are often heterogeneous and continuous in nature. For example, a camera may continuously detect faces, or a microphone may continuously capture audio streams.
+The Perception Event Processing architecture is defined through several explicit concepts.
 
-The Event Processing module abstracts these signals into discrete events that represent meaningful occurrences.
+* **perception result**
+  structured observation produced by a perception subsystem
+
+* **perception event candidate**
+  intermediate representation derived from a perception result that may generate a system event
+
+* **normalized perception event**
+  standardized event structure used by the architecture to represent perception-driven occurrences
+
+* **event priority**
+  classification indicating the urgency with which an event should be processed
+
+* **event context**
+  metadata associated with an event that describes relevant environmental or interaction conditions
+
+* **event dispatch target**
+  architectural component that subscribes to specific perception events
+
+These concepts define the elements manipulated by the Perception Event Processing submodule.
+
+---
+
+## Event Processing Pipeline
+
+Perception Event Processing operates through a structured event processing pipeline.
+
+### 1 Result Reception
+
+Perception results produced by perception subsystems are received by the event processing module.
+
+### 2 Event Candidate Generation
+
+Perception results are converted into **event candidates** representing potential system-level events.
+
+### 3 Event Filtering
+
+Event candidates are filtered to remove unstable, redundant, or transient signals.
+
+Filtering mechanisms include:
+
+* duplicate event suppression
+* temporal smoothing
+* threshold validation
+* stability checks across multiple frames or measurements
+
+### 4 Event Validation
+
+Event candidates are validated using contextual information and reliability constraints.
+
+Validation mechanisms may include:
+
+* confidence threshold verification
+* cross-modal confirmation using fused perception signals
+* identity verification when user-related events are generated
+
+### 5 Event Prioritization
+
+Validated events are assigned a priority level according to their importance for system operation.
+
+Priority levels may include categories such as:
+
+* safety-critical events
+* interaction events
+* environmental status updates
+
+### 6 Event Normalization
+
+Validated events are converted into a standardized event representation used across the architecture.
+
+A normalized event structure typically includes fields such as:
+
+* event type
+* timestamp
+* source perception module
+* confidence score
+* associated identity information
+* contextual metadata
+
+### 7 Event Dispatch
+
+Normalized perception events are forwarded to the system event infrastructure for distribution to subscribed modules.
+
+---
+
+## Event Types
+
+Perception Event Processing produces normalized events describing relevant occurrences detected by the perception system.
 
 Examples of perception-derived events include:
 
 * wake word detected
 * speech command received
-* user detected
-* user identified
+* user presence detected
+* user identity detected
 * gesture command detected
-* obstacle detected
+* obstacle proximity detected
 * motion detected
 
-These events represent changes or important conditions in the environment that may require system response.
-
----
-
-## Event Filtering
-
-Perception systems may generate noisy or redundant signals. For example, motion sensors may repeatedly trigger events or face detection may produce unstable results across frames.
-
-To ensure stable system behaviour, the event processing layer may apply filtering mechanisms such as:
-
-* duplicate event suppression
-* temporal smoothing
-* threshold-based filtering
-* stability checks across multiple frames
-
-These techniques prevent the system from reacting excessively to unstable perception signals.
-
----
-
-## Event Validation
-
-Before events are forwarded to other modules, the system may validate them using additional context or constraints.
-
-Validation may include:
-
-* verifying confidence thresholds
-* checking sensor agreement through sensor fusion
-* verifying user authentication
-* validating environmental conditions
-
-For example, a gesture command may only be accepted if the system has also detected a valid user presence.
-
----
-
-## Event Prioritization
-
-Different perceptual events may require different levels of urgency.
-
-Examples include:
-
-* safety alerts (high priority)
-* user interaction events (medium priority)
-* environmental updates (low priority)
-
-The event processing layer may assign priorities to events so that critical system reactions are handled first.
-
----
-
-## Event Standardization
-
-To ensure compatibility across the architecture, events must follow a standardized structure.
-
-A typical event structure may include fields such as:
-
-* event type
-* timestamp
-* source module
-* confidence score
-* associated identity (if available)
-* contextual metadata
-
-Standardized events simplify communication between modules and make system behaviour easier to trace and debug.
-
----
-
-## Event Dispatching
-
-Once events are generated and validated, they must be forwarded to the appropriate system components.
-
-The event processing module may publish events to:
-
-* the system event dispatcher
-* the finite state machine (FSM)
-* the dialogue subsystem
-* planning and decision modules
-
-This event-driven architecture allows the system to react asynchronously to environmental changes.
+These events represent discrete environmental or interaction conditions that may trigger system responses.
 
 ---
 
 ## Temporal Context
 
-Perception events often occur within a temporal sequence. The system may therefore maintain short-term temporal context to interpret events correctly.
+Perception events often occur as part of temporal sequences rather than isolated signals.
 
-Examples include:
+The Perception Event Processing module may maintain short-term temporal context in order to interpret event sequences correctly.
 
-* detecting a sequence of gestures
-* correlating speech with a previously detected user
-* confirming persistent motion detection
+Temporal context mechanisms support interpretation of situations such as:
 
-Temporal context helps the system interpret events as part of a coherent interaction rather than isolated signals.
+* gesture sequences
+* speech associated with a previously detected user
+* persistent environmental motion
+
+Temporal context improves event stability and interpretation accuracy.
 
 ---
 
 ## Event Logging
 
-For debugging, auditing, and analysis purposes, perception events may be recorded in system logs.
+Perception events may be recorded by the system for monitoring, debugging, or auditing purposes.
 
-Logging may include:
+Logged information may include:
 
 * event type
 * timestamp
-* sensor source
+* originating perception module
 * confidence score
-* resulting system action
+* associated contextual information
 
-Event logging improves traceability and helps diagnose perception-related issues.
+Event logging improves traceability and facilitates diagnosis of perception-related system behaviour.
 
 ---
 
-## Possible Inputs
+## Inputs
 
-Inputs received by the Perception Event Processing module may include:
+The Perception Event Processing submodule receives perception results generated by perception subsystems.
 
-* wake word detection signals
-* speech recognition results
-* face detection outputs
-* facial recognition results
+Inputs include:
+
+* wake word detection results
+* speech recognition outputs
+* face detection results
+* facial recognition outputs
 * gesture recognition signals
-* motion sensor events
-* proximity alerts
+* motion detection results
+* proximity detection signals
 * environmental condition updates
 
 ---
 
-## Possible Outputs
+## Outputs
 
-Outputs generated by the module may include:
+The Perception Event Processing submodule produces normalized perception events that conform to the architecture's event model.
 
-* structured perception events
+Outputs include:
+
+* standardized perception events
 * interaction trigger events
-* safety alerts
+* safety alert events
 * user presence events
 * multimodal interaction events
 
-These events are forwarded to other system components for further interpretation and action.
+These events are forwarded to the system event infrastructure and downstream architectural components.
 
 ---
 
 ## Interaction With Other Modules
 
-The Perception Event Processing module interacts with several architectural components.
+The Perception Event Processing submodule interacts with several architectural components.
 
 **Sensor Fusion**
-Provides fused perception signals for event generation.
+Provides fused perception results that may generate perception events.
 
-**Dialogue System**
-Receives events related to speech and user interaction.
+**Dialogue and Session System**
+Consumes perception events related to speech and user interaction.
 
-**State Machine (FSM)**
-Uses perception events to trigger state transitions.
+**State Machine**
+Consumes perception events to trigger state transitions.
 
-**Planning and Agents**
-Uses events to guide decision making and task execution.
+**Planning, Interpretation and Agents**
+Consumes perception events to guide decision making and task planning.
 
-**Action and Hardware Control**
-Responds to perception events with physical or digital actions.
+**Action and Expression**
+Consumes perception events that require physical or digital responses.
+
+**Event Dispatcher**
+Distributes normalized perception events to subscribed modules.
 
 ---
 
 ## Architectural Importance
 
-Perception Event Processing converts raw sensory understanding into actionable system events.
+Perception Event Processing converts perceptual observations into standardized system events that can influence system behaviour.
 
-By standardizing perception outputs and integrating them with the system's event-driven architecture, this module allows NORA to react to its environment in a consistent, reliable, and structured way.
+By normalizing perception outputs and integrating them with the system's event-driven architecture, the submodule enables the architecture to react to environmental conditions and user interactions in a consistent and structured manner.
 
-Without this module, perception results would remain isolated signals and would not effectively influence system behaviour.
+Without this processing layer, perception subsystems would produce isolated results that could not be reliably integrated into the system's decision and action mechanisms.
+
+
+## Architectural Structure
+
+```
+Interaction Interfaces
+│
+├── Voice Interface
+│ ├── spoken interaction channel
+│ ├── conversational dialogue interaction
+│ ├── spoken command input
+│ ├── confirmation and rejection signals
+│ ├── interruption and cancellation signals
+│ ├── dictated text input
+│ ├── voice interaction events
+│ ├── spoken responses
+│ ├── interaction feedback signals
+│ ├── multilingual interaction context
+│ ├── voice interaction inputs
+│ └── voice interaction outputs
+│
+├── Local Screen Interface
+│ ├── visual interaction surface
+│ ├── graphical feedback indicators
+│ ├── structured information display
+│ ├── graphical interface controls
+│ ├── expressive visual output
+│ ├── contextual interaction information
+│ ├── visual interaction events
+│ ├── visual interaction outputs
+│ ├── system state indicators
+│ ├── screen interaction inputs
+│ └── screen interaction outputs
+│
+├── Web Frontend Interface
+│ ├── browser‑based interaction surface
+│ ├── remote conversational interaction
+│ ├── system dashboards
+│ ├── monitoring and diagnostics views
+│ ├── administration panels
+│ ├── project and task management views
+│ ├── configuration interfaces
+│ ├── browser interaction events
+│ ├── web interface outputs
+│ ├── remote system monitoring
+│ ├── web interaction inputs
+│ └── web interaction outputs
+│
+├── Touch / Physical Interaction
+│ ├── tactile interaction mechanisms
+│ ├── hardware buttons
+│ ├── capacitive touch sensors
+│ ├── pressure sensors
+│ ├── body contact sensors
+│ ├── emergency stop controls
+│ ├── tactile interaction events
+│ ├── safety override signals
+│ ├── physical interaction inputs
+│ └── physical interaction outputs
+│
+├── NFC / RFID Interface
+│ ├── proximity interaction channel
+│ ├── tag identification
+│ ├── user identification through tags
+│ ├── profile switching
+│ ├── system activation
+│ ├── access control through tags
+│ ├── triggered system actions
+│ ├── NFC interaction events
+│ ├── proximity interaction inputs
+│ └── proximity interaction outputs
+│
+├── Gesture Interface
+│ ├── gesture‑based interaction channel
+│ ├── attention request gestures
+│ ├── command gestures
+│ ├── confirmation gestures
+│ ├── cancellation gestures
+│ ├── non‑verbal interaction signals
+│ ├── gesture interaction events
+│ ├── gesture interaction responses
+│ ├── gesture interaction inputs
+│ └── gesture interaction outputs
+│
+└── Remote Interfaces
+  ├── remote device interaction
+  ├── mobile device interfaces
+  ├── tablet interfaces
+  ├── remote web clients
+  ├── external service interfaces
+  ├── remote monitoring interfaces
+  ├── remote command execution
+  ├── system notifications
+  ├── remote interaction events
+  ├── remote interaction inputs
+  └── remote interaction outputs
+```
+
+---
+
+## Architectural Layers
+
+The Interaction Interfaces module operates through several complementary layers that structure how human interaction enters and exits the system.
+
+| Layer                             | Responsibility                                                                 |
+| --------------------------------- | ------------------------------------------------------------------------------ |
+| **Interaction Channel Layer**     | Defines the modalities through which humans communicate with the system        |
+| **Interaction Surface Layer**     | Provides the physical or digital surfaces where interaction occurs             |
+| **Interaction Event Layer**       | Normalizes interaction inputs into structured system events                    |
+| **Interaction Feedback Layer**    | Communicates system state and responses back to users                          |
+| **Multimodal Coordination Layer** | Ensures consistent behaviour across multiple simultaneous interaction channels |
+
+Together, these layers establish the **human–system interaction boundary of the NORA architecture**, ensuring that user actions can be interpreted consistently regardless of the interface used while maintaining coherent multimodal interaction across the system.
