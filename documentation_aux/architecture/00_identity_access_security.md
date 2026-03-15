@@ -4,169 +4,269 @@
 
 The **Identity, Access and Security** module defines who interacts with NORA, how identities are verified, what each entity is allowed to do, and how the system protects its internal resources.
 
-This module establishes the trust and control layer of the system. Every interaction with NORA, whether conversational, physical, or digital, should ultimately be associated with:
+This module establishes the trust and control layer of the system. Every interaction with NORA, whether conversational, physical, or digital, must ultimately be associated with:
 
-* an identity
-* a permission model
-* a security policy
-* a traceable action context
+* **Identity**  
+logical representation of the actor responsible for an interaction with the system.
 
-Without this module, the system would not be able to determine whether an action is legitimate, safe, or authorized.
+* **Permission model**  
+structured set of rules that determines which actions an identity is allowed to perform.
 
-In a complex system such as NORA, which combines AI agents, physical hardware, multimodal perception, persistent memory, and external integrations, identity and security are foundational architectural requirements.
+* **Security policy**  
+system rules that define how resources, operations, and data are protected.
+
+* **Traceable action context**  
+execution context that records the identity, session, and conditions under which an action occurred.
+
+Without this module, the system cannot determine whether an action is legitimate, safe, or authorized.
+
+NORA combines AI agents, physical hardware, multimodal perception, persistent memory, and external integrations. In this context, identity and security are foundational architectural requirements.
 
 ## Architectural Role
 
-The Identity, Access and Security module acts as the system's trust boundary.
+The Identity, Access and Security module acts as the trust boundary of the NORA system.
 
 It ensures that:
 
-* system resources are accessed only by authorized entities
-* actions can always be traced back to an identity
-* sensitive operations are protected
-* misuse or abuse of the system is detectable and preventable
+* **Authorized resource access**  
+system resources are accessed only by identities that possess the required permissions.
 
-This module therefore supports three fundamental responsibilities:
+* **Action traceability**  
+every relevant operation can be linked to the identity, session, and context that produced it.
+
+* **Protection of sensitive operations**  
+operations that affect security, configuration, data integrity, or hardware behaviour are protected through authorization controls.
+
+* **Misuse detection and mitigation**  
+abnormal or unauthorized behaviour is detectable and can trigger protective responses.
+
+This module defines and enforces three fundamental responsibilities:
 
 ### Identity Management
 
-Defines who the actors of the system are.
+Identity management defines the actors that interact with NORA.
 
-Actors may include:
+The system defines the following actor categories:
 
-* human users
-* administrators
-* external systems
-* devices interacting with NORA
+* **Human users**  
+people interacting directly with NORA through conversational, visual, or physical interfaces.
+
+* **Administrators**  
+privileged users responsible for supervising, configuring, and maintaining the system.
+
+* **External systems**  
+software services or platforms that interact with NORA through APIs or integrations.
+
+* **Devices interacting with NORA**  
+hardware components or connected devices that exchange data or commands with the system.
 
 Identity management includes:
 
-* user entities
-* identity attributes
-* identity resolution
-* identity lifecycle
+* **User entities**  
+formal identity records representing the actors recognized by the system.
+
+* **Identity attributes**  
+structured properties associated with an identity, such as identifiers, roles, status, and linked authentication data.
+
+* **Identity resolution**  
+process through which the system determines which identity is associated with a given interaction, signal, or request.
+
+* **Identity lifecycle**  
+set of state changes and management operations affecting an identity across its existence in the system.
 
 ### Access Control
 
-Determines what an identity is allowed to do.
+Access control determines which actions an identity is authorized to perform within NORA.
 
-Access control mechanisms ensure that permissions are enforced across the system, including:
+Access control mechanisms enforce permissions across the following system resources:
 
-* API endpoints
-* hardware control
-* conversation data
-* persistent memory
-* administrative tools
-* system configuration
+* **API endpoints**  
+programmatic interfaces exposed by backend services that allow external or internal components to interact with NORA.
 
-Access control policies must remain consistent regardless of how the system is accessed (voice, web interface, physical interaction, or external API).
+* **Hardware control**  
+operations that command or configure physical components such as sensors, actuators, and connected devices.
+
+* **Conversation data**  
+conversational content generated during interactions between users and the system.
+
+* **Persistent memory**  
+stored knowledge, records, and contextual data maintained across sessions.
+
+* **Administrative tools**  
+privileged system interfaces used to supervise, configure, or maintain NORA.
+
+* **System configuration**  
+operational parameters that control system behaviour, module configuration, and infrastructure settings.
+
+Access control policies apply uniformly across all interaction channels, including voice interfaces, graphical interfaces, physical interaction, and external APIs.
 
 ### Security Enforcement
 
-Provides the mechanisms required to protect the system from misuse, abuse, or unintended behaviour.
+Security enforcement provides the mechanisms that protect the system from misuse, abuse, or unintended behaviour.
 
 Security enforcement includes:
 
-* authentication mechanisms
-* authorization policies
-* protection of sensitive resources
-* audit logging
-* monitoring of suspicious behaviour
-* session control
-* protection against automated attacks
+* **Authentication mechanisms**  
+processes that verify the identity of actors interacting with NORA before granting access to protected resources.
 
-Because NORA interacts with both digital and physical environments, security must protect not only data but also physical actions performed by the robot.
+* **Authorization policies**  
+rules that determine whether an authenticated identity is allowed to perform a specific action on a specific resource.
 
-## Why This Module Is Critical in NORA
+* **Protection of sensitive resources**  
+safeguards that prevent unauthorized access to critical data, configuration, hardware control, and system capabilities.
 
-In a conventional software system, identity and security mainly protect data and services.
+* **Audit logging**  
+structured recording of security-relevant events, actions, and decisions for traceability and accountability.
 
-In NORA, they must also protect:
+* **Suspicious behaviour monitoring**  
+continuous observation of system activity to detect abnormal patterns or potentially malicious actions.
 
-* physical actions (movement, devices, actuators)
-* sensor access (microphones, cameras)
-* external integrations (home automation, messaging, internet services)
-* personal memory and conversations
-* system configuration and internal state
+* **Session control**  
+mechanisms that manage the lifecycle and validity of interaction sessions associated with authenticated identities.
 
-This means that identity and security influence almost every other subsystem.
+* **Protection against automated attacks**  
+safeguards that limit or block automated attempts to exploit system interfaces, authentication flows, or resources.
+
+Because NORA operates in both digital and physical environments, security enforcement protects not only data and services but also physical actions performed through hardware components.
+
+## Architectural Importance
+
+In conventional software systems, identity and security primarily protect data and software services.
+
+In NORA, identity and security also protect the system's interaction with the physical world and external infrastructures.
+
+This includes protection of:
+
+* **Physical actions**  
+operations that control movement, actuators, and other hardware components capable of affecting the physical environment.
+
+* **Sensor access**  
+operations that activate or read sensors such as microphones, cameras, and other perception devices.
+
+* **External integrations**  
+interactions with external platforms, services, and connected systems.
+
+* **Personal memory and conversations**  
+stored conversational data and user-related knowledge maintained by the system.
+
+* **System configuration and internal state**  
+operational parameters and runtime state that determine how the system behaves.
+
+Because these resources span both digital and physical domains, identity and security influence nearly every subsystem of the NORA architecture.
 
 ## Relationship With Other Architectural Modules
 
-The Identity, Access and Security module interacts with many other parts of the system.
+The Identity, Access and Security module provides the trust and authorization layer used by multiple subsystems of NORA.
+
+These interactions ensure that system operations are always associated with an identity and executed under controlled permissions.
 
 ### Dialogue and Session System
 
-User sessions and conversations must always be associated with an identity or controlled anonymous context.
+conversational sessions are linked to an identity or to a controlled anonymous interaction context.
+
+This association ensures that dialogue history, conversational actions, and contextual memory remain traceable and access-controlled.
 
 ### Backend Services
 
-APIs exposed by the backend rely on authentication and authorization to validate incoming requests.
+backend APIs validate incoming requests through authentication and authorization mechanisms before allowing access to system resources.
+
+This guarantees that programmatic interactions respect the same security model as human interactions.
 
 ### Planning and Agents
 
-Some actions proposed by agents may require permission checks before execution.
+actions proposed by planning modules or specialized agents are validated against authorization policies before execution.
+
+This prevents agents from executing operations that exceed the permissions associated with the initiating identity.
 
 ### Action and Hardware Control
 
-Physical operations such as controlling devices, moving actuators, or activating sensors may require authorization.
+commands affecting hardware components are subject to authorization checks before execution.
+
+This includes operations such as actuator control, device management, and sensor activation.
 
 ### Persistent Storage
 
-User data, conversations, memories, and projects must be protected through identity-aware access rules.
+access to stored data is governed by identity-aware authorization rules.
+
+This protection applies to user data, conversational history, stored knowledge, and project-related information.
 
 ### Frontend Interfaces
 
-User-facing interfaces require secure authentication and session management.
+user-facing interfaces implement authentication flows and maintain secure sessions associated with system identities.
+
+This ensures that graphical, conversational, and administrative interfaces operate under the same identity model.
 
 ## Design Principles
 
-Several principles guide the design of this module.
+The design of the Identity, Access and Security module follows a set of architectural principles that guide how trust, permissions, and protection are implemented across the system.
 
 ### Separation of Concerns
 
-Identity management, authentication, authorization, and security enforcement should remain logically separated to maintain system clarity and extensibility.
+identity management, authentication, authorization, and security enforcement are implemented as distinct responsibilities within the architecture.
+
+This separation maintains system clarity, reduces coupling, and allows each component to evolve independently.
 
 ### Least Privilege
 
-Every entity should only have the minimum permissions required to perform its tasks.
+each identity is granted only the permissions required to perform its intended tasks.
+
+This principle limits the potential impact of errors, compromised identities, or malicious actions.
 
 ### Traceability
 
-All critical actions must be traceable to a specific identity, session, or system event.
+critical operations are linked to the identity, session, and contextual conditions under which they occurred.
+
+Traceability enables auditing, debugging, and accountability across system activity.
 
 ### Multi-Modal Security
 
-Since NORA supports interaction through voice, vision, web interfaces, and physical devices, security mechanisms must operate consistently across all interaction channels.
+security mechanisms operate consistently across all interaction channels supported by NORA.
+
+This includes voice interaction, graphical interfaces, external APIs, and physical device control.
 
 ### Context-Aware Authorization
 
-Permissions may depend not only on identity but also on contextual factors such as:
+authorization decisions are evaluated using both identity information and relevant runtime context.
 
-* current FSM state
-* active session
-* device used
-* presence of the user
-* system safety conditions
+Authorization policies evaluate contextual factors that influence whether an action is permitted.
+
+These contextual factors include:
+
+* **Current FSM state**  
+the current state of the system's operational state machine, which determines which actions are valid at a given moment.
+
+* **Active session**  
+the authenticated interaction session associated with the identity initiating the action.
+
+* **Device used**  
+the hardware or interface through which the request originates.
+
+* **User presence**  
+confirmation that the user associated with the identity is physically present or actively interacting with the system.
+
+* **System safety conditions**  
+operational constraints that prevent actions that could compromise system safety, stability, or hardware integrity.
 
 ## Submodules
 
-The Identity, Access and Security module is divided into several submodules:
+The Identity, Access and Security module is composed of the following submodules:
 
-* **1.1 Users**
-  Defines system identities and user types.
+* **1.1 Users**  
+Defines the identity entities recognized by the system and the categories of users interacting with NORA.
 
-* **1.2 Authentication**
-  Verifies the identity of entities interacting with NORA.
+* **1.2 Authentication**  
+Implements the mechanisms used to verify the identity of actors interacting with the system.
 
-* **1.3 Authorization**
-  Determines which actions an identity is allowed to perform.
+* **1.3 Authorization**  
+Defines and enforces the permission model that determines which actions an identity is allowed to perform.
 
-* **1.4 User Profile**
-  Stores personal preferences and user-specific configuration.
+* **1.4 User Profile**  
+Stores user-specific preferences, personalization settings, and configuration associated with an identity.
 
-* **1.5 Security**
-  Provides system protection mechanisms such as auditing, monitoring, and attack prevention.
+* **1.5 Security**  
+Implements protection mechanisms such as auditing, monitoring, and safeguards against malicious or unintended system use.
+
+Together, these submodules establish the identity model, permission structure, and security protections that govern all interactions with NORA.
 
 Each of these components contributes to maintaining system integrity, safety, and accountability.
 
@@ -176,142 +276,147 @@ Each of these components contributes to maintaining system integrity, safety, an
 
 The **Users** submodule defines the identities that interact with NORA.
 
-A user represents a logical actor within the system, typically a human interacting with the robot through voice, visual interfaces, or remote systems. Each user identity may have associated credentials, roles, permissions, preferences, and persistent data.
+A user is a logical actor within the system. Each user identity has associated credentials, roles, permissions, preferences, and persistent data.
 
-Within the architecture, the user identity acts as the anchor point connecting authentication, authorization, personalization, sessions, and system actions.
+Within the architecture, user identity acts as the anchor point connecting authentication, authorization, personalization, sessions, and system actions.
 
-Through this identity, NORA can associate interactions with a specific person and maintain continuity across sessions and devices.
-
----
+Through user identity, NORA associates interactions with a specific actor and maintains continuity across sessions and devices.
 
 ## Identity Model
 
-To maintain a clear architecture, several related concepts are separated:
+The identity model separates several related concepts to maintain a clear and modular architecture:
 
 | Concept      | Description                                                   |
-| ------------ | ------------------------------------------------------------- |
-| **Identity** | The logical representation of a person or actor in the system |
-| **Account**  | The authentication credentials linked to the identity         |
-| **Role**     | A set of permissions associated with the identity             |
+|  | - |
+| **Identity** | Logical representation of an actor within the system          |
+| **Account**  | Authentication credentials associated with the identity       |
+| **Role**     | Set of permissions assigned to the identity                   |
 | **Profile**  | Personal configuration used to adapt system behaviour         |
 
-Separating these elements allows the system to evolve independently in areas such as authentication mechanisms, role management, or personalization.
-
----
+This separation ensures that identity, authentication, authorization, and personalization remain independent architectural components.
 
 ## User Types
 
-NORA defines several user capability levels that determine how individuals interact with the system.
+NORA defines user capability levels that determine the permissions and operational scope associated with a user identity.
 
-These types represent access profiles rather than fundamentally different identity structures.
+These types represent access profiles applied to identities rather than different identity structures.
 
----
+## User Capability Levels
+
+NORA defines four user capability levels:
+
+* Guest
+* User
+* Pro
+* Admin
+
+These levels determine the operational scope, protected resources, and administrative access associated with a user identity.
+
+| Type  | Persistent Identity | Personal Data | Projects | Advanced Tools | Admin Tools | System Configuration | Technical Observability |
+|-|||-|-|-|-|-|
+| Guest | No                  | No            | No       | No             | No          | No                   | No                      |
+| User  | Yes                 | Yes           | No      | Limited        | No          | No                   | No                      |
+| Pro   | Yes                 | Yes           | Yes      | Yes            | No          | No                   | Limited / No            |
+| Admin | Yes                 | Yes           | Yes      | Yes            | Yes         | Yes                  | Yes                     |
 
 ### Guest
 
-A **Guest** is a temporary or unauthenticated user interacting with the system.
+A **Guest** is an unauthenticated actor interacting with NORA without a persistent identity.
 
-Guest access allows NORA to support interaction without requiring account creation or authentication. This is particularly useful when the robot is located in shared or public environments.
+Guest access enables interaction with the system without account creation or authentication. This mode supports operation in shared or public environments.
 
-Guest users may perform simple interactions such as:
+Guest users interact with NORA through temporary sessions and have access only to non-sensitive system capabilities.
 
-* asking questions
-* starting conversations
-* triggering basic commands
+Guest users do not have access to:
 
-However, Guest users typically do not have access to:
-
-* persistent memory
+* persistent identity
+* personal data
 * personal profiles
-* administrative controls
+* projects
+* advanced tools
+* administrative tools
 * system configuration
-* sensitive hardware capabilities
+* technical observability interfaces
 
-Guest interactions may still be internally logged, but they are not linked to a persistent identity.
-
----
+Guest interactions are internally logged but are not associated with a persistent user identity.
 
 ### User
 
-A **User** represents a standard authenticated identity.
+A **User** is a standard authenticated identity within NORA.
 
-This is the most common role for individuals who regularly interact with NORA.
+User identities provide persistent interaction with the system and enable storage of personal data and configuration.
 
-Users may have access to:
+Users have access to:
 
-* a personal profile
+* personal data associated with their identity
+* personal profile and preference configuration
 * persistent sessions
 * conversation history
 * personal memory
-* projects and tasks
-* device associations
-* personalized preferences
+* linked personal devices
+* standard system tools and interaction capabilities
 
-When a user is identified, NORA can adapt its behaviour based on stored preferences and past interactions.
+Users do not have access to:
 
-Examples of personalized behaviour include:
+* personal projects
+* administrative tools
+* system configuration
+* technical observability interfaces
 
-* preferred language
-* voice synthesis configuration
-* conversational tone
-* previously stored information
-* active projects
-
----
+User identities operate within the standard permission scope defined by the system.
 
 ### Pro
 
-A **Pro user** is an authenticated user with extended system capabilities.
+A **Pro** user is an authenticated identity with extended system capabilities.
 
-This role is designed for users who require more advanced functionality or increased system resources.
+Pro users have access to the same resources as standard users together with advanced tools and increased operational limits.
 
-Examples of extended capabilities may include:
+Pro users have access to:
 
-* advanced AI agents
-* extended memory capacity
-* more simultaneous projects
-* additional integrations
-* advanced productivity tools
-* increased computational limits
+* personal data and persistent identity
+* personal projects
+* advanced tools and system capabilities
+* extended operational limits and resources
 
-Pro users do not manage the system itself but have access to more powerful capabilities.
+Pro users do not have access to:
 
----
+* administrative tools
+* system configuration
+* full technical observability capabilities
+
+Pro users do not manage the system but have access to advanced functionality intended for experienced users.
 
 ### Admin
 
-An **Admin** is a user with administrative privileges over the system.
+An **Admin** is an authenticated identity with administrative privileges over the NORA system.
 
-Administrators are responsible for maintaining, configuring, and supervising the operation of NORA.
+Administrators supervise, configure, and maintain system operation.
 
-Administrative capabilities may include:
+Admin users have access to:
 
-* managing users and permissions
-* accessing system logs
-* monitoring hardware status
-* modifying system configuration
-* accessing debugging tools
-* triggering maintenance actions
-* controlling system modules
-* managing integrations
+* user and identity management
+* system logs and audit records
+* hardware and subsystem monitoring
+* system configuration
+* administrative tools
+* technical observability interfaces
+* maintenance and operational control actions
 
-Because administrative actions can significantly impact the system, they must always be:
+Administrative actions are always:
 
 * authenticated
 * authorized
 * logged for auditing
 
----
-
 ## Role-Based Design
 
-Although Guest, User, Pro, and Admin are described as user types, the recommended implementation model is **Role-Based Access Control (RBAC)**.
+Although Guest, User, Pro, and Admin are described as user capability levels, the authorization model of NORA is based on **Role-Based Access Control (RBAC)**.
 
-In this approach:
+In this model:
 
-* each identity may have one or more roles
-* roles define permission sets
-* permissions determine system capabilities
+* each identity is associated with one or more roles
+* roles define sets of permissions
+* permissions determine which actions the identity can perform
 
 Conceptual structure:
 
@@ -325,15 +430,16 @@ User
  └── profile
 ```
 
-This design makes the authorization model more flexible and allows the system to evolve without changing the underlying identity structure.
 
----
+This design separates identity from permission management and enables the authorization system to evolve without modifying the underlying identity structure.
 
 ## Device Associations
 
-Users may have devices associated with their identity.
+Device associations link physical or personal devices to a user identity.
 
-Examples include:
+Associated devices represent trusted interaction endpoints through which a user can access NORA.
+
+Supported device types include:
 
 * smartphones
 * tablets
@@ -341,401 +447,446 @@ Examples include:
 * NFC tags
 * wearable devices
 
-Device associations enable features such as:
+Device associations enable the following capabilities:
 
-* trusted device authentication
-* automatic identity recognition
-* cross-device session continuity
-* secure device pairing with the robot
+* **Trusted device authentication**  
+authentication mechanisms that recognize previously registered devices linked to a user identity.
 
----
+* **Automatic identity recognition**  
+identification of a user based on signals originating from a registered device.
+
+* **Cross-device session continuity**  
+ability to maintain or recover interaction sessions across multiple devices associated with the same identity.
+
+* **Secure device pairing with NORA**  
+controlled process that registers a device as belonging to a specific user identity.
 
 ## Identity Lifecycle
 
-The Users submodule manages the lifecycle of identities within the system.
+The Users submodule manages the lifecycle of identities within NORA.
 
-Typical lifecycle events include:
+Identity lifecycle events include:
 
-* user creation
+* identity creation
 * identity verification
 * role assignment
 * profile initialization
 * device association
 * profile updates
-* account deactivation
-* account deletion
+* identity deactivation
+* identity deletion
 
-Managing this lifecycle ensures that identities remain consistent, secure, and auditable.
+Lifecycle management ensures that identities remain consistent, secure, and auditable throughout their existence in the system.
 
----
+## Inputs
 
-## Possible Inputs
+The Users submodule receives identity-related inputs from authentication systems, perception modules, interfaces, and administrative operations.
 
-Inputs affecting the Users module may include:
+These inputs include:
 
-* user registration
-* login request
-* anonymous interaction
+* identity registration
+* login requests
+* anonymous interaction events
 * NFC tag detection
 * facial recognition identification
-* profile selection
-* device linking
+* device linking requests
 * profile updates
-* account deletion requests
+* identity deactivation requests
+* identity deletion requests
 
----
+## Outputs
 
-## Possible Outputs
+The Users submodule produces identity-related outputs used by other parts of the system.
 
-Outputs produced by the Users module may include:
+These outputs include:
 
-* resolved `user_id`
+* resolved `identity_id`
 * loaded user profile
 * assigned roles
 * computed permission set
 * active user change event
-* user creation event
+* identity creation event
 * identity resolution result
-
----
 
 ## Interaction With Other Modules
 
-The Users module interacts with several other architectural components.
+The Users submodule interacts with several other architectural components of NORA.
 
-**Authentication**
-Validates credentials and associates them with a user identity.
+**Authentication**  
+validates credentials and associates authentication results with a user identity.
 
-**Authorization**
-Determines which actions the user is allowed to perform.
+**Authorization**  
+evaluates the permissions assigned to the identity and determines which actions are allowed.
 
-**User Profile**
-Stores personal configuration associated with the user.
+**User Profile**  
+stores personal configuration, preferences, and personalization data associated with the identity.
 
-**Sessions and Dialogue**
-Associates conversations and interaction sessions with a specific user identity.
+**Sessions and Dialogue**  
+associates conversational sessions and interaction context with a specific user identity.
 
-**Persistent Storage**
-Stores user records, roles, and associated metadata.
+**Persistent Storage**  
+stores identity records, roles, device associations, and related metadata.
 
-**Frontend Interfaces**
-Allows users to view and modify account and profile information.
-
----
+**Frontend Interfaces**  
+provide user interfaces through which identities access and manage their account and profile information.
 
 ## Architectural Importance
 
 The Users submodule forms the foundation of identity within NORA.
 
-Every action performed by the system should ultimately be traceable to a user identity or to a controlled anonymous interaction.
+Every action performed within the system is traceable to a user identity or to a controlled anonymous interaction.
 
 By centralizing identity management, the system ensures:
 
 * consistent permission enforcement
 * traceability of actions
-* personalized user interaction
+* identity-based personalization of user interactions
 * reliable system security
 
 # 1.2 Authentication
 
 ## Definition
 
-The **Authentication** submodule verifies the identity of entities interacting with NORA.
+The **Authentication** submodule verifies the identity of actors interacting with NORA.
 
 Authentication answers the question:
 
 > Who is interacting with the system?
 
-It ensures that an entity claiming to be a specific user is verified through one or more authentication mechanisms before the system grants access to protected resources or actions.
+Authentication verifies that an actor claiming a specific identity is validated through one or more authentication mechanisms before access to protected resources or actions is granted.
 
-Authentication is distinct from **authorization**, which determines what actions an authenticated identity is allowed to perform.
+Authentication is distinct from **authorization**, which determines which actions an authenticated identity is allowed to perform.
 
 | Concept            | Purpose                |
-| ------------------ | ---------------------- |
+|  | - |
 | **Authentication** | Verifies identity      |
 | **Authorization**  | Determines permissions |
 
-Authentication mechanisms in NORA must support multiple interaction modalities, including voice interaction, visual interfaces, physical proximity mechanisms, and remote digital access.
-
----
+Authentication mechanisms in NORA support multiple interaction modalities, including voice interaction, graphical interfaces, physical proximity mechanisms, and remote digital access.
 
 ## Authentication Model
 
-NORA supports **multi-method authentication**, meaning the system may verify identity using several independent mechanisms.
+NORA implements a **multi-method authentication model**, in which identity verification can be performed through several independent mechanisms.
 
-Authentication may rely on one or more of the following categories:
+Authentication relies on the following mechanism categories:
 
-* credential-based authentication
-* token-based authentication
-* biometric authentication
-* device-based authentication
-* proximity-based authentication
+* **Credential-based authentication**  
+verification of identity through knowledge-based credentials such as passwords or secret phrases.
 
-These mechanisms may also be combined to support **multi-factor authentication (MFA)** when higher security levels are required.
+* **Token-based authentication**  
+verification using temporary or persistent authentication tokens issued after successful identity validation.
 
----
+* **Biometric authentication**  
+verification of identity using biometric characteristics such as voice patterns or facial recognition.
+
+* **Device-based authentication**  
+verification of identity based on trusted devices previously associated with a user identity.
+
+* **Proximity-based authentication**  
+verification triggered by physical presence signals such as NFC tags, Bluetooth devices, or similar proximity mechanisms.
+
+These mechanisms can be combined to implement **multi-factor authentication (MFA)**, where identity verification requires multiple independent authentication factors.
 
 ## Credential-Based Authentication
 
+Credential-based authentication verifies identity using knowledge-based credentials associated with a user identity.
+
 ### Email / Username Login
 
-A traditional authentication method where a user provides:
+authentication mechanism in which a user provides a unique identifier together with a secret credential.
 
-* a unique identifier (email or username)
-* a secret credential (password)
+The identifier corresponds to an account attribute such as:
 
-This mechanism is typically used in web interfaces, administrative panels, and remote access systems.
+* email address
+* username
+
+This mechanism is used for authentication through graphical interfaces, administrative interfaces, and remote access systems.
 
 ### Password Authentication
 
-Passwords act as a shared secret between the user and the system.
+authentication mechanism based on a secret known only to the user and the system.
 
-For security reasons, passwords must never be stored in plaintext. Instead, the system stores:
+Passwords are not stored in plaintext. The system stores:
 
 * salted cryptographic hashes
-* password metadata
+* password-related metadata
 
-Recommended protections include:
+Password authentication includes the following security protections:
 
-* strong hashing algorithms
-* password complexity policies
-* rate limiting of login attempts
-
----
+* strong password hashing algorithms
+* password complexity enforcement
+* rate limiting for authentication attempts
 
 ## Token-Based Authentication
 
+Token-based authentication verifies identity through authentication tokens issued after successful credential validation.
+
 ### Access Tokens
 
-After successful authentication, the system may issue an **access token** representing the authenticated identity.
+authentication tokens representing an authenticated identity during a session.
 
-Access tokens are typically used to:
+Access tokens are used to:
 
 * authorize API requests
 * maintain authenticated sessions
 * avoid repeated credential submission
 
-Tokens may contain information such as:
+Access tokens contain identity and session information such as:
 
-* user identifier
+* identity identifier
 * session identifier
-* expiration time
+* expiration timestamp
 
 ### Refresh Tokens
 
-Refresh tokens allow the system to generate new access tokens without requiring the user to authenticate again.
+long-lived authentication tokens used to generate new access tokens without requiring the user to authenticate again.
 
-This mechanism improves usability while maintaining security by keeping access tokens short-lived.
-
----
+Refresh tokens enable secure session continuity while keeping access tokens short-lived.
 
 ## OAuth Authentication
 
-OAuth enables authentication using **external identity providers**.
+OAuth authentication verifies user identity through external identity providers.
 
-Examples include:
+authentication mechanism in which an external platform validates the user identity and returns an authorization token to NORA.
+
+Supported external identity providers include:
 
 * Google
 * GitHub
 * Apple
+* Microsoft
 
-OAuth may also grant NORA permission to access external services on behalf of the user, such as:
+OAuth authentication also supports delegated authorization, allowing NORA to access external services on behalf of the authenticated identity.
+
+Delegated authorization includes access to external resources such as:
 
 * calendars
 * email services
 * cloud platforms
 
-In these cases OAuth acts both as authentication and delegated authorization.
-
----
+In this model, OAuth provides both identity verification and delegated access to external services.
 
 ## Biometric Authentication
 
 Biometric authentication verifies identity using physical or behavioural characteristics of the user.
 
-In NORA, biometric authentication plays a central role because the system operates in a physical environment and interacts with users through sensors.
+In NORA, biometric authentication is integrated with the perception system, since the robot interacts with users through sensors such as cameras and microphones.
 
-Possible biometric mechanisms include:
+Biometric authentication mechanisms include:
 
-* facial recognition
-* voice recognition
-* fingerprint authentication
-* behavioural voice patterns
+* **Facial recognition**  
+identity verification based on facial features captured through the vision system.
+
+* **Voice biometrics**  
+identity verification using acoustic characteristics of a user's voice.
+
+* **Fingerprint authentication**  
+identity verification using fingerprint sensors available on the robot or on trusted external devices.
+
+* **Behavioural voice patterns**  
+identity verification based on speech patterns and behavioural vocal characteristics.
 
 ### Facial Recognition
 
 Facial recognition uses the robot's camera system to identify or authenticate a user based on facial features.
 
-This mechanism can allow NORA to:
+This mechanism enables NORA to:
 
 * recognize returning users
-* automatically activate user profiles
+* automatically activate associated user profiles
 * personalize interactions immediately
 
-Facial recognition may operate in two modes:
+Facial recognition operates in two modes:
 
-* identification (estimating who the user is)
-* authentication (confirming identity with sufficient confidence)
+* **identification** — estimating which identity corresponds to the detected face
+* **authentication** — confirming a claimed identity with sufficient confidence
 
 ### Voice Biometrics
 
-Voice biometrics identifies a user through acoustic characteristics of their voice.
+Voice biometrics identifies users through acoustic characteristics of their voice.
 
-This approach is particularly useful for voice-first interactions where typing credentials is impractical.
-
-Voice authentication may rely on:
+Voice authentication relies on mechanisms such as:
 
 * voiceprint matching
 * acoustic feature analysis
 * speech pattern recognition
 
+This mechanism supports voice-first interactions in which credential-based authentication is impractical.
+
 ### Fingerprint Authentication
 
-Fingerprint authentication may be used when the system includes compatible sensors or when authentication occurs through a connected device such as a smartphone.
+Fingerprint authentication verifies identity through fingerprint sensors available either on the robot hardware or on associated trusted devices.
 
-Fingerprint recognition provides a strong authentication factor for sensitive operations.
+This mechanism provides a strong authentication factor for sensitive operations.
 
 ### Biometric Security Considerations
 
-Biometric data must be handled carefully due to privacy and security implications.
+Biometric authentication requires careful handling of sensitive data.
 
-Recommended practices include:
+Biometric security protections include:
 
 * secure processing of biometric signals
-* avoiding storage of raw biometric data when possible
+* avoidance of raw biometric data storage
 * fallback authentication mechanisms
-* tolerance for recognition errors
-
----
+* tolerance management for recognition uncertainty
 
 ## Proximity Authentication
 
-### NFC / RFID
+Proximity authentication verifies identity based on the physical presence of a user or device near the robot.
 
-NFC or RFID tags allow users to authenticate by bringing a physical tag or device close to the robot.
+Proximity authentication mechanisms include:
 
-Examples include:
+* **NFC / RFID authentication**  
+authentication mechanism in which a user presents a physical tag or device detected by the robot through short-range communication technologies.
+
+* **Bluetooth proximity authentication**  
+authentication mechanism in which a previously associated device is detected through Bluetooth signals indicating the presence of the user near the robot.
+
+* **WiFi proximity authentication**  
+authentication mechanism in which a trusted device is detected through the local wireless network, allowing the system to infer the presence of the associated identity.
+
+* **QR code authentication**  
+authentication mechanism in which a user scans a QR code generated by the robot to complete identity verification on a trusted external device.
+
+### NFC / RFID Authentication
+
+NFC and RFID authentication allow users to authenticate by presenting a physical tag or device near the robot.
+
+Supported proximity identifiers include:
 
 * NFC cards
 * NFC stickers
 * wearable tags
-* smartphone NFC emulation
+* smartphones operating in NFC emulation mode
 
-This method is particularly useful for quick identification in physical environments.
+NFC and RFID authentication operate as **possession-based authentication factors** and may require additional verification for sensitive operations.
 
-However, NFC is usually considered a **possession factor**, meaning it may require additional verification for sensitive actions.
+### Bluetooth / WiFi Proximity Detection
 
-### QR Code Authentication
+Bluetooth and WiFi proximity detection allow NORA to recognize trusted devices associated with a user identity.
 
-QR codes may be used to initiate authentication flows.
-
-Typical flow:
-
-1. NORA generates a QR code
-2. the user scans the code using a mobile device
-3. authentication occurs on the mobile device
-4. the system confirms identity to the robot
-
-This mechanism is useful for linking mobile sessions with the robot.
-
----
-
-## Trusted Devices
-
-Users may register **trusted devices** associated with their identity.
-
-Examples include:
+This mechanism relies on previously registered devices such as:
 
 * smartphones
 * tablets
 * laptops
+* wearable devices
 
-Trusted devices allow the system to:
+When a trusted device is detected within proximity of the robot, the system can:
+
+* infer the presence of the associated identity
+* assist identity resolution
+* trigger authentication workflows
+
+### QR Code Authentication
+
+QR code authentication links the robot session with a trusted external device.
+
+Authentication flow:
+
+1. NORA generates a QR code
+2. the user scans the QR code using a trusted device
+3. authentication is performed on the external device
+4. the verified identity is associated with the robot session
+
+## Trusted Devices
+
+Trusted devices are devices associated with a user identity and recognized by the system during authentication.
+
+#definition: devices previously registered and linked to a user identity that can participate in authentication workflows.
+
+Trusted devices include:
+
+* smartphones
+* tablets
+* laptops
+* wearable devices
+
+Trusted devices enable the system to:
 
 * reduce authentication friction
-* maintain secure sessions
+* maintain authenticated sessions
 * recognize returning users
+* support possession-based authentication factors
 
-Device trust must remain revocable and auditable.
+Device trust remains revocable and auditable to maintain system security.
 
----
+
 
 ## Multi-Factor Authentication
 
-For sensitive operations, NORA may require multiple authentication factors.
+Multi-factor authentication (MFA) requires multiple independent authentication factors to verify a user identity.
 
-Authentication factors typically belong to three categories:
+Authentication factors belong to the following categories:
 
-| Factor Type | Example                   |
-| ----------- | ------------------------- |
-| Knowledge   | password or PIN           |
-| Possession  | NFC tag or trusted device |
-| Inherence   | biometric characteristic  |
+| Factor Type | Description |
+|-|-|
+| **Knowledge** | authentication based on information known by the user |
+| **Possession** | authentication based on a device or object owned by the user |
+| **Inherence** | authentication based on biometric characteristics of the user |
 
-Example combinations:
+Examples of factor combinations include:
 
 * password + trusted device
-* NFC tag + voice recognition
+* NFC tag + voice biometrics
 * facial recognition + PIN
 
-Multi-factor authentication increases security by requiring independent proof of identity.
+Multi-factor authentication increases security by requiring independent proof of identity across different factor categories.
 
----
+## Inputs
 
-## Possible Inputs
+The Authentication submodule receives authentication signals and credentials used to verify a user identity.
 
-Inputs handled by the Authentication module may include:
+Authentication inputs include:
 
-* username or email
-* password
+* username or email identifier
+* password credential
 * access token
 * refresh token
-* OAuth callback
+* OAuth authentication callback
 * NFC tag detection
-* QR code scan
+* QR code authentication request
 * facial recognition signal
 * voice biometric signal
-* fingerprint authentication
+* fingerprint authentication signal
 * trusted device signature
-* PIN verification
+* PIN credential
 
----
+## Outputs
 
-## Possible Outputs
+The Authentication submodule produces authentication results and identity verification events used by other system components.
 
-Outputs generated by the Authentication module may include:
+Authentication outputs include:
 
 * authentication success
 * authentication failure
-* identity resolved
-* access token issued
-* token refreshed
-* authentication challenge required
-* suspicious authentication attempt detected
+* identity resolution result
+* access token issuance
+* token refresh event
+* authentication challenge request
+* suspicious authentication attempt detection
 * session initialization
-
----
 
 ## Interaction With Other Modules
 
-The Authentication module interacts closely with other architectural components.
+The Authentication module interacts closely with several other architectural components of NORA.
 
-**Users**
-Provides identity records used during authentication.
+**Users**  
+#definition: provides identity records and identity attributes used during authentication processes.
 
-**Authorization**
-Determines what actions an authenticated identity is allowed to perform.
+**Authorization**  
+#definition: determines which actions an authenticated identity is allowed to perform.
 
-**Sessions and Dialogue**
-Associates authenticated identities with active interaction sessions.
+**Sessions and Dialogue**  
+#definition: associates authenticated identities with active interaction sessions.
 
-**Security**
-Monitors authentication attempts and detects suspicious behaviour.
+**Security**  
+#definition: monitors authentication attempts and detects suspicious or abnormal authentication behaviour.
 
-**Frontend Interfaces**
-Provides login flows and authentication responses.
+**Frontend Interfaces**  
+#definition: provide authentication interfaces such as login flows, token handling, and authentication responses.
 
----
+
 
 ## Architectural Importance
 
@@ -743,12 +894,12 @@ Authentication acts as the **gateway to system trust**.
 
 Without reliable authentication mechanisms, the system cannot safely:
 
-* associate actions with users
+* associate actions with identities
 * protect sensitive resources
 * personalize interactions
 * enforce authorization policies
 
-Because NORA operates in both digital and physical environments, authentication must support multiple interaction moda
+Because NORA operates in both digital and physical environments, authentication supports multiple interaction modalities including interfaces, sensors, trusted devices, and remote client applications.
 
 # 1.3 Authorization
 
@@ -772,31 +923,34 @@ Authorization decisions may depend on several factors including:
 
 In NORA, authorization must operate across both digital and physical capabilities, since the system can access data, control hardware, interact with external services, and perform actions in the physical environment.
 
----
+
 
 ## Authorization Model
 
-NORA uses a **policy-based access control model** built on top of **role-based permissions**.
+NORA implements a **policy-based access control model** built on top of **role-based permissions**.
 
-Authorization decisions typically consider three layers:
+Authorization decisions are evaluated through three layers:
 
-1. Identity
-2. Assigned roles and permissions
-3. Contextual constraints
+1. **Identity**  
+   the authenticated identity requesting the action.
 
-This layered model ensures authorization remains flexible, secure, and adaptable to real-time conditions.
+2. **Roles and Permissions**  
+   the roles assigned to the identity and the permissions associated with those roles.
 
----
+3. **Contextual Constraints**  
+   contextual conditions such as system state, active session, safety rules, and operational environment.
+
+This layered model allows authorization to remain flexible while maintaining strong security guarantees and supporting real-time system conditions.
 
 ## Role-Based Access Control (RBAC)
 
-The core authorization mechanism is **Role-Based Access Control (RBAC)**.
+The core authorization mechanism in NORA is **Role-Based Access Control (RBAC)**.
 
 In this model:
 
 * identities are assigned one or more roles
 * roles define a set of permissions
-* permissions grant access to actions or resources
+* permissions grant access to specific actions or resources
 
 Conceptual structure:
 
@@ -809,50 +963,47 @@ User
  └── permissions
 ```
 
-Roles provide a convenient way to group permissions and simplify access management.
 
-Typical roles may include:
+Roles group permissions into predefined capability sets and simplify access management across the system.
+
+The RBAC model used in NORA defines the following roles:
 
 * guest
 * user
 * pro
 * admin
 
----
-
 ## Permission Model
 
-Permissions define the specific operations an identity is allowed to perform.
+Permissions define the specific operations an identity is allowed to perform within the system.
 
-Permissions may be associated with actions such as:
+Permissions are assigned to roles and determine which actions can be executed on specific resources.
 
-* reading data
-* modifying data
-* executing system commands
-* controlling hardware
-* accessing system configuration
+Permissions correspond to the following categories of operations:
 
-Permissions may be implemented as structured identifiers such as:
+* data read operations
+* data modification operations
+* system command execution
+* hardware control operations
+* system configuration access
+
+Permissions are represented as structured permission identifiers.
+
+Permission identifier structure:
 
 ```
-users.read
-users.write
-projects.create
-projects.delete
-hardware.control
-system.admin
-logs.view
+resource.operation
 ```
 
-This structure allows fine-grained control over system capabilities.
-
----
+Permission identifiers follow a hierarchical naming convention that allows fine-grained control over system capabilities across modules.
 
 ## Resource-Based Authorization
 
-Authorization decisions often involve resources.
+Authorization decisions in NORA are evaluated against specific system resources.
 
-Examples of resources in NORA include:
+Resources represent entities within the system on which actions can be performed.
+
+Resource categories include:
 
 * user accounts
 * conversation sessions
@@ -860,37 +1011,23 @@ Examples of resources in NORA include:
 * stored memories
 * hardware components
 * external integrations
-* configuration settings
+* system configuration
 
-Authorization checks therefore typically evaluate:
+Authorization checks evaluate the following elements:
 
 ```
 identity + action + resource
 ```
 
-Example:
-
-```
-User A attempts to delete Project X
-```
-
-The authorization system verifies whether the user has the permission:
-
-```
-projects.delete
-```
-
-and whether the user is allowed to operate on Project X.
-
----
+Authorization therefore verifies whether the requesting identity has the required permission to perform the requested action on the specified resource.
 
 ## Context-Aware Authorization
 
-Unlike many traditional software systems, NORA must support **context-aware authorization**.
+NORA implements **context-aware authorization**.
 
-Permissions may depend not only on identity but also on system state and environmental context.
+Authorization decisions depend not only on identity and permissions but also on the current system context.
 
-Examples of contextual factors include:
+Contextual constraints include:
 
 * current FSM state
 * active user session
@@ -899,21 +1036,13 @@ Examples of contextual factors include:
 * system operational mode
 * device used for authentication
 
-Example scenarios:
-
-A user may normally control hardware devices, but the system may block that action if:
-
-* the system is in safe mode
-* the robot is performing another critical operation
-* the user is not physically present
-
-Context-aware authorization helps ensure operational safety in an embodied system.
-
----
+Context-aware authorization ensures that actions remain consistent with system safety, operational constraints, and real-time conditions.
 
 ## Hardware Authorization
 
-NORA is capable of controlling physical components such as:
+NORA controls physical hardware components within the system.
+
+Hardware resources include:
 
 * actuators
 * cameras
@@ -922,17 +1051,25 @@ NORA is capable of controlling physical components such as:
 * motors
 * connected devices
 
-Because these actions affect the real world, authorization must include hardware-level restrictions.
+Because hardware actions affect the physical environment, authorization includes hardware-level restrictions.
 
-Examples of protected hardware actions include:
+Hardware authorization ensures that only identities with the appropriate permissions can access or control hardware resources.
 
-* activating camera recording
-* moving robotic components
-* controlling home automation devices
-* activating actuators
-* accessing microphones
+Protected hardware operations include:
 
-These operations may require specific permissions such as:
+* camera capture
+* audio recording
+* actuator control
+* motor movement
+* IoT device control
+
+Hardware permissions follow the structured permission identifier model:
+
+```
+resource.operation
+```
+
+Example hardware permission identifiers:
 
 ```
 camera.capture
@@ -941,43 +1078,47 @@ servo.control
 iot.control
 ```
 
----
+
+
 
 ## Integration Authorization
 
-NORA may interact with external services such as:
+NORA interacts with external services through system integrations.
+
+External integration resources include:
 
 * smart home platforms
 * messaging systems
 * web services
 * multimedia platforms
 
-Authorization must ensure that only permitted users can trigger these integrations.
+Authorization ensures that only identities with the appropriate permissions can trigger integration actions.
 
-Examples include:
+Integration operations include:
 
-* sending emails
+* sending messages or notifications
 * controlling smart home devices
 * accessing external APIs
-* retrieving personal calendar data
+* retrieving external data sources
 
-These operations may involve both internal authorization checks and external API permissions.
+Integration authorization combines:
 
----
+* internal permission checks
+* external service authorization mechanisms
 
 ## Administrative Authorization
 
-Administrative operations require special authorization controls.
+Administrative operations require elevated authorization controls.
 
-Examples include:
+Administrative operations include:
 
-* modifying system configuration
-* managing users and roles
-* accessing system logs
-* restarting services
-* triggering maintenance operations
+* system configuration modification
+* user and role management
+* system log access
+* service management
+* maintenance operations
 
-Administrative permissions may include:
+Administrative permissions follow the structured permission identifier model:
 
 ```
 admin.access
@@ -986,41 +1127,40 @@ admin.system.configure
 admin.logs.view
 ```
 
-Administrative operations must always be:
+
+Administrative operations are always:
 
 * authenticated
 * authorized
 * logged for auditing
 
----
-
 ## Authorization Decision Process
 
-When an action request occurs, the authorization system evaluates a sequence of checks.
+When an action request is received, the authorization system evaluates a sequence of checks.
 
-Typical evaluation steps include:
+Authorization evaluation process:
 
-1. Verify authenticated identity
-2. Resolve roles associated with the identity
-3. Resolve permissions granted by those roles
-4. Check whether the requested action is permitted
-5. Evaluate contextual constraints
-6. Return an authorization decision
+1. verify authenticated identity
+2. resolve roles associated with the identity
+3. resolve permissions granted by those roles
+4. evaluate whether the requested action is permitted
+5. evaluate contextual constraints
+6. return an authorization decision
 
-Possible results include:
+Authorization decisions return one of the following results:
 
 * allowed
 * denied
 * additional authentication required
 * action blocked due to system state
 
----
+## Inputs
 
-## Possible Inputs
+The Authorization module receives the information required to evaluate access decisions.
 
-The Authorization module may receive inputs such as:
+Authorization inputs include:
 
-* authenticated user identity
+* authenticated identity
 * assigned roles
 * permission set
 * requested action
@@ -1030,11 +1170,11 @@ The Authorization module may receive inputs such as:
 * system operational mode
 * device origin
 
----
+## Outputs
 
-## Possible Outputs
+The Authorization module produces authorization decisions and related system events.
 
-Possible outputs generated by the Authorization module include:
+Authorization outputs include:
 
 * authorization granted
 * authorization denied
@@ -1043,37 +1183,33 @@ Possible outputs generated by the Authorization module include:
 * action blocked by safety policy
 * authorization decision event
 
----
-
 ## Interaction With Other Modules
 
-The Authorization module interacts with several architectural components.
+The Authorization module interacts with several architectural components of NORA.
 
-**Users**
-Provides identity and role information.
+**Users**  
+#definition: provides identity records, roles, and permission assignments used during authorization evaluation.
 
-**Authentication**
-Ensures that authorization checks occur only after identity verification.
+**Authentication**  
+#definition: ensures that authorization checks occur only after identity verification.
 
-**Dialogue and Sessions**
-Associates actions with the current user session.
+**Dialogue and Sessions**  
+#definition: associates actions with the active interaction session and session context.
 
-**Planning and Agents**
-Validates whether proposed actions can be executed.
+**Planning and Agents**  
+#definition: validates whether actions proposed by agents are permitted before execution.
 
-**Action and Hardware Control**
-Ensures that physical operations comply with permission policies.
+**Action and Hardware Control**  
+#definition: ensures that physical operations comply with permission policies and safety constraints.
 
-**Security**
-Monitors and audits authorization decisions.
-
----
+**Security**  
+#definition: monitors, logs, and audits authorization decisions.
 
 ## Architectural Importance
 
 Authorization ensures controlled operation of the system.
 
-Without a robust authorization layer, NORA would not be able to:
+Without a robust authorization layer, NORA cannot safely:
 
 * prevent unauthorized access
 * restrict sensitive operations
@@ -1081,7 +1217,7 @@ Without a robust authorization layer, NORA would not be able to:
 * enforce safe behaviour
 * maintain system integrity
 
-By combining role-based permissions with context-aware policies, NORA can safely manage interactions in both digital and physical environments.
+By combining role-based permissions with context-aware policies, NORA enforces safe and controlled interactions across both digital and physical system capabilities.
 
 # 1.4 User Profile
 
@@ -1089,19 +1225,17 @@ By combining role-based permissions with context-aware policies, NORA can safely
 
 The **User Profile** submodule stores persistent personal information and configuration associated with a user identity.
 
-While the **Users** module defines who the user is, and **Authentication** and **Authorization** determine how that user accesses the system and what they are allowed to do, the **User Profile** determines **how NORA should interact with that user**.
+While the **Users** module defines the identity itself, and **Authentication** and **Authorization** determine how that identity accesses the system and which actions it is allowed to perform, the **User Profile** defines how NORA interacts with that identity.
 
-The user profile enables NORA to adapt its behaviour, communication style, and system configuration to the preferences and characteristics of each individual.
+The user profile allows NORA to adapt its behaviour, communication style, and system configuration according to the preferences and characteristics of each individual.
 
-Profiles provide the foundation for **personalized interaction and long-term continuity** across sessions, devices, and environments.
-
----
+User profiles provide the foundation for personalized interaction and long-term continuity across sessions, devices, and environments.
 
 ## Role in the Architecture
 
-The User Profile acts as the **personalization layer** between identity and system behaviour.
+The User Profile acts as the **personalization layer** connecting identity information with system behaviour.
 
-It influences multiple subsystems, including:
+It influences several subsystems including:
 
 * dialogue generation
 * speech synthesis configuration
@@ -1111,15 +1245,15 @@ It influences multiple subsystems, including:
 * educational and tutoring behaviour
 * system personalization
 
-Profiles allow NORA to maintain **consistent interaction characteristics for each user**, regardless of how the user interacts with the system.
+Profiles allow NORA to maintain consistent interaction characteristics for each identity across sessions, devices, and interaction channels.
 
----
+
 
 ## Profile Structure
 
-A user profile typically contains structured attributes that describe preferences, configuration settings, and contextual information about the user.
+A user profile contains structured attributes that describe preferences, configuration settings, and contextual information associated with the identity.
 
-Typical profile elements include:
+Profile attributes include:
 
 * identity attributes
 * communication preferences
@@ -1128,23 +1262,21 @@ Typical profile elements include:
 * personalization settings
 * behavioural configuration
 
-These attributes are stored in the system's **persistent storage layer** and loaded when a user becomes active.
-
----
+These attributes are stored in the system's **persistent storage layer** and are loaded when an identity becomes active.
 
 ## Core Profile Attributes
 
 ### Name
 
-The user's name is used to identify the person during interaction.
+The name attribute identifies the person during interaction.
 
-NORA may reference the name in conversations, greetings, or interface elements to create more natural interaction.
+NORA uses this attribute in conversational responses, greetings, and user interface elements.
 
----
+
 
 ### Preferred Language
 
-The preferred language defines the default language used by the system when communicating with the user.
+The preferred language defines the default language used by the system when communicating with the identity.
 
 This setting influences:
 
@@ -1153,15 +1285,15 @@ This setting influences:
 * voice synthesis
 * interface language
 
-The system may still dynamically switch languages if needed, but the preferred language provides the baseline configuration.
+The preferred language acts as the baseline configuration for communication.
 
----
+
 
 ### Preferred Voice
 
-The preferred voice defines the **text-to-speech configuration** associated with the user.
+The preferred voice defines the **text-to-speech configuration** associated with the identity.
 
-Possible parameters include:
+Voice configuration parameters include:
 
 * voice model
 * speech speed
@@ -1169,30 +1301,28 @@ Possible parameters include:
 * voice provider
 * emotional expression style
 
-This allows users to choose how the robot sounds when speaking to them.
 
----
 
 ### Interaction Preferences
 
-Interaction preferences determine how the user prefers to communicate with NORA.
+Interaction preferences define how the identity prefers to communicate with NORA.
 
-Examples include:
+Interaction preference attributes include:
 
-* concise responses vs detailed explanations
-* conversational vs technical tone
-* tutorial-oriented responses
-* formal vs informal language
+* response verbosity
+* conversational tone
+* tutorial behaviour
+* language formality
 
-These preferences influence both dialogue generation and agent behaviour.
+These preferences influence dialogue generation and agent behaviour.
 
----
+
 
 ### Favorite Topics
 
-Favorite topics represent areas of interest associated with the user.
+Favorite topics represent areas of interest associated with the identity.
 
-Examples may include:
+Topic categories include:
 
 * programming
 * science
@@ -1201,15 +1331,15 @@ Examples may include:
 * robotics
 * cooking
 
-These preferences allow NORA to personalize examples, recommendations, and conversation topics.
+These attributes allow NORA to personalize examples, recommendations, and conversation topics.
 
----
+
 
 ### Linked Devices
 
-Users may have multiple devices associated with their profile.
+Linked devices represent devices associated with the identity.
 
-Examples include:
+Device types include:
 
 * smartphones
 * tablets
@@ -1217,185 +1347,179 @@ Examples include:
 * NFC tags
 * wearable devices
 
-Device associations enable features such as:
+Device associations support:
 
 * trusted device authentication
 * automatic identity recognition
 * cross-device session continuity
 * secure pairing with the robot
 
----
+
 
 ### Visual Preferences
 
 Visual preferences define how information is displayed in graphical interfaces.
 
-Examples include:
+Interface configuration attributes include:
 
-* dark mode or light mode
+* theme configuration
 * font size
-* dashboard layout
+* interface layout
 * UI customization
 
-These preferences influence frontend interfaces and local displays.
 
----
 
 ### Educational Level
 
-The educational level attribute may be used by tutoring or learning agents to adjust explanation complexity.
+The educational level attribute determines the complexity of explanations generated by tutoring or educational agents.
 
-Possible levels include:
+Educational levels include:
 
 * beginner
 * intermediate
 * advanced
 * expert
 
-This allows the system to adapt explanations, terminology, and examples.
 
----
 
 ### Routines
 
-Routines represent recurring behavioural patterns or habits of the user.
+Routines represent recurring behavioural patterns associated with the identity.
 
-Examples include:
+Routine information includes:
 
-* daily study sessions
-* regular interactions with the robot
-* scheduled tasks
+* scheduled activities
+* recurring tasks
+* habitual interactions
 
-Understanding routines allows NORA to provide proactive assistance.
+Routine awareness enables proactive assistance.
 
----
+
 
 ### Restrictions
 
-Restrictions define limitations on system behaviour for a specific user.
+Restrictions define behavioural limitations applied to the system for a specific identity.
 
-Examples may include:
+Restriction categories include:
 
 * parental control rules
 * restricted integrations
-* limited device control
+* limited hardware control
 
-Restrictions ensure that system behaviour remains appropriate for different users and environments.
+Restrictions ensure safe and appropriate system behaviour.
 
----
+
 
 ## Personalization Mechanism
 
 The User Profile enables adaptive behaviour throughout the system.
 
-Examples of profile-driven adaptation include:
+Profile-driven adaptation includes:
 
-* automatically selecting the user's preferred language
-* activating the correct voice configuration
-* loading the user's projects
-* adjusting conversational tone
-* restoring previous interaction context
+* language configuration selection
+* voice configuration activation
+* loading identity-specific projects
+* conversational tone adjustment
+* restoration of previous interaction context
 
-This mechanism allows NORA to maintain **consistent long-term interaction with users**.
-
----
+This mechanism allows NORA to maintain **consistent long-term interaction across sessions and devices**.
 
 ## Profile Updates
 
-User profiles may evolve over time.
+User profiles evolve over time as preferences, configuration, and associated information change.
 
-Updates may occur through:
+Profile updates occur through:
 
 * direct user configuration
-* frontend settings panels
-* learned preferences from interaction
-* device linking
+* frontend settings interfaces
+* learned preferences derived from interaction
+* device association updates
 * administrative modifications
 
-Profile updates must be validated to ensure data consistency and prevent invalid configurations.
+Profile updates are validated to ensure data consistency and prevent invalid configurations.
 
----
 
-## Possible Inputs
 
-Inputs affecting the User Profile module may include:
+## Inputs
 
-* profile creation
-* profile updates
-* language preference changes
+The User Profile module receives profile-related operations and updates.
+
+Profile inputs include:
+
+* profile creation requests
+* profile update requests
+* language preference updates
 * voice configuration updates
-* device linking
-* device unlinking
+* device association updates
+* device removal requests
 * learned preference updates
 * routine updates
 
----
 
-## Possible Outputs
 
-Outputs generated by the User Profile module may include:
+## Outputs
 
-* loaded user profile configuration
-* updated preferences
+The User Profile module produces profile data and personalization events used by other system components.
+
+Profile outputs include:
+
+* loaded profile configuration
+* updated preference state
 * device association events
-* personalization settings applied
+* applied personalization settings
 * profile modification events
-
----
 
 ## Interaction With Other Modules
 
-The User Profile module interacts with multiple architectural components.
+The User Profile module interacts with several architectural components of NORA.
 
-**Users**
-Provides the identity associated with the profile.
+**Users**  
+#definition: provides the identity associated with the profile.
 
-**Dialogue System**
-Uses profile attributes to personalize conversations.
+**Dialogue System**  
+#definition: applies profile attributes to personalize conversational behaviour.
 
-**Voice Output System**
-Applies the preferred voice configuration.
+**Voice Output System**  
+#definition: applies the preferred voice configuration defined in the profile.
 
-**Frontend Interfaces**
-Displays and edits user profile information.
+**Frontend Interfaces**  
+#definition: present and modify user profile information through user interfaces.
 
-**Persistent Storage**
-Stores profile attributes and configuration data.
+**Persistent Storage**  
+#definition: stores profile attributes and configuration data.
 
-**Planning and Agents**
-Uses user preferences to adjust behaviour and recommendations.
+**Planning and Agents**  
+#definition: apply user preferences and behavioural configuration to adjust recommendations and system behaviour.
 
----
+
 
 ## Profile vs Memory
 
-It is important to distinguish between **user profiles** and **user memory**.
+The architecture distinguishes between **user profiles** and **user memory**.
 
-| Component    | Purpose                                       |
-| ------------ | --------------------------------------------- |
-| User Profile | Structured configuration and preferences      |
-| User Memory  | Knowledge learned or stored from interactions |
+| Component | Purpose |
+|----------|--------|
+| User Profile | structured configuration and user preferences |
+| User Memory | knowledge learned or stored from interactions |
 
-Profiles define how NORA should interact with the user, while memory defines what NORA knows about the user.
+Profiles define how NORA interacts with an identity, while memory represents information learned or stored about that identity.
 
-Keeping these components separate simplifies system architecture and data management.
+Maintaining this separation simplifies system architecture and data management.
 
----
+
 
 ## Architectural Importance
 
-The User Profile module enables personalized interaction and long-term user experience.
+The User Profile module provides the personalization layer of the system.
 
-Without user profiles, NORA would treat all interactions generically.
+User profiles enable:
 
-With profiles, the system can:
+* adaptation of communication style
+* persistent user preferences
+* personalized system behaviour
+* consistent interactions across sessions
 
-* adapt communication style
-* remember user preferences
-* personalize behaviour
-* provide consistent interactions over time
-
-This capability transforms NORA from a generic assistant into a **personalized intelligent system**.
+This capability allows NORA to maintain individualized interaction behaviour for each identity.
 
 # 1.5 Security
 
@@ -1408,20 +1532,20 @@ Security ensures that:
 * identities cannot be easily impersonated
 * sensitive resources remain protected
 * system behaviour remains controlled and predictable
-* critical actions are traceable and auditable
+* critical actions remain traceable and auditable
 * physical and digital capabilities cannot be abused
 
-While **Authentication** verifies identity and **Authorization** determines what an authenticated identity is allowed to do, the **Security** submodule focuses on the broader protection of the system, including prevention, monitoring, detection, and response.
+While **Authentication** verifies identity and **Authorization** determines what an authenticated identity is allowed to do, the **Security** submodule provides broader protection mechanisms across the system, including prevention, monitoring, detection, and response.
 
-Because NORA operates across both digital and physical environments, security must protect not only data and services, but also hardware actions, sensor access, and connected external systems.
+Because NORA operates across both digital and physical environments, security mechanisms protect not only data and services, but also hardware actions, sensor access, and connected external systems.
 
----
+
 
 ## Role in the Architecture
 
 The Security submodule acts as a **protective and supervisory layer** across the architecture.
 
-It applies safeguards to multiple parts of the system, including:
+Security mechanisms apply safeguards to multiple parts of the system, including:
 
 * backend APIs
 * authentication flows
@@ -1432,39 +1556,42 @@ It applies safeguards to multiple parts of the system, including:
 * active sessions
 * administrative operations
 
-Its role is not limited to blocking unauthorized actions. It also helps the system detect abnormal behaviour, preserve traceability, and maintain operational safety.
+The Security submodule provides mechanisms for:
 
----
+* preventing unauthorized access
+* detecting abnormal behaviour
+* preserving system traceability
+* maintaining operational safety
 
 ## Security Objectives
 
-The Security submodule is designed to support several core objectives:
+The Security submodule supports several core objectives:
 
-* protect identities and sessions
-* protect private and sensitive data
-* prevent abuse of APIs and services
-* secure hardware and actuator control
-* ensure traceability of critical actions
-* detect suspicious or abnormal behaviour
-* support incident response and recovery
+* protection of identities and sessions
+* protection of private and sensitive data
+* prevention of API and service abuse
+* protection of hardware and actuator control
+* traceability of critical actions
+* detection of suspicious or abnormal behaviour
+* support for incident response and recovery
 
-These objectives apply across both normal user interactions and administrative operations.
+These objectives apply to both user interactions and administrative operations.
 
----
+
 
 ## Rate Limiting
 
-Rate limiting restricts the frequency of requests or operations that may be performed within a given time interval.
+Rate limiting restricts the frequency of requests or operations within a defined time interval.
 
-This mechanism helps prevent:
+This mechanism prevents:
 
-* brute-force login attempts
+* brute-force authentication attempts
 * API abuse
 * repeated command flooding
 * excessive system load
 * resource exhaustion
 
-Rate limiting may be applied to:
+Rate limiting is applied to:
 
 * login endpoints
 * API routes
@@ -1472,19 +1599,17 @@ Rate limiting may be applied to:
 * resource-intensive operations
 * repeated hardware commands
 
-This is particularly important in NORA because some operations may consume computational resources, external API quotas, or trigger repeated physical actions.
-
----
+In NORA, rate limiting is particularly important because certain operations may consume computational resources, external API quotas, or trigger repeated physical actions.
 
 ## Access Logging
 
 The system records logs of security-relevant access events.
 
-Examples include:
+Access events recorded by the system include:
 
 * authentication attempts
 * successful logins
-* failed logins
+* failed login attempts
 * token refresh operations
 * session creation
 * session termination
@@ -1497,22 +1622,20 @@ Access logging supports:
 * usage analysis
 * incident investigation
 
----
-
 ## Audit Logging
 
-Audit logging records high-impact or sensitive operations in a structured and traceable way.
+Audit logging records high-impact or sensitive operations in a structured and traceable form.
 
-Examples include:
+Operations recorded by audit logging include:
 
-* changes to system configuration
-* permission changes
-* user management actions
+* system configuration changes
+* permission modifications
+* user management operations
 * hardware control commands
 * access to private memory or personal data
 * execution of administrative operations
 
-An audit record may include:
+Each audit record contains:
 
 * acting identity
 * session identifier
@@ -1522,41 +1645,39 @@ An audit record may include:
 * decision result
 * source device or origin
 
-Audit logging is essential to maintain accountability across the system.
-
----
+Audit logging ensures accountability and traceability across the system.
 
 ## Session Monitoring
 
 The Security submodule monitors active sessions associated with users, devices, or administrative interfaces.
 
-Session monitoring allows the system to:
+Session monitoring provides mechanisms for:
 
-* list active sessions
-* detect unusual activity
-* enforce inactivity timeouts
-* terminate sessions when needed
-* identify concurrent access patterns
+* listing active sessions
+* detecting unusual activity
+* enforcing inactivity timeouts
+* terminating sessions when required
+* identifying concurrent access patterns
 
-Tracked session data may include:
+Tracked session data includes:
 
 * user identity
 * session identifier
 * authentication method
 * device used
-* origin of the request
-* creation time
+* request origin
+* creation timestamp
 * last activity timestamp
 
-This helps maintain visibility over who is currently connected to the system and how access is being used.
+Session monitoring maintains visibility over active connections and system access.
 
----
+
 
 ## Token Revocation
 
-The system must be able to revoke active tokens before their natural expiration.
+The system supports revocation of active authentication tokens before their natural expiration.
 
-This is important when:
+Token revocation is required when:
 
 * a device is lost or stolen
 * suspicious activity is detected
@@ -1566,13 +1687,11 @@ This is important when:
 
 Revocation ensures that previously issued credentials cannot continue to be used after trust has been removed.
 
----
-
 ## Endpoint Protection
 
 The Security submodule protects exposed backend interfaces against invalid, malicious, or abusive requests.
 
-Protection mechanisms may include:
+Endpoint protection mechanisms include:
 
 * authentication enforcement
 * authorization validation
@@ -1583,15 +1702,15 @@ Protection mechanisms may include:
 * origin restrictions
 * rate limiting
 
-Endpoint protection is especially important in NORA because backend services may expose access to hardware, memory, sessions, and external integrations.
+Endpoint protection is critical in NORA because backend services expose access to hardware, memory, sessions, and external integrations.
 
----
+
 
 ## Failed Attempt Protection
 
-Repeated failed authentication or access attempts may indicate brute-force attacks, misconfigured clients, or abusive behaviour.
+Repeated failed authentication or access attempts indicate potential brute-force attacks, misconfigured clients, or abusive behaviour.
 
-To mitigate this, the system may apply protections such as:
+The system enforces protections such as:
 
 * temporary account lockout
 * temporary IP or device restriction
@@ -1599,40 +1718,38 @@ To mitigate this, the system may apply protections such as:
 * additional verification challenges
 * security alerts
 
-These protections reduce the risk of automated attacks against the authentication and access layers.
-
----
+These protections reduce the risk of automated attacks against authentication and access layers.
 
 ## Traceability of Sensitive Actions
 
-Sensitive actions must always remain traceable to a specific identity and execution context.
+Sensitive actions remain traceable to a specific identity and execution context.
 
-Examples of sensitive actions include:
+Sensitive actions include:
 
 * activating microphones or cameras
 * moving robotic components
 * controlling connected devices
 * accessing private user data
-* changing system configuration
+* modifying system configuration
 * granting permissions
 
-Traceability should link each action to:
+Traceability links each action to:
 
-* a user identity or system actor
-* a session
-* a timestamp
-* a source device or interface
-* the resulting decision or effect
+* user identity or system actor
+* session identifier
+* timestamp
+* source device or interface
+* resulting decision or system effect
 
-This traceability is essential for debugging, auditing, and security analysis.
+Traceability supports debugging, auditing, and security analysis.
 
----
+
 
 ## Hardware Safety Protections
 
-Because NORA can interact with the physical world, the Security submodule must also protect hardware actions.
+Because NORA interacts with the physical environment, the Security submodule also protects hardware actions.
 
-Protected hardware operations may include:
+Protected hardware operations include:
 
 * moving servos or motors
 * activating cameras or microphones
@@ -1640,23 +1757,21 @@ Protected hardware operations may include:
 * sending commands to external IoT devices
 * triggering electrical components
 
-Hardware safety protections may include:
+Hardware safety protections include:
 
 * permission checks
-* state validation
+* system state validation
 * motion limits
-* emergency stop support
+* emergency stop mechanisms
 * device availability checks
 * safe-mode restrictions
 * physical presence verification
 
-These safeguards help prevent accidental misuse, dangerous actions, and unauthorized physical control.
-
----
+These safeguards prevent accidental misuse, unsafe actions, and unauthorized physical control.
 
 ## Integration Security
 
-NORA may communicate with external services such as:
+NORA communicates with external services such as:
 
 * calendars
 * email systems
@@ -1665,9 +1780,9 @@ NORA may communicate with external services such as:
 * multimedia providers
 * internet APIs
 
-Security mechanisms must ensure that these integrations are used safely.
+Security mechanisms ensure that these integrations operate safely.
 
-Examples of integration security controls include:
+Integration security controls include:
 
 * permission checks before external actions
 * secure credential storage
@@ -1675,15 +1790,15 @@ Examples of integration security controls include:
 * request validation
 * logging of external actions
 
-This prevents abuse of connected platforms and limits the impact of compromised integrations.
+These controls prevent abuse of connected platforms and limit the impact of compromised integrations.
 
----
+
 
 ## Anomaly Detection
 
-The Security submodule may detect abnormal behaviour that could indicate misuse, compromise, or system malfunction.
+The Security submodule detects abnormal behaviour that indicates potential misuse, compromise, or system malfunction.
 
-Examples include:
+Detected anomalies include:
 
 * repeated failed login attempts
 * abnormal command frequency
@@ -1700,13 +1815,11 @@ When an anomaly is detected, the system may respond by:
 * revoking tokens
 * logging the event for investigation
 
----
-
 ## Incident Response Support
 
-The Security submodule should support controlled response to security incidents.
+The Security submodule provides controlled response mechanisms for security incidents.
 
-Possible response actions include:
+Response actions include:
 
 * revoking sessions
 * disabling accounts
@@ -1715,13 +1828,13 @@ Possible response actions include:
 * notifying administrators
 * preserving logs for analysis
 
-This response capability helps contain issues and reduce the impact of abuse or compromise.
+These mechanisms contain security incidents and limit the impact of abuse or compromise.
 
----
 
-## Possible Inputs
 
-Inputs handled by the Security module may include:
+## Inputs
+
+Inputs handled by the Security module include:
 
 * authentication attempts
 * authorization decisions
@@ -1734,11 +1847,11 @@ Inputs handled by the Security module may include:
 * repeated failed access attempts
 * anomaly signals
 
----
 
-## Possible Outputs
 
-Outputs generated by the Security module may include:
+## Outputs
+
+Outputs generated by the Security module include:
 
 * access denied
 * session terminated
@@ -1750,46 +1863,158 @@ Outputs generated by the Security module may include:
 * audit log entry stored
 * anomaly event recorded
 
----
-
 ## Interaction With Other Modules
 
 The Security module interacts with several architectural components.
 
-**Users**
-Associates security-relevant events with system identities.
+**Users**  
+#definition: associates security-relevant events with system identities.
 
-**Authentication**
-Monitors authentication flows and protects login mechanisms.
+**Authentication**  
+#definition: monitors authentication flows and protects login mechanisms.
 
-**Authorization**
-Enforces secure execution of authorization decisions.
+**Authorization**  
+#definition: enforces secure execution of authorization decisions.
 
-**Backend Services**
-Protects APIs, endpoints, and internal service boundaries.
+**Backend Services**  
+#definition: protects APIs, endpoints, and internal service boundaries.
 
-**Action and Hardware Control**
-Applies safety restrictions to physical operations.
+**Action and Hardware Control**  
+#definition: applies safety restrictions to physical operations.
 
-**Persistent Storage**
-Stores security logs, audit records, and incident data.
+**Persistent Storage**  
+#definition: stores security logs, audit records, and incident data.
 
-**Administrative Interfaces**
-Monitors and protects privileged operations.
+**Administrative Interfaces**  
+#definition: monitors and protects privileged operations.
 
----
+
 
 ## Architectural Importance
 
 The Security submodule ensures that NORA operates in a controlled, trustworthy, and safe manner.
 
-Without strong security controls, the system would be vulnerable to:
+Without strong security controls, the system becomes exposed to:
 
 * unauthorized access
 * abuse of system capabilities
 * loss of traceability
 * compromise of personal data
 * unsafe hardware behaviour
-* malicious or accidental misuse of external integrations
+* misuse of external integrations
 
-By combining prevention, monitoring, traceability, and response mechanisms, the Security submodule helps guarantee that NORA remains secure, auditable, and operationally reliable across both digital and physical domains.
+By combining prevention, monitoring, traceability, and response mechanisms, the Security submodule ensures that NORA remains secure, auditable, and operationally reliable across both digital and physical domains.
+
+
+
+## Internal Architecture Overview
+
+The **Identity, Access and Security** module is organized as a layered architecture responsible for identity management, authentication, authorization, personalization, and system protection.
+
+The module is composed of five main submodules that work together to control access, protect resources, and ensure safe operation of the NORA system.
+
+### Architectural Structure
+
+```
+Identity, Access and Security
+│
+├── Users
+│ ├── identity model
+│ ├── user types
+│ │ ├── guest
+│ │ ├── user
+│ │ ├── pro
+│ │ └── admin
+│ ├── role-based identity model
+│ ├── device associations
+│ ├── identity lifecycle
+│ ├── identity inputs
+│ └── identity outputs
+│
+├── Authentication
+│ ├── credential-based authentication
+│ │ ├── username / email login
+│ │ └── password verification
+│ ├── token-based authentication
+│ │ ├── access tokens
+│ │ └── refresh tokens
+│ ├── OAuth authentication
+│ ├── biometric authentication
+│ │ ├── facial recognition
+│ │ ├── voice biometrics
+│ │ └── fingerprint authentication
+│ ├── proximity authentication
+│ │ ├── NFC / RFID
+│ │ ├── QR codes
+│ │ ├── Bluetooth presence
+│ │ └── Wi-Fi proximity
+│ ├── trusted devices
+│ ├── multi-factor authentication
+│ ├── authentication inputs
+│ └── authentication outputs
+│
+├── Authorization
+│ ├── policy-based access control
+│ ├── role-based permissions (RBAC)
+│ ├── permission model
+│ ├── resource-based authorization
+│ ├── context-aware authorization
+│ │ ├── system state constraints
+│ │ ├── session context
+│ │ ├── device origin
+│ │ └── safety conditions
+│ ├── hardware authorization
+│ ├── integration authorization
+│ ├── administrative authorization
+│ ├── authorization decision process
+│ ├── authorization inputs
+│ └── authorization outputs
+│
+├── User Profile
+│ ├── profile attributes
+│ │ ├── name
+│ │ ├── preferred language
+│ │ ├── preferred voice
+│ │ ├── interaction preferences
+│ │ ├── favourite topics
+│ │ ├── linked devices
+│ │ ├── visual preferences
+│ │ ├── educational level
+│ │ ├── routines
+│ │ └── restrictions
+│ ├── personalization mechanism
+│ ├── profile updates
+│ ├── profile inputs
+│ └── profile outputs
+│
+├── Security
+│ ├── security objectives
+│ ├── rate limiting
+│ ├── endpoint protection
+│ ├── failed attempt protection
+│ ├── access logging
+│ ├── audit logging
+│ ├── session monitoring
+│ ├── token revocation
+│ ├── traceability of sensitive actions
+│ ├── hardware safety protections
+│ ├── integration security
+│ ├── anomaly detection
+│ ├── incident response support
+│ ├── security inputs
+└─└── security outputs
+```
+
+### Architectural Layers
+
+The submodules operate in complementary layers:
+
+| Layer | Responsibility |
+|------|---------------|
+| **Identity Layer** | Defines actors interacting with the system |
+| **Authentication Layer** | Verifies identity claims |
+| **Authorization Layer** | Determines permitted actions |
+| **Personalization Layer** | Adapts system behaviour to each user |
+| **Security Layer** | Protects system integrity and monitors activity |
+
+Together, these layers establish the **trust boundary of the NORA architecture**, ensuring that every action performed by the system is identifiable, authorized, monitored, and safe.
